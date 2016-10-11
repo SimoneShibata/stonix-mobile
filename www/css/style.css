@@ -1,0 +1,63 @@
+.red-dark {
+	background-color: #751612;
+}
+.page {
+	background-color: #ededed;
+}
+.img-size {
+	width: 50px;
+	height: 50px;
+}
+.icon-room-size {
+	font-size: 80px;	
+}
+.text-align-center {
+	text-align: center; 
+}
+.menu-logo {
+	padding: 10px 105px;
+	background-color:#751612;
+}
+.logo-register {
+	padding-top: 30px;
+	width:100px;
+}
+.logo-login {
+	padding-top: 40px;
+	width:200px;
+}
+.list-login {
+	color: #fff;
+	margin: 40px;
+}
+.label-login {
+	background-color: transparent;
+	border: none;padding:0;
+	margin:10px;
+}
+.input-login {
+	border-bottom:2px solid #fff !important;
+	font-size:18px !important;
+	padding:5px !important;
+	color:#fff !important;
+}
+.label-button-login {
+	background-color: transparent;
+	border: none;
+}
+.button-login {
+	background-color: #be1e16;
+	border: 1px solid #fff;
+	color: white;
+}
+.ion-android-cancel {
+	color: #5e5e5e;
+	margin-right:10px; 
+}
+.footer {
+	text-align: center;
+	color: #5e5e5e;
+}
+.footer a {
+	color: #5e5e5e;
+}

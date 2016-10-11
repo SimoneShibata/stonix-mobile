@@ -1,0 +1,21 @@
+<ion-view view-title="Entrar">
+  <ion-content style="background-color: #901b1b;">
+    <div style="text-align:center;">
+      <img ng-src="/img/logo.png" class="logo-login"/>
+      <form>
+        <div class="list list-login">
+            <label class="item item-input label-login">
+              <input class="input-login" type="email"  placeholder="E-mail" ng-model="user.email">
+            </label>
+            <label class="item item-input label-login" >
+              <input class="input-login" type="password" placeholder="Senha" ng-model="user.password">
+            </label>
+            <label class="item label-button-login">
+              <button class="button button-block button-login" ng-click="logar(user)">Partiu</button>
+            </label>
+        </div>
+      </form>
+      <a href="#/app/register" style="color:#fff;">Não tenho cadastro</a>
+    </div>
+  </ion-content>
+</ion-view>

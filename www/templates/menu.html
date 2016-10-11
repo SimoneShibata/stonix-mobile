@@ -1,0 +1,53 @@
+<ion-side-menus enable-menu-with-back-views="false">
+  <ion-side-menu-content>
+    <ion-nav-bar class="bar-stable">
+      <ion-nav-back-button>
+      </ion-nav-back-button>
+
+      <ion-nav-buttons side="left">
+        <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
+        </button>
+      </ion-nav-buttons>
+    </ion-nav-bar>
+    <ion-nav-view name="menuContent"></ion-nav-view>
+  </ion-side-menu-content>
+
+  <ion-side-menu side="left">
+    <ion-header-bar class="bar-stable" style="background-color:#751612;">
+      <h1 class="title" style="color:#fff;">Stonix Hero</h1>
+    </ion-header-bar>
+    <ion-content>
+      <ion-list>
+        <ion-item class="menu-logo">
+          <img ng-src="../../img/logo.png" width="80px"/>
+        </ion-item>
+        <ion-item ng-show="userAuthenticated.id != null" class="item item-thumbnail-left">
+          <img ng-src="{{userAuthenticated.image}}" width="60px"/>
+          <h2>{{userAuthenticated.name}}</h2>
+          <p> Lv. {{userAuthenticated.level}} <br/> 
+          Rank {{rank}}º <br/>
+          {{userAuthenticated.xp}}/{{userAuthenticated.xpForNextLevel}} XP
+          </p>
+        </ion-item>
+        <ion-item ng-show="userAuthenticated.id == null" menu-close href="#/app/login">
+          Login
+        </ion-item>
+        <ion-item ng-show="userAuthenticated.id == null" menu-close href="#/app/register">
+          Cadastro
+        </ion-item>
+        <ion-item menu-close href="#/app/forum">
+          Fórum
+          <span class="badge badge-assertive">1</span>
+        </ion-item>
+        <ion-item menu-close href="#/app/rooms">
+          Salas de aula
+          <span class="badge badge-assertive">2</span>
+        </ion-item>
+        <ion-item ng-show="userAuthenticated.id != null" menu-close ng-click="logout()">
+          Sair
+        </ion-item>
+        <h6 class="footer">Desenvolvido por <a href="#">OldOwl</a></h6>
+      </ion-list>
+    </ion-content>
+  </ion-side-menu>
+</ion-side-menus>
