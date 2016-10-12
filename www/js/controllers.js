@@ -213,6 +213,12 @@ angular.module('starter.controllers', [])
       );
   };
 
+// Clean search
+  $scope.cleanSearch = function() {
+    console.log("clean");
+    $scope.search = "";
+  };
+
 })
 
 .controller('RoomCtrl', function($scope, $stateParams, $state) {
@@ -223,8 +229,11 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('RankCtrl', function($scope, $stateParams, $state) {
+.controller('RankCtrl', function($scope, $rootScope, $state, $http) {
 
+  $http.get($rootScope.serviceBase + "users/ranking/punctuation").then(function (response) {
+    $scope.users = response.data;
+  });
 
 })
 

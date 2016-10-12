@@ -7,7 +7,7 @@
 			<label class="item item-input">
 				<i class="icon ion-search placeholder-icon"></i>
 				<input type="text" placeholder="Buscar pergunta" ng-model="search">
-				<i class="icon ion-android-cancel"></i>
+				<i class="icon ion-android-cancel" ng-click="cleanSearch()"></i>
 			</label>
 		</div>
 		<div class="card" ng-click="openQuestion(question)" ng-repeat="question in questions | filter:search">

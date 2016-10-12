@@ -3,29 +3,29 @@
 		<div class="list">
 
 	    <div class="item item-thumbnail-left">
-	      <img src="../../img/bruna.jpg">
-	      <h2>Bruna Marconato</h2>
-	      <p>bruna@email.com</p>
-	      <p>16/06/1995</p>
+	      <img ng-src="{{userAuthenticated.image}}">
+	      <h2>{{userAuthenticated.name}}</h2>
+	      <p>{{userAuthenticated.email}}</p>
+	      <p>{{userAuthenticated.birth | date:'dd/MM/yyyy'}}</p>
 	    </div>
 
-	    <div class="item item-divider" href="#">
+	    <div class="item item-divider">
 	        Pontuações
 	    </div>
 
-	    <div class="item" href="#">
+	    <div class="item">
 	        <h2>Level</h2>
-	        <p>0</p>
+	        <p>{{userAuthenticated.level}}</p>
 	    </div>
 
-	    <div class="item" href="#">
+	    <div class="item">
 	        <h2>Pontos</h2>
-	        <p>1250</p>
+	        <p>{{userAuthenticated.punctuation}}</p>
 	    </div>
 
-	    <div class="item" href="#">
+	    <div class="item">
 	        <h2>Ranking geral</h2>
-	        <p>1°</p>
+	        <p>{{rank}}°</p>
 	    </div>
 
 	    <div class="item" href="#">
