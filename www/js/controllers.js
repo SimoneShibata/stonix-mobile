@@ -185,6 +185,34 @@ angular.module('starter.controllers', [])
       });
   };
 
+// fab button new question
+  $scope.newQuestion = function() {
+    $state.go('app.question-new');
+  };
+
+// botao cancelar nova pergunta
+  $scope.cancelNewQuestion = function() {
+    $state.go('app.forum');
+  };
+
+// Post - Cria question
+  $scope.createQuestion = function (question) {
+    question.user = $rootScope.userAuthenticated;
+    $http.post($rootScope.serviceBase + "questions/", question)
+      .then(
+        function (response) {
+          $state.go('app.question-answer', {id:response.data.id});
+          $scope.question = {};
+          $http.put($rootScope.serviceBase + '/users/assign/xp/5', $rootScope.userAuthenticated).then(function (response) {
+              $rootScope.userAuthenticated = response.data;
+          });
+        },
+        function (response) {
+          // failure callback
+        }
+      );
+  };
+
 })
 
 .controller('RoomCtrl', function($scope, $stateParams, $state) {

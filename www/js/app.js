@@ -65,6 +65,16 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     }
   })
 
+  .state('app.question-new', {
+    url: '/forum/new',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/forum/question-new.html',
+        controller: 'ForumCtrl'
+      }
+    }
+  })
+
   .state('app.rooms', {
     url: '/rooms',
     views: {

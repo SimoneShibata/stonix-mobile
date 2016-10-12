@@ -1,0 +1,16 @@
+<ion-view view-title="Nova pergunta">
+	<ion-content class="page">
+		<div class="list">
+			<label class="item item-input">
+			<input type="text" placeholder="Tema da pergunta" ng-model="question.title">
+			</label>
+			<label class="item item-input">
+				<textarea placeholder="Descrição da pergunta" rows="10" ng-model="question.description"></textarea>
+			</label>
+		</div>
+		<div class="button-bar">
+			<a class="button button-positive" ng-click="cancelNewQuestion()">Cancelar</a>
+			<a class="button red-dark" ng-click="createQuestion(question)">Perguntar</a>
+		</div>
+	</ion-content>
+</ion-view>
