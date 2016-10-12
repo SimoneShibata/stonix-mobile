@@ -195,6 +195,16 @@ angular.module('starter.controllers', [])
 
 })
 
+.controller('RankCtrl', function($scope, $stateParams, $state) {
+
+
+})
+
+.controller('PerfilCtrl', function($scope, $stateParams, $state) {
+
+
+})
+
 .controller('LoginCtrl', function($scope, $rootScope, $http, $state, $filter) {
 
   var config = {
@@ -226,8 +236,8 @@ angular.module('starter.controllers', [])
 // Cadastrar - register
 
   $scope.register = function (user) {
-    user.birth = $filter("date")(user.birth, 'yyyy-MM-dd');
-    console.log(user.birth);
+    user.birth = $filter("date")(user.birth, 'yyyy/MM/dd');
+    console.log(user);
 
     $http.post($rootScope.serviceBase + "users", user).then(function (response) {
       response.data.image = "../../img/default.png";

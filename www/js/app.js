@@ -95,6 +95,26 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     }
   })
 
+  .state('app.ranking', {
+    url: '/ranking',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/ranking/ranking.html',
+        controller: 'RankCtrl'
+      }
+    }
+  })
+
+  .state('app.perfil', {
+    url: '/perfil',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/perfil/perfil.html',
+        controller: 'PerfilCtrl'
+      }
+    }
+  })
+
   .state('app.login', {
     url: '/login',
     views: {
