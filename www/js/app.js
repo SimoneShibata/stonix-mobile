@@ -65,6 +65,16 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     }
   })
 
+  .state('app.question-new', {
+    url: '/forum/new',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/forum/question-new.html',
+        controller: 'ForumCtrl'
+      }
+    }
+  })
+
   .state('app.rooms', {
     url: '/rooms',
     views: {
@@ -91,6 +101,26 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       'menuContent': {
         templateUrl: 'templates/rooms/activity.html',
         controller: 'RoomCtrl'
+      }
+    }
+  })
+
+  .state('app.ranking', {
+    url: '/ranking',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/ranking/ranking.html',
+        controller: 'RankCtrl'
+      }
+    }
+  })
+
+  .state('app.perfil', {
+    url: '/perfil',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/perfil/perfil.html',
+        controller: 'PerfilCtrl'
       }
     }
   })

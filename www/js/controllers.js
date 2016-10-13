@@ -185,6 +185,40 @@ angular.module('starter.controllers', [])
       });
   };
 
+// fab button new question
+  $scope.newQuestion = function() {
+    $state.go('app.question-new');
+  };
+
+// botao cancelar nova pergunta
+  $scope.cancelNewQuestion = function() {
+    $state.go('app.forum');
+  };
+
+// Post - Cria question
+  $scope.createQuestion = function (question) {
+    question.user = $rootScope.userAuthenticated;
+    $http.post($rootScope.serviceBase + "questions/", question)
+      .then(
+        function (response) {
+          $state.go('app.question-answer', {id:response.data.id});
+          $scope.question = {};
+          $http.put($rootScope.serviceBase + '/users/assign/xp/5', $rootScope.userAuthenticated).then(function (response) {
+              $rootScope.userAuthenticated = response.data;
+          });
+        },
+        function (response) {
+          // failure callback
+        }
+      );
+  };
+
+// Clean search
+  $scope.cleanSearch = function() {
+    console.log("clean");
+    $scope.search = "";
+  };
+
 })
 
 .controller('RoomCtrl', function($scope, $stateParams, $state) {
@@ -192,6 +226,19 @@ angular.module('starter.controllers', [])
   $scope.openRoom = function() {
     $state.go('app.classroom');
   };
+
+})
+
+.controller('RankCtrl', function($scope, $rootScope, $state, $http) {
+
+  $http.get($rootScope.serviceBase + "users/ranking/punctuation").then(function (response) {
+    $scope.users = response.data;
+  });
+
+})
+
+.controller('PerfilCtrl', function($scope, $stateParams, $state) {
+
 
 })
 
@@ -226,8 +273,8 @@ angular.module('starter.controllers', [])
 // Cadastrar - register
 
   $scope.register = function (user) {
-    user.birth = $filter("date")(user.birth, 'yyyy-MM-dd');
-    console.log(user.birth);
+    user.birth = $filter("date")(user.birth, 'yyyy/MM/dd');
+    console.log(user);
 
     $http.post($rootScope.serviceBase + "users", user).then(function (response) {
       response.data.image = "../../img/default.png";

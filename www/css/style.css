@@ -1,5 +1,6 @@
 .red-dark {
-	background-color: #751612;
+	background-color: #751612 !important;
+	color: #fff;
 }
 .page {
 	background-color: #ededed;
@@ -48,7 +49,7 @@
 .button-login {
 	background-color: #be1e16;
 	border: 1px solid #fff;
-	color: white;
+	color: #fff !important;
 }
 .ion-android-cancel {
 	color: #5e5e5e;
@@ -60,4 +61,16 @@
 }
 .footer a {
 	color: #5e5e5e;
+}
+.fab {
+	border-radius: 50%;
+	box-shadow: 1px 1px 5px grey;
+	color: #fff;
+	padding: 20px 25px;
+	box-sizing: border-box;
+	border: none;
+	bottom: 30px;
+	right: 10px;
+	position: absolute;
+	font-size: 20px;
 }

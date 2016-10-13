@@ -24,8 +24,9 @@
         <ion-item ng-show="userAuthenticated.id != null" class="item item-thumbnail-left">
           <img ng-src="{{userAuthenticated.image}}" width="60px"/>
           <h2>{{userAuthenticated.name}}</h2>
-          <p> Lv. {{userAuthenticated.level}} <br/> 
-          Rank {{rank}}º <br/>
+          <p> Rank {{rank}}º <br/> 
+          Lv. {{userAuthenticated.level}} <br/>
+          {{userAuthenticated.punctuation}} pontos <br/>
           {{userAuthenticated.xp}}/{{userAuthenticated.xpForNextLevel}} XP
           </p>
         </ion-item>
@@ -42,6 +43,12 @@
         <ion-item menu-close href="#/app/rooms">
           Salas de aula
           <span class="badge badge-assertive">2</span>
+        </ion-item>
+        <ion-item menu-close href="#/app/ranking">
+          Ranking
+        </ion-item>
+        <ion-item menu-close href="#/app/perfil">
+          Perfil
         </ion-item>
         <ion-item ng-show="userAuthenticated.id != null" menu-close ng-click="logout()">
           Sair
