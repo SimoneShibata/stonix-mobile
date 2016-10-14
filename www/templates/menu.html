@@ -30,7 +30,7 @@
           {{userAuthenticated.xp}}/{{userAuthenticated.xpForNextLevel}} XP
           </p>
         </ion-item>
-        <ion-item ng-show="userAuthenticated.id == null" menu-close href="#/app/login">
+        <ion-item ng-show="userAuthenticated.id == null" menu-close ng-click="login()">
           Login
         </ion-item>
         <ion-item ng-show="userAuthenticated.id == null" menu-close href="#/app/register">

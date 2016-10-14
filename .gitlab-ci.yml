@@ -1,0 +1,9 @@
+
+compile_android:
+  stage: build
+  script:
+    - npm install
+    - bower install --allow-root
+    - ionic config build
+    - ionic state restore
+    - ionic build android

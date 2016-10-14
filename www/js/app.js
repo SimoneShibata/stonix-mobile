@@ -75,6 +75,16 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     }
   })
 
+  .state('app.question-edit', {
+    url: '/forum/edit/:id',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/forum/question-edit.html',
+        controller: 'ForumCtrl'
+      }
+    }
+  })
+
   .state('app.rooms', {
     url: '/rooms',
     views: {
@@ -121,16 +131,6 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       'menuContent': {
         templateUrl: 'templates/perfil/perfil.html',
         controller: 'PerfilCtrl'
-      }
-    }
-  })
-
-  .state('app.login', {
-    url: '/login',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/login/login.html',
-        controller: 'LoginCtrl'
       }
     }
   })

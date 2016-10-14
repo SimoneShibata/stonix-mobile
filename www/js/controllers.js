@@ -8,7 +8,7 @@ angular.module('starter.controllers', [])
     .then(
       function (response) {
         $rootScope.userAuthenticated = {};
-        $state.go('app.login');
+        $scope.login();
       },
       function (response) {
         // failure callback
@@ -16,9 +16,46 @@ angular.module('starter.controllers', [])
     );
   };
 
+  $ionicModal.fromTemplateUrl('templates/login/login.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+
+  $scope.login = function() {
+    $scope.modal.show();
+  };
+  $scope.closeLogin = function() {
+    $scope.modal.hide();
+  };
+
+  var config = {
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8;'
+    }
+  };
+// Login
+  $scope.logar = function (user) {
+    $http.post($rootScope.serviceBase + "login", user, config)
+      .then(
+        function (response) {
+          $rootScope.userAuthenticated = response.data;
+          $scope.closeLogin();
+          $http.get($rootScope.serviceBase + "users/ranking/punctuation").then(function (response) {
+            for (var i = 0; i < response.data.length; i++) {
+              if (response.data[i].id == $rootScope.userAuthenticated.id) {
+                $rootScope.rank = i + 1;
+              }
+            }
+          });
+        },
+        function (error) {
+        }
+      );
+  };
 })
 
-.controller('ForumCtrl', function($scope, $stateParams, $http, $rootScope, $filter, $state) {
+.controller('ForumCtrl', function($scope, $stateParams, $http, $rootScope, $filter, $state, $ionicSideMenuDelegate) {
 
 // getAll - questions
   $scope.questions = [];
@@ -46,14 +83,19 @@ angular.module('starter.controllers', [])
     }
   };
 
-// getOne question
-  if ($stateParams.id != null) {
-    $http.get($rootScope.serviceBase + "questions/" + $stateParams.id).then(function (response) {
+  function getOne(id, success) { 
+    $http.get($rootScope.serviceBase + "questions/" + id).then(function (response) {
       $scope.question = response.data;
       $scope.question.lastUpdateFilter = $filter("date")(new Date($scope.question.lastUpdate), 'dd/MM/yyyy HH:mm');
+      if (success) success();
     }, function (error) {
-       
+       // error
     });
+  }
+
+// getOne question
+  if ($stateParams.id != null) {
+    getOne($stateParams.id);
   }
 
   $scope.openQuestion = function (question) {
@@ -219,6 +261,36 @@ angular.module('starter.controllers', [])
     $scope.search = "";
   };
 
+// Show edit question
+  $scope.boolShowEdition = false;
+  $scope.showEdition = function() {
+    $scope.boolShowEdition = !$scope.boolShowEdition;
+    console.log($scope.boolShowEdition);
+  }
+
+  $scope.toEdit = function() {
+    $state.go('app.question-edit', {id: $stateParams.id});
+  }
+
+  $scope.cancelEditQuestion = function() {
+    $state.go('app.question-answer', {id: $stateParams.id});
+  }
+
+  // Update - Edit question
+  $scope.updateQuestion = function (question) {
+    question.user = $rootScope.userAuthenticated;
+    $http.put($rootScope.serviceBase + "questions/", question)
+      .then(
+        function (response) {
+          getOne(question.id, function() {
+            $state.go('app.question-answer', {id: $stateParams.id});
+          })
+        },
+        function (response) {
+          // callback error
+        }
+      );
+  };
 })
 
 .controller('RoomCtrl', function($scope, $stateParams, $state) {
@@ -243,32 +315,6 @@ angular.module('starter.controllers', [])
 })
 
 .controller('LoginCtrl', function($scope, $rootScope, $http, $state, $filter) {
-
-  var config = {
-    headers: {
-      'Content-Type': 'application/json;charset=utf-8;'
-    }
-  };
-
-// Login
-  $scope.logar = function (user) {
-    $http.post($rootScope.serviceBase + "login", user, config)
-      .then(
-        function (response) {
-          $rootScope.userAuthenticated = response.data;
-          $state.go('app.forum');
-          $http.get($rootScope.serviceBase + "users/ranking/punctuation").then(function (response) {
-            for (var i = 0; i < response.data.length; i++) {
-              if (response.data[i].id == $rootScope.userAuthenticated.id) {
-                $rootScope.rank = i + 1;
-              }
-            }
-          });
-        },
-        function (error) {
-        }
-      );
-  };
 
 // Cadastrar - register
 
