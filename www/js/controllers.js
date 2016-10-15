@@ -23,10 +23,25 @@ angular.module('starter.controllers', [])
   });
 
   $scope.login = function() {
+    $scope.closeRegisterModal();
     $scope.modal.show();
   };
   $scope.closeLogin = function() {
     $scope.modal.hide();
+  };
+
+  $ionicModal.fromTemplateUrl('templates/login/register.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.modalRegister = modal;
+  });
+
+  $scope.registerModal = function() {
+    $scope.closeLogin();
+    $scope.modalRegister.show();
+  };
+  $scope.closeRegisterModal = function() {
+    $scope.modalRegister.hide();
   };
 
   var config = {
@@ -66,7 +81,7 @@ angular.module('starter.controllers', [])
       for (var i=0; i<response.data.length; i++) {
         $scope.questions[i].lastUpdateFilter = $filter("date")(new Date($scope.questions[i].lastUpdate), 'dd/MM/yyyy HH:mm');
       }
-      
+
     }, function (error) {
     // failure
   });
@@ -83,7 +98,7 @@ angular.module('starter.controllers', [])
     }
   };
 
-  function getOne(id, success) { 
+  function getOne(id, success) {
     $http.get($rootScope.serviceBase + "questions/" + id).then(function (response) {
       $scope.question = response.data;
       $scope.question.lastUpdateFilter = $filter("date")(new Date($scope.question.lastUpdate), 'dd/MM/yyyy HH:mm');
@@ -132,7 +147,7 @@ angular.module('starter.controllers', [])
   };
 
 // Question Answer - responder
-  
+
   $scope.answer = {"answer":{"question": {}, "user": {}}};
   $scope.postAnswer = function () {
     $scope.answer.question = $scope.question;
@@ -223,7 +238,7 @@ angular.module('starter.controllers', [])
         $scope.comment = {};
         $scope.getAllAnswers();
       }, function (error) {
-        // failure  
+        // failure
       });
   };
 

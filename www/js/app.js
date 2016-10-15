@@ -135,15 +135,15 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     }
   })
 
-  .state('app.register', {
-    url: '/register',
+  .state('app.login', {
+    url: '/login',
     views: {
       'menuContent': {
-        templateUrl: 'templates/login/register.html',
-        controller: 'LoginCtrl'
+        templateUrl: 'templates/login/login.html',
+        controller: 'AppCtrl'
       }
     }
   });
-  
+
   $urlRouterProvider.otherwise('/app/forum');
 });

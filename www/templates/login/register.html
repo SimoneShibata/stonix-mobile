@@ -1,4 +1,4 @@
-<ion-view view-title="Cadastro">
+<ion-modal-view view-title="Cadastro">
   <ion-content style="background-color: #901b1b;">
     <div class="text-align-center">
       <img ng-src="/img/logo.png" class="logo-register" />
@@ -24,7 +24,10 @@
           </label>
         </div>
       </form>
-      <a href="#/app/login" style="color:#fff;">Já tenho cadastro</a>
+      <a ng-click="login()" class="color-white">Já tenho cadastro</a>
+      <br/><br/>
+      <a ng-click="closeRegisterModal()" class="color-white">Não quero me cadastrar</a>
     </div>
+
   </ion-content>
-</ion-view>
+</ion-modal-view>
