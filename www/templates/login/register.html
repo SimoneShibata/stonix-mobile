@@ -1,4 +1,4 @@
-<ion-modal-view view-title="Cadastro">
+<ion-modal-view view-title="Cadastro" ng-controller="LoginCtrl">
   <ion-content style="background-color: #901b1b;">
     <div class="text-align-center">
       <img ng-src="/img/logo.png" class="logo-register" />
@@ -8,7 +8,7 @@
             <input class="input-login" type="text"  placeholder="Nome" ng-model="user.nome">
           </label>
           <label class="item item-input label-login">
-            <input class="input-login" type="datetime-local" placeholder="Data Nascimento" ng-model="user.birth">
+            <input class="input-login" type="date" placeholder="Data Nascimento" ng-model="user.birth">
           </label>
           <label class="item item-input label-login">
             <input class="input-login" type="email"  placeholder="E-mail" ng-model="user.email">

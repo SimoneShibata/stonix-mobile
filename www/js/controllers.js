@@ -2,12 +2,15 @@ angular.module('starter.controllers', [])
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout, $http, $rootScope, $state) {
 
+  window.http = $http;
+
+
   // sair - logout
   $scope.logout = function () {
     $http.post($rootScope.serviceBase + "logout", $rootScope.userAuthenticated)
     .then(
       function (response) {
-        $rootScope.userAuthenticated = {};
+       $rootScope.userAuthenticated = {};
         $scope.login();
       },
       function (response) {
@@ -117,6 +120,7 @@ angular.module('starter.controllers', [])
     $state.go('app.question-answer', {'id':question.id});
   }
 
+////////////////// Answer //////////////////
 // GetAll - Lista answers
   $http.get($rootScope.serviceBase + "answers/question/" + $stateParams.id).then(function (response) {
     $scope.answers = response.data;
@@ -306,6 +310,28 @@ angular.module('starter.controllers', [])
         }
       );
   };
+
+  // Delete - Delete question
+  $scope.deleteQuestion = function (question) {
+    var configDelete = {
+      headers: {
+        'Authorization': 'Basic d2VudHdvcnRobWFuOkNoYW5nZV9tZQ==',
+        'Accept': 'application/json;odata=verbose'
+      }
+    };
+    console.log(question.id);
+    $http.delete($rootScope.serviceBase + "question/" + question.id, configDelete)
+      .then(
+        function (response) {
+          getOne(question.id, function () {
+            $state.go('app.forum');
+          })
+        },
+        function (error) {
+          //callback error
+        }
+      )
+  };
 })
 
 .controller('RoomCtrl', function($scope, $stateParams, $state) {
@@ -324,8 +350,10 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('PerfilCtrl', function($scope, $stateParams, $state) {
-
+.controller('PerfilCtrl', function($scope, $stateParams, $state, $rootScope) {
+    $scope.config = {
+      url: $rootScope.urlApi
+    };
 
 })
 
@@ -334,7 +362,7 @@ angular.module('starter.controllers', [])
 // Cadastrar - register
 
   $scope.register = function (user) {
-    user.birth = $filter("date")(user.birth, 'yyyy/MM/dd');
+    user.birth = $filter("date")(user.birth, 'yyyy-MM-dd');
     console.log(user);
 
     $http.post($rootScope.serviceBase + "users", user).then(function (response) {
