@@ -13,32 +13,31 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     }
   });
 
-  $rootScope.serviceBase = "http://localhost:9991/api/";
-    $rootScope.uiBase = "http://localhost/stonix-front-end/#/";
-
-    $http.get($rootScope.serviceBase + "users/auth")
-        .then(
-            function (response) {
-                $rootScope.userAuthenticated = response.data;
-                $rootScope.logado = true;
-                $http.get($rootScope.serviceBase + "users/ranking/punctuation").then(function (response) {
-                    for (var i = 0; i < response.data.length; i++) {
-                        if (response.data[i].id == $rootScope.userAuthenticated.id) {
-                            $rootScope.rank = i + 1;
-                        }
-                    }
-                });
-            }
-        );
-    if ($rootScope.userAuthenticated == null) {
-        $rootScope.logado = false;
+  $rootScope.serviceBase = "http://stonixhero.com:9991/api/";
+  
+  $http.get($rootScope.serviceBase + "users/auth")
+  .then(
+    function (response) {
+      $rootScope.userAuthenticated = response.data;
+      $rootScope.logado = true;
+      $http.get($rootScope.serviceBase + "users/ranking/punctuation").then(function (response) {
+        for (var i = 0; i < response.data.length; i++) {
+          if (response.data[i].id == $rootScope.userAuthenticated.id) {
+            $rootScope.rank = i + 1;
+          }
+        }
+      });
     }
+    );
+  if ($rootScope.userAuthenticated == null) {
+    $rootScope.logado = false;
+  }
 })
 
 .config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
 
-    .state('app', {
+  .state('app', {
     url: '/app',
     abstract: true,
     templateUrl: 'templates/menu.html',
