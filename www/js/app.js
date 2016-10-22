@@ -13,8 +13,8 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     }
   });
 
-  $rootScope.serviceBase = "http://192.168.80.2:9991/api/";
-    $rootScope.uiBase = "http://192.168.80.2/stonix-front-end/#/";
+  $rootScope.serviceBase = "http://localhost:9991/api/";
+     $rootScope.uiBase = "http://localhost/stonix-front-end/#/";
 
     $http.get($rootScope.serviceBase + "users/auth")
         .then(
