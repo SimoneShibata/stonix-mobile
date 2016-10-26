@@ -154,6 +154,7 @@ angular.module('starter.controllers', [])
 
   $scope.answer = {"answer":{"question": {}, "user": {}}};
   $scope.postAnswer = function () {
+    $scope.hideButton = false;
     $scope.answer.question = $scope.question;
     $scope.answer.user = $rootScope.userAuthenticated;
 
@@ -350,7 +351,7 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('PerfilCtrl', function($scope, $stateParams, $state, $rootScope) {
+.controller('PerfilCtrl', function($scope, $stateParams, $state, $rootScope, $http) {
     $scope.config = {
       url: $rootScope.urlApi
     }

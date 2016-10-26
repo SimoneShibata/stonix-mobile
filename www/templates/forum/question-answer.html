@@ -1,7 +1,7 @@
 <ion-view view-title="{{question.title}}">
 	<ion-content style="background-color: #ededed;">
 
-		<button class="fab red-dark" ng-click="toEdit()">
+		<button ng-show="userAuthenticated.id != null && user.id == userAuthenticated" class="fab red-dark" ng-click="toEdit()">
 			<i class="icon ion-edit"></i>
 		</button>
 
@@ -33,26 +33,26 @@
 						</p>
 					</div>
 				</div>
-			</div>	
+			</div>
 			<div class="item item-body">
 				{{question.description}}
 			</div>
-			
+
 
 			<div class="item item-divider">
 				<div class="row">
 					<div class="col col-60">
 						{{question.numberAnswers}} Respostas
 					</div>
-					<div class="col col-40">
+					<div ng-show="userAuthenticated.id != null" class="col col-40">
 						<a ng-click="toAnswer()">
 							<i class="icon ion-chatbubbles"></i> Responder
 						</a>
 					</div>
-				</div>	
+				</div>
 			</div>
 
-			<div class="item item-body" ng-show="hideButton && !question.answered">
+			<div class="item item-body" ng-show="hideButton == true && !question.answered">
 				<label class="item item-input">
 			    	<input type="text" placeholder="Resposta" ng-model="answer.description">
 			    </label>
@@ -94,7 +94,7 @@
 					</div>
 				</div>
 				<div class="row" style="padding:0;">
-					<div class="col-50"  style="padding: 5px 15px 0 0;" ng-click="deleteAnswer(answer)">
+					<div ng-show="userAuthenticated.id == answer.user.id " class="col-50"  style="padding: 5px 15px 0 0;" ng-click="deleteAnswer(answer)">
 						<p style="margin:0;">
 							<i class="icon ion-trash-a"></i>
 							excluir
