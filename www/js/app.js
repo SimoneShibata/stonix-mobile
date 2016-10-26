@@ -14,7 +14,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
   });
 
   $rootScope.serviceBase = "http://stonixhero.com:9991/api/";
-  
+
   $http.get($rootScope.serviceBase + "users/auth")
   .then(
     function (response) {
@@ -37,7 +37,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
 .config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
 
-  .state('app', {
+    .state('app', {
     url: '/app',
     abstract: true,
     templateUrl: 'templates/menu.html',
@@ -134,15 +134,25 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     }
   })
 
-  .state('app.login', {
-    url: '/login',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/login/login.html',
-        controller: 'AppCtrl'
-      }
-    }
-  });
+  .state('app.perfil-edit', {
+    url: '/perfil/edit',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/perfil/perfil-edit.html',
+            controller: 'PerfilCtrl'
+          }
+        }
+      })
+
+      .state('app.login', {
+        url: '/login',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/login/login.html',
+            controller: 'AppCtrl'
+          }
+        }
+      });
 
   $urlRouterProvider.otherwise('/app/forum');
 });

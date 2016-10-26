@@ -353,16 +353,34 @@ angular.module('starter.controllers', [])
 .controller('PerfilCtrl', function($scope, $stateParams, $state, $rootScope) {
     $scope.config = {
       url: $rootScope.urlApi
+    }
+
+    $scope.user = {
+      name: $rootScope.userAuthenticated.name,
+      email: $rootScope.userAuthenticated.email
     };
 
-})
+   // var config = {        headers:{'Access-Control-Allow-Origin':'*'} };
+
+    $scope.salvar = function (user) {
+
+      var u = $rootScope.userAuthenticated;
+      u.name = user.name;
+      u.email = user.email;
+      console.log(u);
+      $http.put($rootScope.serviceBase + "users", u).then(function (response) {
+         $rootScope.userAuthenticated = response.data;
+        $state.go('app.perfil', {id: $stateParams.id});
+      });
+    }
+  })
 
 .controller('LoginCtrl', function($scope, $rootScope, $http, $state, $filter) {
 
 // Cadastrar - register
 
   $scope.register = function (user) {
-    user.birth = $filter("date")(user.birth, 'yyyy-MM-dd');
+    user.birth = $filter("date")(user.birth, 'yyyy/MM/dd');
     console.log(user);
 
     $http.post($rootScope.serviceBase + "users", user).then(function (response) {
