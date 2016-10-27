@@ -1,9 +1,8 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout, $http, $rootScope, $state) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, $http, $rootScope, $state, $ionicPopup, $timeout) {
 
   window.http = $http;
-
 
   // sair - logout
   $scope.logout = function () {
@@ -68,12 +67,15 @@ angular.module('starter.controllers', [])
           });
         },
         function (error) {
+          var alertPopup = $ionicPopup.alert({
+            title: 'E-mail ou senha incorreto.'
+          });
         }
       );
   };
 })
 
-.controller('ForumCtrl', function($scope, $stateParams, $http, $rootScope, $filter, $state, $ionicSideMenuDelegate) {
+.controller('ForumCtrl', function($scope, $stateParams, $http, $rootScope, $filter, $state, $ionicSideMenuDelegate, $timeout, $ionicPopup) {
 
 // getAll - questions
   $scope.questions = [];
@@ -276,6 +278,8 @@ angular.module('starter.controllers', [])
     $state.go('app.forum');
   };
 
+//Questions//
+
 // Post - Cria question
   $scope.createQuestion = function (question) {
     question.user = $rootScope.userAuthenticated;
@@ -286,6 +290,9 @@ angular.module('starter.controllers', [])
           $scope.question = {};
           $http.put($rootScope.serviceBase + '/users/assign/xp/5', $rootScope.userAuthenticated).then(function (response) {
               $rootScope.userAuthenticated = response.data;
+              var alertPopup1 = $ionicPopup.alert({
+                title: 'Em dúvida? +5 de xp para você!'
+              });
           });
         },
         function (response) {
