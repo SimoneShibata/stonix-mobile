@@ -1,7 +1,7 @@
 <ion-view view-title="{{question.title}}">
 	<ion-content style="background-color: #ededed;">
 
-		<button ng-show="userAuthenticated.id != null && user.id == userAuthenticated" class="fab red-dark" ng-click="toEdit()">
+		<button ng-show="userAuthenticated.id != null && userAuthenticated.id == question.user.id" class="fab red-dark" ng-click="toEdit()">
 			<i class="icon ion-edit"></i>
 		</button>
 
@@ -73,6 +73,9 @@
 			<div class="item item-avatar" ng-repeat="answer in answers">
 				<img ng-src="{{answer.user.image}}" style="width:50px;height:50px;"/>
 				<h2>{{answer.description}}</h2>
+        <i class="icon ion-checkmark" style="float: right" aria-hidden="true" ng-click="acceptAnswer(answer)"
+           ng-if="!answer.bestAnswer && !question.answered && userAuthenticated.id == question.user.id" title="Avaliar melhor resposta"></i>
+        <i class="icon ion-checkmark-circled" style="float: right" aria-hidden="true" ng-if="answer.bestAnswer" title="Melhor resposta"></i>
 				<div class="row" style="padding:0;">
 					<div class="col-15" style="padding-right:15px;" ng-click="niceQuestion(question)">
 						<p style="margin:0;">
