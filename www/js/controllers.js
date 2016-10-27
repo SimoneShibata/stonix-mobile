@@ -89,6 +89,25 @@ angular.module('starter.controllers', [])
     // failure
   });
 
+// Aceitar Melhor Resposta
+  $scope.acceptAnswer = function (answer) {
+    $http.get($rootScope.serviceBase + '/answers/' + $scope.question.id + "/better/" + answer.id).then(function (response) {
+      $scope.question.answered = true;
+      $scope.answers = $scope.getAllAnswers();
+      var userAnswer = answer.user;
+      if ($rootScope.userAuthenticated.id != userAnswer.id) {
+        $http.put($rootScope.serviceBase + '/users/assign/xp/40', userAnswer).then(function (response) {
+        });
+        $http.put($rootScope.serviceBase + '/users/assign/punctuation/50', userAnswer).then(function (response) {
+        });
+      }
+      $http.put($rootScope.serviceBase + '/users/assign/punctuation/25', $rootScope.userAuthenticated).then(function (response) {
+        $rootScope.userAuthenticated = response.data;
+        $rootScope.userAuthenticated = response.data;
+      });
+    });
+  };
+
 // nice question - gostei
   $scope.niceQuestion = function (question) {
     if ($rootScope.userAuthenticated.id) {
@@ -154,6 +173,7 @@ angular.module('starter.controllers', [])
 
   $scope.answer = {"answer":{"question": {}, "user": {}}};
   $scope.postAnswer = function () {
+    $scope.hideButton = false;
     $scope.answer.question = $scope.question;
     $scope.answer.user = $rootScope.userAuthenticated;
 
@@ -350,7 +370,7 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('PerfilCtrl', function($scope, $stateParams, $state, $rootScope) {
+.controller('PerfilCtrl', function($scope, $stateParams, $state, $rootScope, $http) {
     $scope.config = {
       url: $rootScope.urlApi
     }
