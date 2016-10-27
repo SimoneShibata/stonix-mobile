@@ -84,3 +84,9 @@
 #btn-perfil-edit{
 	text-align: left;
 }
+.bar {
+  background: #751612 !important;
+}
+.bar.bar-stable .title,.bar-stable .button.button-clear {
+  color: #ffffff;
+}
