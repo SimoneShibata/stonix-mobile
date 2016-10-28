@@ -103,7 +103,7 @@
 							excluir
 						</p>
 					</div>
-					<div class="col-50"  style="padding: 5px 15px 0 0;" ng-click="toComment(answer)">
+					<div ng-show="userAuthenticated.id != null" class="col-50"  style="padding: 5px 15px 0 0;" ng-click="toComment(answer)">
 						<p style="margin:0;">
 							<i class="icon ion-chatbubble-working"></i>
 							comentar

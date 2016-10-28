@@ -295,9 +295,12 @@ angular.module('starter.controllers', [])
           $scope.question = {};
           $http.put($rootScope.serviceBase + '/users/assign/xp/5', $rootScope.userAuthenticated).then(function (response) {
               $rootScope.userAuthenticated = response.data;
-              var alertPopup1 = $ionicPopup.alert({
-                title: 'Em dúvida? +5 de xp para você!'
-              });
+            var myPopup = $ionicPopup.show({
+              title: 'Em dúvida? +5 de xp para você!'
+            });
+            $timeout(function() {
+              myPopup.close(); //close the popup after 3 seconds for some reason
+            }, 2000);
           });
         },
         function (response) {
@@ -345,7 +348,6 @@ angular.module('starter.controllers', [])
 
   // Delete - Delete question
   $scope.deleteQuestion = function (question) {
-    console.log(question.id);
     $http.delete($rootScope.serviceBase + "questions/" + question.id)
       .then(
         function (response) {
@@ -411,7 +413,7 @@ angular.module('starter.controllers', [])
     console.log(user);
 
     $http.post($rootScope.serviceBase + "users", user).then(function (response) {
-      response.data.image = "../../img/default.png";
+      response.data.image = "img/default.png";
       $rootScope.userAuthenticated = response.data;
       $state.go('app.forum');
     });

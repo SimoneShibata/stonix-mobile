@@ -90,3 +90,8 @@
 .bar.bar-stable .title,.bar-stable .button.button-clear {
   color: #ffffff;
 }
+.placeholder-escondido{
+  position: absolute;
+  color: #fff;
+  font-weight: bold;
+}
