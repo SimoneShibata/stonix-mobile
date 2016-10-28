@@ -375,11 +375,63 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('RoomCtrl', function($scope, $stateParams, $state) {
+.controller('RoomCtrl', function($scope, $stateParams, $state, $http, $rootScope, $ionicPopup, $timeout, $ionicHistory) {
+
+  $scope.cancelNewRoom = function () {
+    $state.go('app.rooms');
+  }
+
+  $scope.newRoom = function() {
+    $state.go('app.room-new');
+  };
 
   $scope.openRoom = function() {
     $state.go('app.classroom');
   };
+
+//getAllroom
+  function getAllRoom(sucesso, falha) {
+    $http.get($rootScope.serviceBase + "classroom").then(function (response) {
+      $rootScope.rooms = response.data;
+      if(sucesso) sucesso($rootScope.room);
+    }, function (error) {
+      if(falha) falha(error);
+    });
+  }
+  getAllRoom();
+
+  $http.get($rootScope.serviceBase + "classroom").then(function (response) {
+    $scope.myRooms = response.data;
+  });
+
+  $http.get($rootScope.serviceBase + "classroom").then(function (response) {
+    $scope.myRooms = response.data;
+  });
+
+  $scope.createRoom = function (room) {
+    room.teacher = $rootScope.userAuthenticated;
+    $http.post($rootScope.serviceBase + "classroom", room)
+      .then(function (response) {
+        getAllRoom(function () {
+          popup("Sala de aula criada com sucesso.");
+          $ionicHistory.goBack(-1);
+        }),
+          function (error) {
+            popup("Não consegui criar uma sala de aula.");
+            console.log(response.data);
+            $ionicHistory.goBack(-1);
+          }
+    });
+  }
+
+  function popup(mensagem) {
+    var myPopup = $ionicPopup.show({
+      title: mensagem
+    });
+    $timeout(function() {
+      myPopup.close(); //close the popup after 3 seconds for some reason
+    }, 1000);
+  }
 
 })
 

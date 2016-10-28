@@ -1,0 +1,16 @@
+<ion-view view-title="Nova pergunta">
+  <ion-content class="page">
+    <div class="list">
+      <label class="item item-input">
+        <input type="text" placeholder="Nome da sala" ng-model="room.name" required>
+      </label>
+      <label class="item item-input">
+        <textarea placeholder="Descrição da sala" rows="10" ng-model="room.description" required></textarea>
+      </label>
+    </div>
+    <div class="button-bar">
+      <a class="button button-positive" ng-click="cancelNewRoom()">Cancelar</a>
+      <a class="button red-dark" ng-click="createRoom(room);">criar</a>
+    </div>
+  </ion-content>
+</ion-view>

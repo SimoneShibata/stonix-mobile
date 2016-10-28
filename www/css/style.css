@@ -96,3 +96,7 @@
   padding-left: 3px;
   font-family: "-apple-system", "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;
 }
+.ion-university:before {
+  content: "";
+  color: #751612;
+}

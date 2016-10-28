@@ -94,6 +94,16 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     }
   })
 
+    .state('app.room-new', {
+      url: '/room-new',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/rooms/room-new.html',
+          controller: 'RoomCtrl'
+        }
+      }
+    })
+
   .state('app.classroom', {
     url: '/classroom',
     views: {
