@@ -1,9 +1,8 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout, $http, $rootScope, $state) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, $http, $rootScope, $state, $ionicPopup, $timeout) {
 
   window.http = $http;
-
 
   // sair - logout
   $scope.logout = function () {
@@ -68,26 +67,31 @@ angular.module('starter.controllers', [])
           });
         },
         function (error) {
+          var alertPopup = $ionicPopup.alert({
+            title: 'E-mail ou senha incorreto.'
+          });
         }
       );
   };
 })
 
-.controller('ForumCtrl', function($scope, $stateParams, $http, $rootScope, $filter, $state, $ionicSideMenuDelegate) {
+.controller('ForumCtrl', function($scope, $stateParams, $http, $rootScope, $filter, $state, $ionicSideMenuDelegate, $timeout, $ionicPopup,$ionicHistory) {
 
 // getAll - questions
-  $scope.questions = [];
-  $http.get($rootScope.serviceBase + "questions")
-  .then(function (response) {
-
-      $scope.questions = response.data;
-      for (var i=0; i<response.data.length; i++) {
-        $scope.questions[i].lastUpdateFilter = $filter("date")(new Date($scope.questions[i].lastUpdate), 'dd/MM/yyyy HH:mm');
-      }
-
-    }, function (error) {
-    // failure
-  });
+  $rootScope.questions = [];
+  function getAll(sucesso, falha) {
+    $http.get($rootScope.serviceBase + "questions")
+      .then(function (response) {
+        $rootScope.questions = response.data;
+        for (var i=0; i<response.data.length; i++) {
+          $rootScope.questions[i].lastUpdateFilter = $filter("date")(new Date($rootScope.questions[i].lastUpdate), 'dd/MM/yyyy HH:mm');
+        }
+        if(sucesso) sucesso($rootScope.questions);
+      }, function (error) {
+        if(falha) falha(error);
+      });
+  }
+  getAll();
 
 // Aceitar Melhor Resposta
   $scope.acceptAnswer = function (answer) {
@@ -105,6 +109,12 @@ angular.module('starter.controllers', [])
         $rootScope.userAuthenticated = response.data;
         $rootScope.userAuthenticated = response.data;
       });
+      var myPopup = $ionicPopup.show({
+        title: 'Uauuuu, boa escolha! Aceitar a resposta te rendeu 25 pontos!'
+      });
+      $timeout(function() {
+        myPopup.close(); //close the popup after 3 seconds for some reason
+      }, 2000);
     });
   };
 
@@ -113,7 +123,7 @@ angular.module('starter.controllers', [])
     if ($rootScope.userAuthenticated.id) {
       $http.get($rootScope.serviceBase + '/questions/nice/' + question.id).then(function (response) {
         $http.get($rootScope.serviceBase + "questions").then(function (response) {
-          $scope.questions = response.data;
+          $rootScope.questions = response.data;
           question.nice++;
         });
       });
@@ -137,7 +147,7 @@ angular.module('starter.controllers', [])
 
   $scope.openQuestion = function (question) {
     $state.go('app.question-answer', {'id':question.id});
-  }
+  };
 
 ////////////////// Answer //////////////////
 // GetAll - Lista answers
@@ -192,12 +202,18 @@ angular.module('starter.controllers', [])
         $http.put($rootScope.serviceBase + '/users/assign/xp/10', $rootScope.userAuthenticated).then(function (response) {
           $rootScope.userAuthenticated = response.data;
         });
+        var myPopup = $ionicPopup.show({
+          title: 'Boaaaa, ganhou +10 xp!'
+        });
+        $timeout(function() {
+          myPopup.close(); //close the popup after 3 seconds for some reason
+        }, 2000);
       },
       function (response) {
         // failure
       }
     );
-  }
+  };
 
   $scope.countAnswer = function (question) {
     $http.get($rootScope.serviceBase + "answers/count/question/" + question.id).then(function (response) {
@@ -208,11 +224,11 @@ angular.module('starter.controllers', [])
 // Botao show hide input answer
   $scope.toAnswer = function () {
     $scope.hideButton = true;
-  }
+  };
 
   $scope.hideInputAnswer = function () {
     $scope.hideButton = false;
-  }
+  };
 
 // GetAll Answers - atualiza lista de respostas
   $scope.getAllAnswers = function () {
@@ -238,17 +254,17 @@ angular.module('starter.controllers', [])
   $scope.commentSelected = function (answer) {
     $scope.selected = answer.id;
     $scope.listComments(answer);
-  }
+  };
 
 // Botao show hide input comment
   $scope.toComment = function (answer) {
     $scope.hideButtonComment = true;
     $scope.commentSelected(answer);
-  }
+  };
 
   $scope.hideInputComment = function () {
     $scope.selected = "";
-  }
+  };
 
 // Post Comment Answer - comentar resposta
   $scope.comment = {user: {}, answer: {}};
@@ -276,16 +292,27 @@ angular.module('starter.controllers', [])
     $state.go('app.forum');
   };
 
+//Questions//
+
 // Post - Cria question
   $scope.createQuestion = function (question) {
     question.user = $rootScope.userAuthenticated;
     $http.post($rootScope.serviceBase + "questions/", question)
       .then(
         function (response) {
-          $state.go('app.question-answer', {id:response.data.id});
+          getAll(function (questions) {
+            $state.go('app.question-answer', {id:response.data.id});
+            $rootScope.questions = questions;
+          });
           $scope.question = {};
           $http.put($rootScope.serviceBase + '/users/assign/xp/5', $rootScope.userAuthenticated).then(function (response) {
               $rootScope.userAuthenticated = response.data;
+            var myPopup = $ionicPopup.show({
+              title: 'Em dúvida? +5 de xp para você!'
+            });
+            $timeout(function() {
+              myPopup.close(); //close the popup after 3 seconds for some reason
+            }, 2000);
           });
         },
         function (response) {
@@ -305,15 +332,15 @@ angular.module('starter.controllers', [])
   $scope.showEdition = function() {
     $scope.boolShowEdition = !$scope.boolShowEdition;
     console.log($scope.boolShowEdition);
-  }
+  };
 
   $scope.toEdit = function() {
     $state.go('app.question-edit', {id: $stateParams.id});
-  }
+  };
 
   $scope.cancelEditQuestion = function() {
     $state.go('app.question-answer', {id: $stateParams.id});
-  }
+  };
 
   // Update - Edit question
   $scope.updateQuestion = function (question) {
@@ -321,8 +348,8 @@ angular.module('starter.controllers', [])
     $http.put($rootScope.serviceBase + "questions/", question)
       .then(
         function (response) {
-          getOne(question.id, function() {
-            $state.go('app.question-answer', {id: $stateParams.id});
+          getAll(function () {
+            $ionicHistory.goBack(-2);
           })
         },
         function (response) {
@@ -333,18 +360,12 @@ angular.module('starter.controllers', [])
 
   // Delete - Delete question
   $scope.deleteQuestion = function (question) {
-    var configDelete = {
-      headers: {
-        'Authorization': 'Basic d2VudHdvcnRobWFuOkNoYW5nZV9tZQ==',
-        'Accept': 'application/json;odata=verbose'
-      }
-    };
-    console.log(question.id);
-    $http.delete($rootScope.serviceBase + "question/" + question.id, configDelete)
+    $http.delete($rootScope.serviceBase + "questions/" + question.id)
       .then(
         function (response) {
-          getOne(question.id, function () {
-            $state.go('app.forum');
+          getAll(function () {
+            //$state.go('app.forum');
+            $ionicHistory.goBack(-2);
           })
         },
         function (error) {
@@ -373,7 +394,7 @@ angular.module('starter.controllers', [])
 .controller('PerfilCtrl', function($scope, $stateParams, $state, $rootScope, $http) {
     $scope.config = {
       url: $rootScope.urlApi
-    }
+    };
 
     $scope.user = {
       name: $rootScope.userAuthenticated.name,
@@ -395,18 +416,23 @@ angular.module('starter.controllers', [])
     }
   })
 
-.controller('LoginCtrl', function($scope, $rootScope, $http, $state, $filter) {
+.controller('LoginCtrl', function($scope, $rootScope, $http, $state, $filter, $ionicPopup, $timeout, $ionicHistory) {
 
 // Cadastrar - register
 
   $scope.register = function (user) {
-    user.birth = $filter("date")(user.birth, 'yyyy/MM/dd');
+    user.birth = $filter("date")(user.birth, 'yyyy-MM-dd');
     console.log(user);
 
     $http.post($rootScope.serviceBase + "users", user).then(function (response) {
-      response.data.image = "../../img/default.png";
-      $rootScope.userAuthenticated = response.data;
-      $state.go('app.forum');
+      response.data.image = "img/default.png";
+      var myPopup = $ionicPopup.show({
+        title: 'Cadastrado com sucesso'
+      });
+      $timeout(function() {
+        myPopup.close(); //close the popup after 3 seconds for some reason
+      }, 1000);
+      $ionicHistory.goBack(-1);
     });
   };
 

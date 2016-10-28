@@ -1,14 +1,15 @@
 <ion-modal-view view-title="Cadastro" ng-controller="LoginCtrl">
   <ion-content style="background-color: #901b1b;">
     <div class="text-align-center">
-      <img ng-src="/img/logo.png" class="logo-register" />
+      <img ng-src="img/logo.png" class="logo-register" />
       <form>
         <div class="list" style="color: #fff;margin: 20px 40px;">
-          <label class="item item-input label-login">
-            <input class="input-login" type="text"  placeholder="Nome" ng-model="user.nome">
+          <label class="item item-input label-login ">
+            <input class="input-login" type="text" placeholder="Nome" ng-model="user.name">
           </label>
           <label class="item item-input label-login">
-            <input class="input-login" type="date" placeholder="Data Nascimento" ng-model="user.birth">
+            <span class="placeholder-escondido" ng-show="!user.birth">Data de Nascimento</span>
+            <input class="input-login" type="date" placeholder="Data de Nascimento" ng-model="user.birth">
           </label>
           <label class="item item-input label-login">
             <input class="input-login" type="email"  placeholder="E-mail" ng-model="user.email">

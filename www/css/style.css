@@ -84,3 +84,15 @@
 #btn-perfil-edit{
 	text-align: left;
 }
+.bar {
+  background: #751612 !important;
+}
+.bar.bar-stable .title,.bar-stable .button.button-clear {
+  color: #ffffff;
+}
+.placeholder-escondido{
+  position: absolute;
+  color: #a59494;
+  padding-left: 3px;
+  font-family: "-apple-system", "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;
+}
