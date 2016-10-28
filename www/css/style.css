@@ -92,6 +92,7 @@
 }
 .placeholder-escondido{
   position: absolute;
-  color: #fff;
-  font-weight: bold;
+  color: #a59494;
+  padding-left: 3px;
+  font-family: "-apple-system", "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;
 }

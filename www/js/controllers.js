@@ -109,6 +109,12 @@ angular.module('starter.controllers', [])
         $rootScope.userAuthenticated = response.data;
         $rootScope.userAuthenticated = response.data;
       });
+      var myPopup = $ionicPopup.show({
+        title: 'Uauuuu, boa escolha! Aceitar a resposta te rendeu 25 pontos!'
+      });
+      $timeout(function() {
+        myPopup.close(); //close the popup after 3 seconds for some reason
+      }, 2000);
     });
   };
 
@@ -196,6 +202,12 @@ angular.module('starter.controllers', [])
         $http.put($rootScope.serviceBase + '/users/assign/xp/10', $rootScope.userAuthenticated).then(function (response) {
           $rootScope.userAuthenticated = response.data;
         });
+        var myPopup = $ionicPopup.show({
+          title: 'Boaaaa, ganhou +10 xp!'
+        });
+        $timeout(function() {
+          myPopup.close(); //close the popup after 3 seconds for some reason
+        }, 2000);
       },
       function (response) {
         // failure
@@ -336,8 +348,8 @@ angular.module('starter.controllers', [])
     $http.put($rootScope.serviceBase + "questions/", question)
       .then(
         function (response) {
-          getOne(question.id, function() {
-            $state.go('app.question-answer', {id: $stateParams.id});
+          getAll(function () {
+            $ionicHistory.goBack(-2);
           })
         },
         function (response) {
@@ -404,7 +416,7 @@ angular.module('starter.controllers', [])
     }
   })
 
-.controller('LoginCtrl', function($scope, $rootScope, $http, $state, $filter) {
+.controller('LoginCtrl', function($scope, $rootScope, $http, $state, $filter, $ionicPopup, $timeout, $ionicHistory) {
 
 // Cadastrar - register
 
@@ -414,8 +426,13 @@ angular.module('starter.controllers', [])
 
     $http.post($rootScope.serviceBase + "users", user).then(function (response) {
       response.data.image = "img/default.png";
-      $rootScope.userAuthenticated = response.data;
-      $state.go('app.forum');
+      var myPopup = $ionicPopup.show({
+        title: 'Cadastrado com sucesso'
+      });
+      $timeout(function() {
+        myPopup.close(); //close the popup after 3 seconds for some reason
+      }, 1000);
+      $ionicHistory.goBack(-1);
     });
   };
 
