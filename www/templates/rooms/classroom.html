@@ -43,6 +43,36 @@
 		    <i class="icon ion-ios-arrow-right"></i>
 		  </a>
 
+      <a class="item item-icon-left item-divider">
+        <i class="icon ion-android-person"></i>
+        Integrantes
+      </a>
+
+      <div class="row item item-icon-right">
+        <div class="col-10">
+          <img title="Presentear com maçã"
+               ng-src="../../img/apple.png" class="icon-apple"
+               ng-click="addApple(room.teacher.id)"/>
+        </div>
+        <div class="col-10">
+          <img title="{{room.teacher.name}}"
+               ng-src="{{room.teacher.image}}" class="icon-apple"/>
+        </div>
+        <div class="col col-50">
+          {{ room.teacher.name }}
+        </div>
+        <div class="col">
+          <i class="icon ion-information-circled" aria-hidden="true"></i>
+        </div>
+      </div>
+
 		</div>
 	</ion-content>
+
+  <div ng-show="userAuthenticated.id == room.teacher.id" style="position: absolute; bottom: 0px; width: 100%">
+    <button class="fab red-dark" ng-click="newUser()">
+      <i class="icon ion-android-person-add"></i>
+    </button>
+  </div>
+
 </ion-view>

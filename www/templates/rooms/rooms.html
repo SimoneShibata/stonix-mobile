@@ -8,7 +8,7 @@
       </label>
     </div>
 
-		<div ng-repeat="room in rooms | filter:search" class="card" ng-click="openRoom()">
+		<div class="card" ng-click="openRoom(room)"  ng-repeat="room in rooms | filter:search">
 			<div class="row">
 				<div class="col text-align-center">
 					<i class="icon ion-university icon-room-size"></i>

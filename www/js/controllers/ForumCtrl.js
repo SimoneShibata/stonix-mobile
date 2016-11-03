@@ -1,81 +1,4 @@
-angular.module('starter.controllers', [])
-
-.controller('AppCtrl', function($scope, $ionicModal, $timeout, $http, $rootScope, $state, $ionicPopup, $timeout) {
-
-  window.http = $http;
-
-  // sair - logout
-  $scope.logout = function () {
-    $http.post($rootScope.serviceBase + "logout", $rootScope.userAuthenticated)
-    .then(
-      function (response) {
-       $rootScope.userAuthenticated = {};
-        $scope.login();
-      },
-      function (response) {
-        // failure callback
-      }
-    );
-  };
-
-  $ionicModal.fromTemplateUrl('templates/login/login.html', {
-    scope: $scope
-  }).then(function(modal) {
-    $scope.modal = modal;
-  });
-
-  $scope.login = function() {
-    $scope.closeRegisterModal();
-    $scope.modal.show();
-  };
-  $scope.closeLogin = function() {
-    $scope.modal.hide();
-  };
-
-  $ionicModal.fromTemplateUrl('templates/login/register.html', {
-    scope: $scope
-  }).then(function(modal) {
-    $scope.modalRegister = modal;
-  });
-
-  $scope.registerModal = function() {
-    $scope.closeLogin();
-    $scope.modalRegister.show();
-  };
-  $scope.closeRegisterModal = function() {
-    $scope.modalRegister.hide();
-  };
-
-  var config = {
-    headers: {
-      'Content-Type': 'application/json;charset=utf-8;'
-    }
-  };
-// Login
-  $scope.logar = function (user) {
-    $http.post($rootScope.serviceBase + "login", user, config)
-      .then(
-        function (response) {
-          $rootScope.userAuthenticated = response.data;
-          $scope.closeLogin();
-          $http.get($rootScope.serviceBase + "users/ranking/punctuation").then(function (response) {
-            for (var i = 0; i < response.data.length; i++) {
-              if (response.data[i].id == $rootScope.userAuthenticated.id) {
-                $rootScope.rank = i + 1;
-              }
-            }
-          });
-        },
-        function (error) {
-          var alertPopup = $ionicPopup.alert({
-            title: 'E-mail ou senha incorreto.'
-          });
-        }
-      );
-  };
-})
-
-.controller('ForumCtrl', function($scope, $stateParams, $http, $rootScope, $filter, $state, $ionicSideMenuDelegate, $timeout, $ionicPopup,$ionicHistory) {
+app.controller('ForumCtrl', function($scope, $stateParams, $http, $rootScope, $filter, $state, $ionicSideMenuDelegate, $timeout, $ionicPopup,$ionicHistory) {
 
 // getAll - questions
   $rootScope.questions = [];
@@ -136,7 +59,7 @@ angular.module('starter.controllers', [])
       $scope.question.lastUpdateFilter = $filter("date")(new Date($scope.question.lastUpdate), 'dd/MM/yyyy HH:mm');
       if (success) success();
     }, function (error) {
-       // error
+      // error
     });
   }
 
@@ -189,30 +112,30 @@ angular.module('starter.controllers', [])
 
     var configPost = {
       headers: {
-          'Authorization': 'Basic d2VudHdvcnRobWFuOkNoYW5nZV9tZQ==',
-          'Accept': 'application/json;odata=verbose'
+        'Authorization': 'Basic d2VudHdvcnRobWFuOkNoYW5nZV9tZQ==',
+        'Accept': 'application/json;odata=verbose'
       }
     };
     $http.post($rootScope.serviceBase + "answers/", $scope.answer, configPost)
-    .then(
-      function (response) {
-        $scope.answer.description = "";
-        $scope.answers = $scope.getAllAnswers();
-        $scope.question.numberAnswers++;
-        $http.put($rootScope.serviceBase + '/users/assign/xp/10', $rootScope.userAuthenticated).then(function (response) {
-          $rootScope.userAuthenticated = response.data;
-        });
-        var myPopup = $ionicPopup.show({
-          title: 'Boaaaa, ganhou +10 xp!'
-        });
-        $timeout(function() {
-          myPopup.close(); //close the popup after 3 seconds for some reason
-        }, 2000);
-      },
-      function (response) {
-        // failure
-      }
-    );
+      .then(
+        function (response) {
+          $scope.answer.description = "";
+          $scope.answers = $scope.getAllAnswers();
+          $scope.question.numberAnswers++;
+          $http.put($rootScope.serviceBase + '/users/assign/xp/10', $rootScope.userAuthenticated).then(function (response) {
+            $rootScope.userAuthenticated = response.data;
+          });
+          var myPopup = $ionicPopup.show({
+            title: 'Boaaaa, ganhou +10 xp!'
+          });
+          $timeout(function() {
+            myPopup.close(); //close the popup after 3 seconds for some reason
+          }, 2000);
+        },
+        function (response) {
+          // failure
+        }
+      );
   };
 
   $scope.countAnswer = function (question) {
@@ -306,7 +229,7 @@ angular.module('starter.controllers', [])
           });
           $scope.question = {};
           $http.put($rootScope.serviceBase + '/users/assign/xp/5', $rootScope.userAuthenticated).then(function (response) {
-              $rootScope.userAuthenticated = response.data;
+            $rootScope.userAuthenticated = response.data;
             var myPopup = $ionicPopup.show({
               title: 'Em dúvida? +5 de xp para você!'
             });
@@ -373,119 +296,4 @@ angular.module('starter.controllers', [])
         }
       )
   };
-})
-
-.controller('RoomCtrl', function($scope, $stateParams, $state, $http, $rootScope, $ionicPopup, $timeout, $ionicHistory) {
-
-  $scope.cancelNewRoom = function () {
-    $state.go('app.rooms');
-  }
-
-  $scope.newRoom = function() {
-    $state.go('app.room-new');
-  };
-
-  $scope.openRoom = function() {
-    $state.go('app.classroom');
-  };
-
-//getAllroom
-  function getAllRoom(sucesso, falha) {
-    $http.get($rootScope.serviceBase + "classroom").then(function (response) {
-      $rootScope.rooms = response.data;
-      if(sucesso) sucesso($rootScope.room);
-    }, function (error) {
-      if(falha) falha(error);
-    });
-  }
-  getAllRoom();
-
-  $http.get($rootScope.serviceBase + "classroom").then(function (response) {
-    $scope.myRooms = response.data;
-  });
-
-  $http.get($rootScope.serviceBase + "classroom").then(function (response) {
-    $scope.myRooms = response.data;
-  });
-
-  $scope.createRoom = function (room) {
-    room.teacher = $rootScope.userAuthenticated;
-    $http.post($rootScope.serviceBase + "classroom", room)
-      .then(function (response) {
-        getAllRoom(function () {
-          popup("Sala de aula criada com sucesso.");
-          $ionicHistory.goBack(-1);
-        }),
-          function (error) {
-            popup("Não consegui criar uma sala de aula.");
-            console.log(response.data);
-            $ionicHistory.goBack(-1);
-          }
-    });
-  }
-
-  function popup(mensagem) {
-    var myPopup = $ionicPopup.show({
-      title: mensagem
-    });
-    $timeout(function() {
-      myPopup.close(); //close the popup after 3 seconds for some reason
-    }, 1000);
-  }
-
-})
-
-.controller('RankCtrl', function($scope, $rootScope, $state, $http) {
-
-  $http.get($rootScope.serviceBase + "users/ranking/punctuation").then(function (response) {
-    $scope.users = response.data;
-  });
-
-})
-
-.controller('PerfilCtrl', function($scope, $stateParams, $state, $rootScope, $http) {
-    $scope.config = {
-      url: $rootScope.urlApi
-    };
-
-    $scope.user = {
-      name: $rootScope.userAuthenticated.name,
-      email: $rootScope.userAuthenticated.email
-    };
-
-   // var config = {        headers:{'Access-Control-Allow-Origin':'*'} };
-
-    $scope.salvar = function (user) {
-
-      var u = $rootScope.userAuthenticated;
-      u.name = user.name;
-      u.email = user.email;
-      console.log(u);
-      $http.put($rootScope.serviceBase + "users", u).then(function (response) {
-         $rootScope.userAuthenticated = response.data;
-        $state.go('app.perfil', {id: $stateParams.id});
-      });
-    }
-  })
-
-.controller('LoginCtrl', function($scope, $rootScope, $http, $state, $filter, $ionicPopup, $timeout, $ionicHistory) {
-
-// Cadastrar - register
-
-  $scope.register = function (user) {
-    user.birth = $filter("date")(user.birth, 'yyyy-MM-dd');
-    console.log(user);
-
-    $http.post($rootScope.serviceBase + "users", user).then(function (response) {
-      response.data.image = "img/default.png";
-      var myPopup = $ionicPopup.show({
-        title: 'Cadastrado com sucesso'
-      });
-      $timeout(function() {
-        myPopup.close(); //close the popup after 3 seconds for some reason
-      }, 1000);
-      $ionicHistory.goBack(-1);
-    });
-  };
-
 });

@@ -104,8 +104,18 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       }
     })
 
+    .state('app.room-new-user', {
+      url: '/room-new-user',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/rooms/room-new-user.html',
+          controller: 'RoomCtrl'
+        }
+      }
+    })
+
   .state('app.classroom', {
-    url: '/classroom',
+    url: '/classroom/:id',
     views: {
       'menuContent': {
         templateUrl: 'templates/rooms/classroom.html',
