@@ -1,6 +1,6 @@
 var app = angular.module('starter.controllers', [])
 
-app.controller('AppCtrl', function($scope, $ionicModal, $timeout, $http, $rootScope, $state, $ionicPopup, $timeout) {
+app.controller('AppCtrl', function($scope, $ionicModal, $timeout, $http, $rootScope, $state, $ionicPopup, $timeout, MyStorageService) {
 
   window.http = $http;
 
@@ -46,32 +46,68 @@ app.controller('AppCtrl', function($scope, $ionicModal, $timeout, $http, $rootSc
     $scope.modalRegister.hide();
   };
 
-  var config = {
-    headers: {
-      'Content-Type': 'application/json;charset=utf-8;'
-    }
-  };
 // Login
-  $scope.logar = function (user) {
-    $http.post($rootScope.serviceBase + "login", user, config)
+  $scope.logar = function (credentials) {
+
+    $http.post("http://localhost:9991/login", credentials)
       .then(
         function (response) {
-          $rootScope.userAuthenticated = response.data;
+
+          console.log('Response Headers: ', response.headers('Authorization'));
+
+          var tokenBearer = response.headers('Authorization');
+          var token = tokenBearer.substring(7, tokenBearer.length);
+
+          console.log(tokenBearer);
+          console.log(token);
+
+          MyStorageService.token.set(token);
           $scope.closeLogin();
-          $http.get($rootScope.serviceBase + "users/ranking/punctuation").then(function (response) {
-            for (var i = 0; i < response.data.length; i++) {
-              if (response.data[i].id == $rootScope.userAuthenticated.id) {
-                $rootScope.rank = i + 1;
-              }
-            }
-          });
         },
         function (error) {
-          var alertPopup = $ionicPopup.alert({
-            title: 'E-mail ou senha incorreto.'
-          });
+          console.log('error ' + error);
+          popup("E-mail ou senha incorreto.");
         }
       );
-    $scope.closeLogin();
   };
+
+  // PopUp
+  function popup(mensagem) {
+    var myPopup = $ionicPopup.show({
+      title: mensagem
+    });
+    $timeout(function() {
+      myPopup.close(); //close the popup after 3 seconds for some reason
+    }, 2500);
+  }
 });
+
+app.factory('AuthInterceptor', ['$q', '$window', '$location', '$injector', function ($q, $window, $state, $injector) {
+
+  var MyStorageService = $injector.get("MyStorageService");
+
+  return {
+    request: function (config) {
+      config.headers = config.headers || {};
+      //insere o token no header do cabeçalho
+      if (MyStorageService.token.get()) {
+        config.headers.Authorization = MyStorageService.token.get();
+      }
+      return config || $q.when(config);
+    },
+    response: function (response) {
+      return response || $q.when(response);
+    },
+    responseError: function (rejection) {
+      if (rejection.status === 403) {
+        //limpa o token do storage
+        MyStorageService.token.clear();
+        $state.go('app.login');
+      } else {
+        var message = rejection.data + '<br><br><i>' + rejection.status + ' - ' + rejection.statusText + '</i>';
+        console.log(message);
+      }
+      return $q.reject(rejection);
+    }
+  };
+}]);

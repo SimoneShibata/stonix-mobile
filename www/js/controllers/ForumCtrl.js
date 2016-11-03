@@ -3,16 +3,16 @@ app.controller('ForumCtrl', function($scope, $stateParams, $http, $rootScope, $f
 // getAll - questions
   $rootScope.questions = [];
   function getAll(sucesso, falha) {
-    $http.get($rootScope.serviceBase + "questions")
-      .then(function (response) {
-        $rootScope.questions = response.data;
-        for (var i=0; i<response.data.length; i++) {
-          $rootScope.questions[i].lastUpdateFilter = $filter("date")(new Date($rootScope.questions[i].lastUpdate), 'dd/MM/yyyy HH:mm');
+    $http.get($rootScope.serviceBase + "users/get-auth").then(function (response) {
+      $rootScope.userAuthenticated = response.data;
+      $http.get($rootScope.serviceBase + "users/ranking/punctuation").then(function (response) {
+        for (var i = 0; i < response.data.length; i++) {
+          if (response.data[i].id == $rootScope.userAuthenticated.id) {
+            $rootScope.rank = i + 1;
+          }
         }
-        if(sucesso) sucesso($rootScope.questions);
-      }, function (error) {
-        if(falha) falha(error);
       });
+    });
   }
   getAll();
 

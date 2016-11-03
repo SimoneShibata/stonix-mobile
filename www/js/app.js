@@ -34,7 +34,11 @@ angular.module('starter', ['ionic', 'starter.controllers'])
   }
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
+
+  $httpProvider.defaults.withCredentials = true;
+  $httpProvider.interceptors.push('AuthInterceptor');
+
   $stateProvider
 
     .state('app', {

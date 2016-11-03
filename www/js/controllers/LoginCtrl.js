@@ -28,6 +28,5 @@ app.controller('LoginCtrl', function($scope, $rootScope, $http, $state, $filter,
     });
     $scope.login();
   };
-
 });
 
