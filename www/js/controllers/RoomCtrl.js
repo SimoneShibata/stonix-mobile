@@ -1,23 +1,24 @@
-app.controller('RoomCtrl', function($scope, $stateParams, $state, $http, $rootScope, $ionicPopup, $timeout, $ionicHistory) {
+app.controller('RoomCtrl', function ($scope, $stateParams, $state, $http, $rootScope, $ionicPopup, $timeout, $ionicHistory) {
 
   $scope.cancelNewRoom = function () {
     $state.go('app.rooms');
   }
 
-  $scope.newRoom = function() {
+  $scope.newRoom = function () {
     $state.go('app.room-new');
   };
 
-  $scope.newUser = function() {
-    $state.go('app.room-new-user');
+  $scope.newUser = function (room) {
+    console.log(room);
+    $state.go('app.room-new-user', {'idroom': room.id});
   };
 
-  $scope.cancelNewUser = function() {
+  $scope.cancelNewUser = function () {
     $ionicHistory.goBack(-1);
   };
 
-  $scope.openRoom = function(room) {
-    $state.go('app.classroom', {'id':room.id});
+  $scope.openRoom = function (room) {
+    $state.go('app.classroom', {'id': room.id});
     console.log(room);
   };
 
@@ -25,11 +26,12 @@ app.controller('RoomCtrl', function($scope, $stateParams, $state, $http, $rootSc
   function getAllRoom(sucesso, falha) {
     $http.get($rootScope.serviceBase + "classroom").then(function (response) {
       $rootScope.rooms = response.data;
-      if(sucesso) sucesso($rootScope.room);
+      if (sucesso) sucesso($rootScope.room);
     }, function (error) {
-      if(falha) falha(error);
+      if (falha) falha(error);
     });
   }
+
   getAllRoom();
 
   $http.get($rootScope.serviceBase + "classroom").then(function (response) {
@@ -60,7 +62,7 @@ app.controller('RoomCtrl', function($scope, $stateParams, $state, $http, $rootSc
     var myPopup = $ionicPopup.show({
       title: mensagem
     });
-    $timeout(function() {
+    $timeout(function () {
       myPopup.close(); //close the popup after 3 seconds for some reason
     }, 2500);
   }
@@ -69,7 +71,7 @@ app.controller('RoomCtrl', function($scope, $stateParams, $state, $http, $rootSc
   if ($stateParams.id != null) {
     $http.get($rootScope.serviceBase + "classroom/" + $stateParams.id).then(function (response) {
       $scope.room = response.data;
-      $scope.users = $scope.room.students;
+      $rootScope.users = $scope.room.students;
       if ($scope.room == "") {
         console.log("O room está nulo");
       }
@@ -81,24 +83,24 @@ app.controller('RoomCtrl', function($scope, $stateParams, $state, $http, $rootSc
   }
 
   // Add User in Classroom
-  $scope.addUser = function(u) {
+  $scope.addUser = function (u) {
     var user = {};
-    $http.post($rootScope.serviceBase + "users/email", u).then(function(response) {
+    $http.post($rootScope.serviceBase + "users/email", u).then(function (response) {
       $scope.userClass = response.data;
 
-      $http.post($rootScope.serviceBase + "classroom/student/" + $routeParams.id, $scope.userClass).then(function(response) {
-        $scope.users.push($scope.userClass);
+      $http.post($rootScope.serviceBase + "classroom/student/" + $stateParams.idroom, $scope.userClass).then(function (response) {
+        $rootScope.users.push($scope.userClass);
         popup($scope.userClass.name + " foi adicionado na sala.");
-      }, function(error) {
+      }, function (error) {
         popup("Não foi possível adicionar o usuário :(");
       });
-    }, function(error) {
+    }, function (error) {
       popup("Não foi possível encontrar o usuário :(");
     });
   }
 
 // Maçã
-  $scope.addApple = function(teacher) {
+  $scope.addApple = function (teacher) {
   }
 
 });

@@ -1,4 +1,4 @@
-app.controller('ForumCtrl', function($scope, $stateParams, $http, $rootScope, $filter, $state, $ionicSideMenuDelegate, $timeout, $ionicPopup,$ionicHistory, MyStorageService) {
+app.controller('ForumCtrl', function ($scope, $stateParams, $http, $rootScope, $filter, $state, $ionicSideMenuDelegate, $timeout, $ionicPopup, $ionicHistory, MyStorageService) {
 
   $rootScope.questions = [];
 // getAll - questions
@@ -6,12 +6,12 @@ app.controller('ForumCtrl', function($scope, $stateParams, $http, $rootScope, $f
     $http.get($rootScope.serviceBase + "questions")
       .then(function (response) {
         $rootScope.questions = response.data;
-        for (var i=0; i<response.data.length; i++) {
+        for (var i = 0; i < response.data.length; i++) {
           $rootScope.questions[i].lastUpdateFilter = $filter("date")(new Date($rootScope.questions[i].lastUpdate), 'dd/MM/yyyy HH:mm');
         }
-        if(sucesso) sucesso($rootScope.questions);
+        if (sucesso) sucesso($rootScope.questions);
       }, function (error) {
-        if(falha) falha(error);
+        if (falha) falha(error);
       });
   }
 
@@ -36,7 +36,7 @@ app.controller('ForumCtrl', function($scope, $stateParams, $http, $rootScope, $f
       var myPopup = $ionicPopup.show({
         title: 'Uauuuu, boa escolha! Aceitar a resposta te rendeu 25 pontos!'
       });
-      $timeout(function() {
+      $timeout(function () {
         myPopup.close(); //close the popup after 3 seconds for some reason
       }, 2000);
     });
@@ -59,14 +59,14 @@ app.controller('ForumCtrl', function($scope, $stateParams, $http, $rootScope, $f
   }
 
   $scope.openQuestion = function (question) {
-    $state.go('app.question-answer', {'id':question.id});
+    $state.go('app.question-answer', {'id': question.id});
   };
 
 ////////////////// Answer //////////////////
 // GetAll - Lista answers
   $http.get($rootScope.serviceBase + "answers/question/" + $stateParams.id).then(function (response) {
     $scope.answers = response.data;
-    for (var i=0; i<$scope.answers.length; i++) {
+    for (var i = 0; i < $scope.answers.length; i++) {
       $scope.answers[i].lastUpdateFilter = $filter("date")(new Date($scope.answers[i].lastUpdate), 'dd/MM/yyyy HH:mm');
     }
   });
@@ -94,7 +94,7 @@ app.controller('ForumCtrl', function($scope, $stateParams, $http, $rootScope, $f
 
 // Question Answer - responder
 
-  $scope.answer = {"answer":{"question": {}, "user": {}}};
+  $scope.answer = {"answer": {"question": {}, "user": {}}};
   $scope.postAnswer = function () {
     $scope.hideButton = false;
     $scope.answer.question = $scope.question;
@@ -118,7 +118,7 @@ app.controller('ForumCtrl', function($scope, $stateParams, $http, $rootScope, $f
           var myPopup = $ionicPopup.show({
             title: 'Boaaaa, ganhou +10 xp!'
           });
-          $timeout(function() {
+          $timeout(function () {
             myPopup.close(); //close the popup after 3 seconds for some reason
           }, 2000);
         },
@@ -196,12 +196,12 @@ app.controller('ForumCtrl', function($scope, $stateParams, $http, $rootScope, $f
   };
 
 // fab button new question
-  $scope.newQuestion = function() {
+  $scope.newQuestion = function () {
     $state.go('app.question-new');
   };
 
 // botao cancelar nova pergunta
-  $scope.cancelNewQuestion = function() {
+  $scope.cancelNewQuestion = function () {
     $state.go('app.forum');
   };
 
@@ -214,7 +214,7 @@ app.controller('ForumCtrl', function($scope, $stateParams, $http, $rootScope, $f
       .then(
         function (response) {
           getAll(function (questions) {
-            $state.go('app.question-answer', {id:response.data.id});
+            $state.go('app.question-answer', {id: response.data.id});
             $rootScope.questions = questions;
           });
           $scope.question = {};
@@ -223,7 +223,7 @@ app.controller('ForumCtrl', function($scope, $stateParams, $http, $rootScope, $f
             var myPopup = $ionicPopup.show({
               title: 'Em dúvida? +5 de xp para você!'
             });
-            $timeout(function() {
+            $timeout(function () {
               myPopup.close(); //close the popup after 3 seconds for some reason
             }, 2000);
           });
@@ -235,23 +235,23 @@ app.controller('ForumCtrl', function($scope, $stateParams, $http, $rootScope, $f
   };
 
 // Clean search
-  $scope.cleanSearch = function() {
+  $scope.cleanSearch = function () {
     console.log("clean");
     $scope.search = "";
   };
 
 // Show edit question
   $scope.boolShowEdition = false;
-  $scope.showEdition = function() {
+  $scope.showEdition = function () {
     $scope.boolShowEdition = !$scope.boolShowEdition;
     console.log($scope.boolShowEdition);
   };
 
-  $scope.toEdit = function() {
+  $scope.toEdit = function () {
     $state.go('app.question-edit', {id: $stateParams.id});
   };
 
-  $scope.cancelEditQuestion = function() {
+  $scope.cancelEditQuestion = function () {
     $state.go('app.question-answer', {id: $stateParams.id});
   };
 

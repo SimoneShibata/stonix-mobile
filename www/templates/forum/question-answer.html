@@ -1,134 +1,140 @@
 <ion-view view-title="{{question.title}}">
-	<ion-content style="background-color: #ededed;">
+  <ion-content style="background-color: #ededed;">
 
-		<button ng-show="userAuthenticated.id != null && userAuthenticated.id == question.user.id && !question.answered" class="fab red-dark" ng-click="toEdit()">
-			<i class="icon ion-edit"></i>
-		</button>
+    <button ng-show="userAuthenticated.id != null && userAuthenticated.id == question.user.id && !question.answered"
+            class="fab red-dark" ng-click="toEdit()">
+      <i class="icon ion-edit"></i>
+    </button>
 
-		<div class="list card">
+    <div class="list card">
 
-			<div class="item item-avatar">
-				<img ng-src="{{question.user.image}}" style="width:50px;height:50px;"/>
-				<h2>{{question.title}}</h2>
-			</div>
+      <div class="item item-avatar">
+        <img ng-src="{{question.user.image}}" style="width:50px;height:50px;"/>
+        <h2>{{question.title}}</h2>
+      </div>
 
-			<div class="item item-body">
-				<div class="row">
-					<div class="col col-50">
-						<p style="margin:0;">
-							<i class="icon ion-clock"></i>
-							{{question.lastUpdateFilter}}
-						</p>
-					</div>
-					<div class="col col-15">
-						<p style="margin:0;">
-							<i class="icon ion-eye"></i>
-							{{question.views}}
-						</p>
-					</div>
-				</div>
-			</div>
-			<div class="item item-body">
-				{{question.description}}
-			</div>
+      <div class="item item-body">
+        <div class="row">
+          <div class="col col-50">
+            <p style="margin:0;">
+              <i class="icon ion-clock"></i>
+              {{question.lastUpdateFilter}}
+            </p>
+          </div>
+          <div class="col col-15">
+            <p style="margin:0;">
+              <i class="icon ion-eye"></i>
+              {{question.views}}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="item item-body">
+        {{question.description}}
+      </div>
 
 
-			<div class="item item-divider">
-				<div class="row">
-					<div class="col col-60">
-						{{question.numberAnswers}} Respostas
-					</div>
-					<div ng-show="userAuthenticated.id != null" class="col col-40">
-						<a ng-click="toAnswer()">
-							<i class="icon ion-chatbubbles"></i> Responder
-						</a>
-					</div>
-				</div>
-			</div>
+      <div class="item item-divider">
+        <div class="row">
+          <div class="col col-60">
+            {{question.numberAnswers}} Respostas
+          </div>
+          <div ng-show="userAuthenticated.id != null" class="col col-40">
+            <a ng-click="toAnswer()">
+              <i class="icon ion-chatbubbles"></i> Responder
+            </a>
+          </div>
+        </div>
+      </div>
 
-			<div class="item item-body" ng-show="hideButton == true && !question.answered">
-				<label class="item item-input">
-			    	<input type="text" placeholder="Resposta" ng-model="answer.description">
-			    </label>
-			    <div class="row">
-			    	<div class="col col-50">
-			    		<button class="button button-small button-assertive" style="width:100%" ng-click="hideInputAnswer()">
-						 	<i class="icon ion-close-round"></i> Cancelar
-						</button>
-			    	</div>
-			    	<div class="col col-50">
-			    		<button class="button button-small button-positive" style="width:100%" ng-click="postAnswer()">
-						 	<i class="icon ion-chatbubble"></i> Responder
-						</button>
-			    	</div>
-			    </div>
-			</div>
+      <div class="item item-body" ng-show="hideButton == true && !question.answered">
+        <label class="item item-input">
+          <input type="text" placeholder="Resposta" ng-model="answer.description">
+        </label>
+        <div class="row">
+          <div class="col col-50">
+            <button class="button button-small button-assertive" style="width:100%" ng-click="hideInputAnswer()">
+              <i class="icon ion-close-round"></i> Cancelar
+            </button>
+          </div>
+          <div class="col col-50">
+            <button class="button button-small button-positive" style="width:100%" ng-click="postAnswer()">
+              <i class="icon ion-chatbubble"></i> Responder
+            </button>
+          </div>
+        </div>
+      </div>
 
-			<div class="item item-avatar" ng-repeat="answer in answers">
-				<img ng-src="{{answer.user.image}}" style="width:50px;height:50px;"/>
-				<h2>{{answer.description}}</h2>
+      <div class="item item-avatar" ng-repeat="answer in answers">
+        <img ng-src="{{answer.user.image}}" style="width:50px;height:50px;"/>
+        <h2>{{answer.description}}</h2>
         <i class="icon ion-checkmark" style="float: right" aria-hidden="true" ng-click="acceptAnswer(answer)"
-           ng-if="!answer.bestAnswer && !question.answered && userAuthenticated.id == question.user.id" title="Avaliar melhor resposta"></i>
-        <i class="icon ion-checkmark-circled" style="float: right" aria-hidden="true" ng-if="answer.bestAnswer" title="Melhor resposta"></i>
-				<div class="row" style="padding:0;">
-					<div class="col-15" style="padding-right:15px;" ng-click="niceQuestion(question)">
-						<p style="margin:0;">
-							<i class="icon ion-thumbsup"></i>
-							{{answer.nice}}
-						</p>
-					</div>
-					<div class="col-15" style="padding-right:15px;">
-						<p style="margin:0;">
-							<i class="icon ion-chatbubbles"></i>
-							{{answer.numberComments}}
-						</p>
-					</div>
-					<div class="col-70"  style="padding-right:15px;">
-						<p style="margin:0;">
-							<i class="icon ion-clock"></i>
-							{{answer.lastUpdateFilter}}
-						</p>
-					</div>
-				</div>
-				<div class="row" style="padding:0;">
-					<div ng-show="userAuthenticated.id == answer.user.id && !question.answered" class="col-50"  style="padding: 5px 15px 0 0;" ng-click="deleteAnswer(answer)">
-						<p style="margin:0;">
-							<i class="icon ion-trash-a"></i>
-							excluir
-						</p>
-					</div>
-					<div ng-show="userAuthenticated.id != null" class="col-50"  style="padding: 5px 15px 0 0;" ng-click="toComment(answer)">
-						<p style="margin:0;">
-							<i class="icon ion-chatbubble-working"></i>
-							comentar
-						</p>
-					</div>
-				</div>
-				<div class="item item-body" ng-if="selected == answer.id">
-					<div ng-repeat="comment in comments">
-	                    <p class="comment-description">{{ comment.description }} -
-	                        <a class="comment-user">{{ comment.user.name }}</a> |
-	                        <span class="comment-date">{{ comment.created | date: 'dd/MM/yyyy HH:mm' }}</span>
-	                    </p>
-	                </div>
-					<label class="item item-input">
-				    	<input type="text" placeholder="Comentário" ng-model="comment.description">
-				    </label>
-				    <div class="row">
-				    	<div class="col col-50">
-				    		<button class="button button-small button-assertive" style="width:100%" ng-click="hideInputComment()">
-							 	<i class="icon ion-close-round"></i> Cancelar
-							</button>
-				    	</div>
-				    	<div class="col col-50">
-				    		<button class="button button-small button-positive" style="width:100%" ng-click="postCommentAnswer(answer)">
-							 	<i class="icon ion-chatbubble-working"></i> Comentar
-							</button>
-				    	</div>
-				    </div>
-				</div>
-			</div>
+           ng-if="!answer.bestAnswer && !question.answered && userAuthenticated.id == question.user.id"
+           title="Avaliar melhor resposta"></i>
+        <i class="icon ion-checkmark-circled" style="float: right" aria-hidden="true" ng-if="answer.bestAnswer"
+           title="Melhor resposta"></i>
+        <div class="row" style="padding:0;">
+          <div class="col-15" style="padding-right:15px;" ng-click="niceQuestion(question)">
+            <p style="margin:0;">
+              <i class="icon ion-thumbsup"></i>
+              {{answer.nice}}
+            </p>
+          </div>
+          <div class="col-15" style="padding-right:15px;">
+            <p style="margin:0;">
+              <i class="icon ion-chatbubbles"></i>
+              {{answer.numberComments}}
+            </p>
+          </div>
+          <div class="col-70" style="padding-right:15px;">
+            <p style="margin:0;">
+              <i class="icon ion-clock"></i>
+              {{answer.lastUpdateFilter}}
+            </p>
+          </div>
+        </div>
+        <div class="row" style="padding:0;">
+          <div ng-show="userAuthenticated.id == answer.user.id && !question.answered" class="col-50"
+               style="padding: 5px 15px 0 0;" ng-click="deleteAnswer(answer)">
+            <p style="margin:0;">
+              <i class="icon ion-trash-a"></i>
+              excluir
+            </p>
+          </div>
+          <div ng-show="userAuthenticated.id != null" class="col-50" style="padding: 5px 15px 0 0;"
+               ng-click="toComment(answer)">
+            <p style="margin:0;">
+              <i class="icon ion-chatbubble-working"></i>
+              comentar
+            </p>
+          </div>
+        </div>
+        <div class="item item-body" ng-if="selected == answer.id">
+          <div ng-repeat="comment in comments">
+            <p class="comment-description">{{ comment.description }} -
+              <a class="comment-user">{{ comment.user.name }}</a> |
+              <span class="comment-date">{{ comment.created | date: 'dd/MM/yyyy HH:mm' }}</span>
+            </p>
+          </div>
+          <label class="item item-input">
+            <input type="text" placeholder="Comentário" ng-model="comment.description">
+          </label>
+          <div class="row">
+            <div class="col col-50">
+              <button class="button button-small button-assertive" style="width:100%" ng-click="hideInputComment()">
+                <i class="icon ion-close-round"></i> Cancelar
+              </button>
+            </div>
+            <div class="col col-50">
+              <button class="button button-small button-positive" style="width:100%"
+                      ng-click="postCommentAnswer(answer)">
+                <i class="icon ion-chatbubble-working"></i> Comentar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
 
-		</div>
-	</ion-content>
+    </div>
+  </ion-content>
 </ion-view>

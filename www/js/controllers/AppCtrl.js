@@ -1,10 +1,10 @@
 var app = angular.module('starter.controllers', [])
 
-app.controller('AppCtrl', function($scope, $ionicModal, $timeout, $http, $rootScope, $state, $ionicPopup, $timeout, MyStorageService, $ionicHistory) {
+app.controller('AppCtrl', function ($scope, $ionicModal, $timeout, $http, $rootScope, $state, $ionicPopup, $timeout, MyStorageService, $ionicHistory) {
 
   window.http = $http;
 
-  $scope.toIntro = function(){
+  $scope.toIntro = function () {
     $state.go('app.intro');
   }
 
@@ -16,29 +16,29 @@ app.controller('AppCtrl', function($scope, $ionicModal, $timeout, $http, $rootSc
 
   $ionicModal.fromTemplateUrl('templates/login/login.html', {
     scope: $scope
-  }).then(function(modal) {
+  }).then(function (modal) {
     $scope.modal = modal;
   });
 
-  $scope.login = function() {
+  $scope.login = function () {
     $scope.closeRegisterModal();
     $scope.modal.show();
   };
-  $scope.closeLogin = function() {
+  $scope.closeLogin = function () {
     $scope.modal.hide();
   };
 
   $ionicModal.fromTemplateUrl('templates/login/register.html', {
     scope: $scope
-  }).then(function(modal) {
+  }).then(function (modal) {
     $scope.modalRegister = modal;
   });
 
-  $scope.registerModal = function() {
+  $scope.registerModal = function () {
     $scope.closeLogin();
     $scope.modalRegister.show();
   };
-  $scope.closeRegisterModal = function() {
+  $scope.closeRegisterModal = function () {
     $scope.modalRegister.hide();
   };
 
@@ -77,7 +77,7 @@ app.controller('AppCtrl', function($scope, $ionicModal, $timeout, $http, $rootSc
     var myPopup = $ionicPopup.show({
       title: mensagem
     });
-    $timeout(function() {
+    $timeout(function () {
       myPopup.close(); //close the popup after 3 seconds for some reason
     }, 2500);
   }

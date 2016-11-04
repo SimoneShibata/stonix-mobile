@@ -1,46 +1,46 @@
 <ion-view view-title="Perfil">
-	<ion-content class="page">
-		<div class="list">
+  <ion-content class="page">
+    <div class="list">
 
-	    <div class="item item-thumbnail-left">
-	      <img ng-src="{{userAuthenticated.image}}">
-	      <h2>{{userAuthenticated.name}}</h2>
-	      <p>{{userAuthenticated.email}}</p>
-	      <p>{{userAuthenticated.birth | date:'dd/MM/yyyy'}}</p>
-	    </div>
+      <div class="item item-thumbnail-left">
+        <img ng-src="{{userAuthenticated.image}}">
+        <h2>{{userAuthenticated.name}}</h2>
+        <p>{{userAuthenticated.email}}</p>
+        <p>{{userAuthenticated.birth | date:'dd/MM/yyyy'}}</p>
+      </div>
 
-	    <div class="item item-divider">
-	        Pontuações
-	    </div>
+      <div class="item item-divider">
+        Pontuações
+      </div>
 
-	    <div class="item">
-	        <h2>Level</h2>
-	        <p>{{userAuthenticated.level}}</p>
-	    </div>
+      <div class="item">
+        <h2>Level</h2>
+        <p>{{userAuthenticated.level}}</p>
+      </div>
 
-	    <div class="item">
-	        <h2>Pontos</h2>
-	        <p>{{userAuthenticated.punctuation}}</p>
-	    </div>
+      <div class="item">
+        <h2>Pontos</h2>
+        <p>{{userAuthenticated.punctuation}}</p>
+      </div>
 
-	    <div class="item">
-	        <h2>Ranking geral</h2>
-	        <p>{{rank}}°</p>
-	    </div>
+      <div class="item">
+        <h2>Ranking geral</h2>
+        <p>{{rank}}°</p>
+      </div>
 
-	    <div class="item">
-	        <h2>Participações em salas de aula</h2>
-	        <p>7</p>
-	    </div>
+      <div class="item">
+        <h2>Participações em salas de aula</h2>
+        <p>7</p>
+      </div>
 
-	    <div class="item" href="#">
-	        <h2>Minhas melhores perguntas</h2>
-	        <p>2</p>
-	    </div>
+      <div class="item" href="#">
+        <h2>Minhas melhores perguntas</h2>
+        <p>2</p>
+      </div>
 
       <div class="row">
         <button id="btn-perfil-edit" class="col button red-dark icon-right ion-edit" ui-sref="app.perfil-edit">
-          <i class="" >Editar perfil</i>
+          <i class="">Editar perfil</i>
         </button>
       </div>
 

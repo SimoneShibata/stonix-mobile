@@ -1,4 +1,4 @@
-app.controller('PerfilCtrl', function($scope, $stateParams, $state, $rootScope, $http) {
+app.controller('PerfilCtrl', function ($scope, $stateParams, $state, $rootScope, $http) {
 
   $http.get($rootScope.serviceBase + "users/get-auth").then(function (response) {
     $rootScope.userAuthenticated = response.data;

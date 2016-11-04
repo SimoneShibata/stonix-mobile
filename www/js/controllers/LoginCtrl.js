@@ -1,4 +1,4 @@
-app.controller('LoginCtrl', function($scope, $rootScope, $http, $state, $filter, $ionicPopup, $timeout, $ionicHistory) {
+app.controller('LoginCtrl', function ($scope, $rootScope, $http, $state, $filter, $ionicPopup, $timeout, $ionicHistory) {
 
 // Cadastrar - register
 
@@ -8,7 +8,7 @@ app.controller('LoginCtrl', function($scope, $rootScope, $http, $state, $filter,
       var myPopup = $ionicPopup.show({
         title: 'Confirmação de senha inválida!'
       });
-      $timeout(function() {
+      $timeout(function () {
         myPopup.close(); //close the popup after 3 seconds for some reason
       }, 2500);
       $ionicHistory.goBack(-1);
@@ -21,7 +21,7 @@ app.controller('LoginCtrl', function($scope, $rootScope, $http, $state, $filter,
       var myPopup = $ionicPopup.show({
         title: 'Cadastrado com sucesso'
       });
-      $timeout(function() {
+      $timeout(function () {
         myPopup.close(); //close the popup after 3 seconds for some reason
       }, 2500);
       $ionicHistory.goBack(-1);

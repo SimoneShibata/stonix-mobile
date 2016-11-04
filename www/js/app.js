@@ -13,11 +13,11 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       }
     });
 
-    $rootScope.serviceBase = "http://10.8.25.27:9991/api/";
-    $rootScope.serviceBase2 = "http://10.8.25.27:9991/";
+    $rootScope.serviceBase = "http://localhost:9991/api/";
+    $rootScope.serviceBase2 = "http://localhost:9991/";
 
     console.log(MyStorageService);
-    if(MyStorageService.token.get() != null) {
+    if (MyStorageService.token.get() != null) {
       $http.get($rootScope.serviceBase + "users/get-auth").then(function (response) {
         $rootScope.userAuthenticated = response.data;
         $http.get($rootScope.serviceBase + "users/ranking/punctuation").then(function (response) {
@@ -96,7 +96,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       })
 
       .state('app.room-new', {
-        url: '/room-new',
+        url: '/room-new/',
         views: {
           'menuContent': {
             templateUrl: 'templates/rooms/room-new.html',
@@ -106,7 +106,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       })
 
       .state('app.room-new-user', {
-        url: '/room-new-user',
+        url: '/room-new-user/:idroom',
         views: {
           'menuContent': {
             templateUrl: 'templates/rooms/room-new-user.html',

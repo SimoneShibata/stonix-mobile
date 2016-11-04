@@ -1,40 +1,40 @@
 <ion-view view-title="Fórum">
-	<ion-content class="page">
+  <ion-content class="page">
 
-		<div class="list list-inset">
-			<label class="item item-input">
-				<i class="icon ion-search placeholder-icon"></i>
-				<input type="text" placeholder="Buscar pergunta" ng-model="search">
-				<i class="icon ion-android-cancel" ng-click="cleanSearch()"></i>
-			</label>
-		</div>
-		<div class="card" ng-click="openQuestion(question)" ng-repeat="question in questions | filter:search">
-			<div class="row">
-				<div class="col">
-					<img ng-src="{{question.user.image}}" class="img-size"/>
-					<p>{{question.user.punctuation}} pts</p>
-				</div>
-				<div class="col col-75">{{question.title}}</div>
+    <div class="list list-inset">
+      <label class="item item-input">
+        <i class="icon ion-search placeholder-icon"></i>
+        <input type="text" placeholder="Buscar pergunta" ng-model="search">
+        <i class="icon ion-android-cancel" ng-click="cleanSearch()"></i>
+      </label>
+    </div>
+    <div class="card" ng-click="openQuestion(question)" ng-repeat="question in questions | filter:search">
+      <div class="row">
+        <div class="col">
+          <img ng-src="{{question.user.image}}" class="img-size"/>
+          <p>{{question.user.punctuation}} pts</p>
+        </div>
+        <div class="col col-75">{{question.title}}</div>
         <i class="icon ion-checkmark-circled" aria-hidden="true"
            ng-if="question.answered" title="Resolvido"></i>
-			</div>
-			<div class="divider"></div>
-			<div class="row">
-				<div class="col col-15">
-					<i class="icon ion-chatbubbles"></i>
-					{{question.numberAnswers}}
-				</div>
-				<div class="col col-50">
-					<i class="icon ion-clock"></i>
-					{{question.lastUpdateFilter}}
-				</div>
-				<div class="col col-15">
-					<i class="icon ion-eye"></i>
-					{{question.views}}
-				</div>
-			</div>
-		</div>
-	</ion-content>
+      </div>
+      <div class="divider"></div>
+      <div class="row">
+        <div class="col col-15">
+          <i class="icon ion-chatbubbles"></i>
+          {{question.numberAnswers}}
+        </div>
+        <div class="col col-50">
+          <i class="icon ion-clock"></i>
+          {{question.lastUpdateFilter}}
+        </div>
+        <div class="col col-15">
+          <i class="icon ion-eye"></i>
+          {{question.views}}
+        </div>
+      </div>
+    </div>
+  </ion-content>
 
   <div ng-show="userAuthenticated.id != null" style="position: absolute; bottom: 0px; width: 100%">
     <button class="fab red-dark" ng-click="newQuestion()">
