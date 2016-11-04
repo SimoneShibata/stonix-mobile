@@ -1,5 +1,5 @@
 <ion-view view-title="Salas de aula">
-	<ion-content class="page">
+  <ion-content class="page">
     <div class="list list-inset">
       <label class="item item-input">
         <i class="icon ion-search placeholder-icon"></i>
@@ -8,28 +8,28 @@
       </label>
     </div>
 
-		<div ng-repeat="room in rooms | filter:search" class="card" ng-click="openRoom()">
-			<div class="row">
-				<div class="col text-align-center">
-					<i class="icon ion-university icon-room-size"></i>
-				</div>
-				<div class="col col-75">
-					<h4>{{ room.name }}</h4>
+    <div class="card" ng-click="openRoom(room)" ng-repeat="room in rooms | filter:search">
+      <div class="row">
+        <div class="col text-align-center">
+          <i class="icon ion-university icon-room-size"></i>
+        </div>
+        <div class="col col-75">
+          <h4>{{ room.name }}</h4>
           <p>{{ room.description }}</p>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col col-50">
-					<i class="icon ion-android-person"></i>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col col-50">
+          <i class="icon ion-android-person"></i>
           {{ room.teacher.name }}
-				</div>
-				<div class="col col-50">
-					<i class="icon ion-android-people"></i>
+        </div>
+        <div class="col col-50">
+          <i class="icon ion-android-people"></i>
           {{ room.members }} integrantes
-				</div>
-			</div>
-		</div>
-	</ion-content>
+        </div>
+      </div>
+    </div>
+  </ion-content>
 
   <div ng-show="userAuthenticated.id != null" style="position: absolute; bottom: 0px; width: 100%">
     <button class="fab red-dark" ng-click="newRoom()">

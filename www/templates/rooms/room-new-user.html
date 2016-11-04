@@ -1,0 +1,13 @@
+<ion-view view-title="Novo Integrante">
+  <ion-content class="page">
+    <div class="list">
+      <label class="item item-input">
+        <input type="text" placeholder="E-mail do usuário" ng-model="u.email">
+      </label>
+    </div>
+    <div class="button-bar">
+      <a class="button button-positive" ng-click="cancelNewUser()">Cancelar</a>
+      <a class="button red-dark" ng-click="addUser(u);">Criar</a>
+    </div>
+  </ion-content>
+</ion-view>

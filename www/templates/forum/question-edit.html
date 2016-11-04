@@ -1,28 +1,28 @@
 <ion-view view-title="Editar pergunta">
-	<ion-content class="page">
-		<div>
-			<div class="list">
-				<label class="item item-input">
-				<input type="text" placeholder="Tema da pergunta" ng-model="question.title">
-				</label>
-				<label class="item item-input">
-					<textarea placeholder="Descrição da pergunta" rows="10" ng-model="question.description"></textarea>
-				</label>
-			</div>
-			<div class="button-bar">
-				<a class="button button-dark icon-left" ng-click="cancelEditQuestion()">
-					<i class="icon ion-close-round"></i>
+  <ion-content class="page">
+    <div>
+      <div class="list">
+        <label class="item item-input">
+          <input type="text" placeholder="Tema da pergunta" ng-model="question.title">
+        </label>
+        <label class="item item-input">
+          <textarea placeholder="Descrição da pergunta" rows="10" ng-model="question.description"></textarea>
+        </label>
+      </div>
+      <div class="button-bar">
+        <a class="button button-dark icon-left" ng-click="cancelEditQuestion()">
+          <i class="icon ion-close-round"></i>
 
-				</a>
-				<a class="button red-dark icon-left" ng-click="deleteQuestion(question)">
-					<i class="icon ion-trash-a"></i>
+        </a>
+        <a class="button red-dark icon-left" ng-click="deleteQuestion(question)">
+          <i class="icon ion-trash-a"></i>
 
-				</a>
-				<a class="button button-positive icon-left" ng-click="updateQuestion(question)">
-					<i class="icon ion-checkmark-round"></i>
+        </a>
+        <a class="button button-positive icon-left" ng-click="updateQuestion(question)">
+          <i class="icon ion-checkmark-round"></i>
 
-				</a>
-			</div>
-		</div>
-	</ion-content>
+        </a>
+      </div>
+    </div>
+  </ion-content>
 </ion-view>

@@ -25,10 +25,10 @@
           <img ng-src="{{userAuthenticated.image}}" width="60px"/>
           <h2>{{userAuthenticated.name}}</h2>
           <p> Rank {{rank}}º <br/>
-          Lv. {{userAuthenticated.level}} <br/>
-          {{userAuthenticated.punctuation}} pontos <br/>
-          {{userAuthenticated.xp}}/{{userAuthenticated.xpForNextLevel}} XP
-            <progress max="{{userAuthenticated.xpForNextLevel}}" value="{{userAuthenticated.xp}}"> </progress>
+            Lv. {{userAuthenticated.level}} <br/>
+            {{userAuthenticated.punctuation}} pontos <br/>
+            {{userAuthenticated.xp}}/{{userAuthenticated.xpForNextLevel}} XP
+            <progress max="{{userAuthenticated.xpForNextLevel}}" value="{{userAuthenticated.xp}}"></progress>
           </p>
         </ion-item>
         <ion-item ng-show="userAuthenticated.id == null" menu-close ng-click="login()">
