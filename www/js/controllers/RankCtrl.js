@@ -7,4 +7,5 @@ app.controller('RankCtrl', function($scope, $rootScope, $state, $http) {
       }
     }
   });
+
 });

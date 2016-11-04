@@ -1,19 +1,20 @@
-app.controller('ForumCtrl', function($scope, $stateParams, $http, $rootScope, $filter, $state, $ionicSideMenuDelegate, $timeout, $ionicPopup,$ionicHistory) {
+app.controller('ForumCtrl', function($scope, $stateParams, $http, $rootScope, $filter, $state, $ionicSideMenuDelegate, $timeout, $ionicPopup,$ionicHistory, MyStorageService) {
 
-// getAll - questions
   $rootScope.questions = [];
+// getAll - questions
   function getAll(sucesso, falha) {
-    $http.get($rootScope.serviceBase + "users/get-auth").then(function (response) {
-      $rootScope.userAuthenticated = response.data;
-      $http.get($rootScope.serviceBase + "users/ranking/punctuation").then(function (response) {
-        for (var i = 0; i < response.data.length; i++) {
-          if (response.data[i].id == $rootScope.userAuthenticated.id) {
-            $rootScope.rank = i + 1;
-          }
+    $http.get($rootScope.serviceBase + "questions")
+      .then(function (response) {
+        $rootScope.questions = response.data;
+        for (var i=0; i<response.data.length; i++) {
+          $rootScope.questions[i].lastUpdateFilter = $filter("date")(new Date($rootScope.questions[i].lastUpdate), 'dd/MM/yyyy HH:mm');
         }
+        if(sucesso) sucesso($rootScope.questions);
+      }, function (error) {
+        if(falha) falha(error);
       });
-    });
   }
+
   getAll();
 
 // Aceitar Melhor Resposta
@@ -41,23 +42,12 @@ app.controller('ForumCtrl', function($scope, $stateParams, $http, $rootScope, $f
     });
   };
 
-// nice question - gostei
-  $scope.niceQuestion = function (question) {
-    if ($rootScope.userAuthenticated.id) {
-      $http.get($rootScope.serviceBase + '/questions/nice/' + question.id).then(function (response) {
-        $http.get($rootScope.serviceBase + "questions").then(function (response) {
-          $rootScope.questions = response.data;
-          question.nice++;
-        });
-      });
-    }
-  };
-
   function getOne(id, success) {
     $http.get($rootScope.serviceBase + "questions/" + id).then(function (response) {
       $scope.question = response.data;
       $scope.question.lastUpdateFilter = $filter("date")(new Date($scope.question.lastUpdate), 'dd/MM/yyyy HH:mm');
       if (success) success();
+      getAll(success);
     }, function (error) {
       // error
     });
@@ -220,7 +210,7 @@ app.controller('ForumCtrl', function($scope, $stateParams, $http, $rootScope, $f
 // Post - Cria question
   $scope.createQuestion = function (question) {
     question.user = $rootScope.userAuthenticated;
-    $http.post($rootScope.serviceBase + "questions/", question)
+    $http.post($rootScope.serviceBase + "questions/", question, app.header)
       .then(
         function (response) {
           getAll(function (questions) {

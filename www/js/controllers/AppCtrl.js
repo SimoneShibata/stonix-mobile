@@ -1,21 +1,17 @@
 var app = angular.module('starter.controllers', [])
 
-app.controller('AppCtrl', function($scope, $ionicModal, $timeout, $http, $rootScope, $state, $ionicPopup, $timeout, MyStorageService) {
+app.controller('AppCtrl', function($scope, $ionicModal, $timeout, $http, $rootScope, $state, $ionicPopup, $timeout, MyStorageService, $ionicHistory) {
 
   window.http = $http;
 
+  $scope.toIntro = function(){
+    $state.go('app.intro');
+  }
+
   // sair - logout
   $scope.logout = function () {
-    $http.post($rootScope.serviceBase + "logout", $rootScope.userAuthenticated)
-      .then(
-        function (response) {
-          $rootScope.userAuthenticated = {};
-          $scope.login();
-        },
-        function (response) {
-          // failure callback
-        }
-      );
+    MyStorageService.token.clear();
+    $rootScope.userAuthenticated = null;
   };
 
   $ionicModal.fromTemplateUrl('templates/login/login.html', {
@@ -49,7 +45,7 @@ app.controller('AppCtrl', function($scope, $ionicModal, $timeout, $http, $rootSc
 // Login
   $scope.logar = function (credentials) {
 
-    $http.post("http://localhost:9991/login", credentials)
+    $http.post($rootScope.serviceBase2 + "login", credentials)
       .then(
         function (response) {
 
@@ -62,6 +58,11 @@ app.controller('AppCtrl', function($scope, $ionicModal, $timeout, $http, $rootSc
           console.log(token);
 
           MyStorageService.token.set(token);
+
+          $http.get($rootScope.serviceBase + "users/get-auth").then(function (response) {
+            $rootScope.userAuthenticated = response.data;
+          });
+
           $scope.closeLogin();
         },
         function (error) {
@@ -102,7 +103,6 @@ app.factory('AuthInterceptor', ['$q', '$window', '$location', '$injector', funct
       if (rejection.status === 403) {
         //limpa o token do storage
         MyStorageService.token.clear();
-        $state.go('app.login');
       } else {
         var message = rejection.data + '<br><br><i>' + rejection.status + ' - ' + rejection.statusText + '</i>';
         console.log(message);
