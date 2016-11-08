@@ -214,7 +214,7 @@ app.controller('ForumCtrl', function ($scope, $stateParams, $http, $rootScope, $
       .then(
         function (response) {
           getAll(function (questions) {
-            $state.go('app.question-answer', {id: response.data.id});
+            $state.go('app.forum');
             $rootScope.questions = questions;
           });
           $scope.question = {};

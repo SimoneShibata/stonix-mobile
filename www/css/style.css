@@ -9,6 +9,23 @@
 	width: 50px;
 	height: 50px;
 }
+.preview-foto {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background-color: #fff;
+  margin: auto;
+  margin-top: 20px;
+  background-size: cover;
+  background-position: center;
+}
+.preview-foto div {
+  font-size: 33px;
+  font-weight: 300;
+  color: #c0c0c0;
+  padding-top: 20px;
+
+}
 .icon-room-size {
 	font-size: 80px;
 }

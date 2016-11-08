@@ -4,6 +4,8 @@ app.controller('AppCtrl', function ($scope, $ionicModal, $timeout, $http, $rootS
 
   window.http = $http;
 
+  $scope.hideInputLogin = true;
+
   $scope.toIntro = function () {
     $state.go('app.intro');
   }
@@ -45,6 +47,9 @@ app.controller('AppCtrl', function ($scope, $ionicModal, $timeout, $http, $rootS
 // Login
   $scope.logar = function (credentials) {
 
+    $scope.hideInputLogin = false;
+    $scope.hideInputLoad = true;
+
     $http.post($rootScope.serviceBase2 + "login", credentials)
       .then(
         function (response) {
@@ -63,11 +68,16 @@ app.controller('AppCtrl', function ($scope, $ionicModal, $timeout, $http, $rootS
             $rootScope.userAuthenticated = response.data;
           });
 
+          $scope.hideInputLogin = true;
+          $scope.hideInputLoad = false;
+
           $scope.closeLogin();
         },
         function (error) {
           console.log('error ' + error);
           popup("E-mail ou senha incorreto.");
+          $scope.hideInputLogin = true;
+          $scope.hideInputLoad = false;
         }
       );
   };
