@@ -3,7 +3,7 @@
     <div class="list">
 
       <div class="item item-thumbnail-left">
-        <img data-ng-src="data:image/png;base64,{{ userAuthenticated.imageProfile }}">
+        <img data-ng-src="data:image/png;base64,{{userAuthenticated.imageProfile}}">
         <h2>{{userAuthenticated.name}}</h2>
         <p>{{userAuthenticated.email}}</p>
         <p>{{userAuthenticated.birth | date:'dd/MM/yyyy'}}</p>
@@ -38,13 +38,12 @@
         <p>2</p>
       </div>
 
-      <div class="row">
-        <button id="btn-perfil-edit" class="col button red-dark icon-right ion-edit" ui-sref="app.perfil-edit">
-          <i class="">Editar perfil</i>
-        </button>
-      </div>
-
-
     </div>
   </ion-content>
+
+  <button ng-show="userAuthenticated.id != null"
+          class="fab red-dark" ng-click="editarPerfil()">
+    <i class="icon ion-edit"></i>
+  </button>
+
 </ion-view>

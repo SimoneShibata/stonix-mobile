@@ -122,3 +122,8 @@
   width: 25px;
   margin-right: 10px;
 }
+
+.ion-ios-camera-outline:before {
+  content: "";
+  font-size: 78px;
+}
