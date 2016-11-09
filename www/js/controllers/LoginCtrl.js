@@ -5,6 +5,7 @@ app.controller('LoginCtrl', function ($scope, $rootScope, $http, $state, $filter
   $scope.hideInputRegister = true;
   $scope.hideInputLoadRegister = false;
 
+  var cod = "";
   $scope.register = function (user) {
 
     $scope.hideInputRegister = false;
@@ -26,7 +27,8 @@ app.controller('LoginCtrl', function ($scope, $rootScope, $http, $state, $filter
     }
 
     user.birth = $filter("date")(user.birth, 'yyyy-MM-dd');
-    user.image = $scope.fotoPerfilBase64;
+    //$scope.user.imageProfile = $scope.fotoPerfilBase64;
+    user.imageProfile = cod;
     $http.post($rootScope.serviceBase + "users", user).then(function (response) {
       var myPopup = $ionicPopup.show({
         title: 'Cadastrado com sucesso'
@@ -38,6 +40,7 @@ app.controller('LoginCtrl', function ($scope, $rootScope, $http, $state, $filter
       $scope.hideInputLoadRegister = false;
       $ionicHistory.goBack(-1);
     });
+
     $scope.login();
   };
 
@@ -54,7 +57,9 @@ app.controller('LoginCtrl', function ($scope, $rootScope, $http, $state, $filter
       correctOrientation:true
     };
     $cordovaCamera.getPicture(options).then(function(imageData) {
-      $scope.fotoPerfilBase64 = "data:image/jpeg;base64," + imageData;
+      var imageDataCamera = "data:image/jpeg;base64," + imageData;
+      $scope.fotoPerfilBase64 = imageDataCamera;
+      cod = imageData;
     }, function(err) {
       // error
     });

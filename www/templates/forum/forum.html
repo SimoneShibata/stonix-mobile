@@ -11,7 +11,7 @@
     <div class="card" ng-click="openQuestion(question)" ng-repeat="question in questions | filter:search">
       <div class="row">
         <div class="col">
-          <img ng-src="{{question.user.image}}" class="img-size"/>
+          <img data-ng-src="data:image/png;base64,{{ userAuthenticated.imageProfile }}" class="img-size"/>
           <p>{{question.user.punctuation}} pts</p>
         </div>
         <div class="col col-75">{{question.title}}</div>

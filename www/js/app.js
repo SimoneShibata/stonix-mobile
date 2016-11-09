@@ -15,8 +15,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
       }
     });
 
-    $rootScope.serviceBase = "http://10.8.24.10:9991/api/";
-    $rootScope.serviceBase2 = "http://10.8.24.10:9991/";
+    $rootScope.serviceBase = "http://localhost:9991/api/";
+    $rootScope.serviceBase2 = "http://localhost:9991/";
 
     console.log(MyStorageService);
     if (MyStorageService.token.get() != null) {

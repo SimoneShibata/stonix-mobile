@@ -3,7 +3,7 @@
     <div class="list">
 
       <div class="item item-thumbnail-left">
-        <img ng-src="{{userAuthenticated.image}}">
+        <img data-ng-src="data:image/png;base64,{{ userAuthenticated.imageProfile }}">
         <h2>{{userAuthenticated.name}}</h2>
         <p>{{userAuthenticated.email}}</p>
         <p>{{userAuthenticated.birth | date:'dd/MM/yyyy'}}</p>
