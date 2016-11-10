@@ -66,29 +66,25 @@ app.controller('LoginCtrl', function ($scope, $rootScope, $http, $state, $filter
   }
 
   $scope.abrirGaleria = function () {
-    // Image picker will load images according to these settings
     var options = {
-      maximumImagesCount: 1, // Max number of selected images, I'm using only one for this example
-      width: 800,
-      height: 800,
-      quality: 80
-
+      quality: 50,
+      destinationType: Camera.DestinationType.DATA_URL,
+      sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+      allowEdit: true,
+      encodingType: Camera.EncodingType.JPEG,
+      targetWidth: 100,
+      targetHeight: 100,
+      popoverOptions: CameraPopoverOptions,
+      saveToPhotoAlbum: false
     };
 
-    $cordovaImagePicker.getPictures(options).then(function (results) {
-      // Loop through acquired images
-      for (var i = 0; i < results.length; i++) {
-        var imageDataCamera = results[i]+"";
-
-        cod = results[i];
-
-        //$scope.fotoPerfilBase64 = imageDataCamera;
-
-        $scope.fotoPerfilBase64  = imageDataCamera;
-      }
-    }, function (error) {
-      console.log('Error: ' + JSON.stringify(error));    // In case of error
+    $cordovaCamera.getPicture(options).then(function(imageData) {
+      var imageDataCamera = "data:image/jpeg;base64," + imageData;
+      $scope.fotoPerfilBase64 = imageDataCamera;
+      cod = imageData;
+    }, function(err) {
+      // error
     });
-  };
+  }
 });
 
