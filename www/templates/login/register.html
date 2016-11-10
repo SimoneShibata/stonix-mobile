@@ -13,8 +13,9 @@
             <input class="input-login" type="text" placeholder="Nome" ng-model="user.name">
           </label>
           <label class="item item-input label-login">
-            <span class="placeholder-escondido" ng-show="!user.birth">Data de Nascimento</span>
-            <input class="input-login" type="date" placeholder="Data de Nascimento" ng-model="user.birth">
+            <button class="button icon ion-android-calendar" ng-click="abrirDatePicker()">
+              {{date | date: "dd/MM/yyyy"}}
+            </button>
           </label>
           <label class="item item-input label-login">
             <input class="input-login" type="email" placeholder="E-mail" ng-model="user.email">
