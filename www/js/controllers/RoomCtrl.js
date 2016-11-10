@@ -91,6 +91,7 @@ app.controller('RoomCtrl', function ($scope, $stateParams, $state, $http, $rootS
       $http.post($rootScope.serviceBase + "classroom/student/" + $stateParams.idroom, $scope.userClass).then(function (response) {
         $rootScope.users.push($scope.userClass);
         popup($scope.userClass.name + " foi adicionado na sala.");
+        $ionicHistory.goBack(-1);
       }, function (error) {
         popup("Não foi possível adicionar o usuário :(");
       });

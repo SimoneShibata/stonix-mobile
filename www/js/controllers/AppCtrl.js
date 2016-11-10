@@ -4,6 +4,8 @@ app.controller('AppCtrl', function ($scope, $ionicModal, $timeout, $http, $rootS
 
   window.http = $http;
 
+  $scope.hideInputLogin = true;
+
   $scope.toIntro = function () {
     $state.go('app.intro');
   }
@@ -12,6 +14,7 @@ app.controller('AppCtrl', function ($scope, $ionicModal, $timeout, $http, $rootS
   $scope.logout = function () {
     MyStorageService.token.clear();
     $rootScope.userAuthenticated = null;
+    $scope.login();
   };
 
   $ionicModal.fromTemplateUrl('templates/login/login.html', {
@@ -45,17 +48,15 @@ app.controller('AppCtrl', function ($scope, $ionicModal, $timeout, $http, $rootS
 // Login
   $scope.logar = function (credentials) {
 
+    $scope.hideInputLogin = false;
+    $scope.hideInputLoad = true;
+
     $http.post($rootScope.serviceBase2 + "login", credentials)
       .then(
         function (response) {
 
-          console.log('Response Headers: ', response.headers('Authorization'));
-
           var tokenBearer = response.headers('Authorization');
           var token = tokenBearer.substring(7, tokenBearer.length);
-
-          console.log(tokenBearer);
-          console.log(token);
 
           MyStorageService.token.set(token);
 
@@ -63,11 +64,15 @@ app.controller('AppCtrl', function ($scope, $ionicModal, $timeout, $http, $rootS
             $rootScope.userAuthenticated = response.data;
           });
 
+          $scope.hideInputLogin = true;
+          $scope.hideInputLoad = false;
+
           $scope.closeLogin();
         },
         function (error) {
-          console.log('error ' + error);
           popup("E-mail ou senha incorreto.");
+          $scope.hideInputLogin = true;
+          $scope.hideInputLoad = false;
         }
       );
   };
@@ -105,7 +110,6 @@ app.factory('AuthInterceptor', ['$q', '$window', '$location', '$injector', funct
         MyStorageService.token.clear();
       } else {
         var message = rejection.data + '<br><br><i>' + rejection.status + ' - ' + rejection.statusText + '</i>';
-        console.log(message);
       }
       return $q.reject(rejection);
     }

@@ -9,7 +9,7 @@
     <div class="list card">
 
       <div class="item item-avatar">
-        <img ng-src="{{question.user.image}}" style="width:50px;height:50px;"/>
+        <img data-ng-src="data:image/png;base64,{{ question.user.imageProfile }}" style="width:50px;height:50px;"/>
         <h2>{{question.title}}</h2>
       </div>
 

@@ -1,4 +1,6 @@
-angular.module('starter', ['ionic', 'starter.controllers'])
+
+
+angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
 
   .run(function ($ionicPlatform, $rootScope, $http, MyStorageService) {
     $ionicPlatform.ready(function () {
@@ -13,8 +15,8 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       }
     });
 
-    $rootScope.serviceBase = "http://localhost:9991/api/";
-    $rootScope.serviceBase2 = "http://localhost:9991/";
+    $rootScope.serviceBase = "http://192.168.25.96:9991/api/";
+    $rootScope.serviceBase2 = "http://192.168.25.96:9991/";
 
     console.log(MyStorageService);
     if (MyStorageService.token.get() != null) {
@@ -156,7 +158,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       })
 
       .state('app.perfil-edit', {
-        url: '/perfil/edit',
+        url: '/perfil/edit/:name/:email/:password',
         views: {
           'menuContent': {
             templateUrl: 'templates/perfil/perfil-edit.html',

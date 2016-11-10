@@ -1,7 +1,7 @@
 <ion-view view-title="Editar Perfil">
   <ion-content class="page">
 
-    <form name="editMember" ng-submit="toEdit(editMember)" class="list card no-margin">
+    <form name="editMember" class="list card no-margin">
 
       <ion-input class="item item-input item-stacked-label">
         <ion-label>Nome</ion-label>
@@ -13,14 +13,20 @@
         <input type="email" name="email" placeholder="Email" ng-model="user.email">
       </ion-input>
 
-      <div class="item ">
-        <button id="btn-perfil-edit" class="col button red-dark icon-right ion-edit" ng-click="salvar(user)">
-          <i class="">Atualizar</i>
-        </button>
-      </div>
-
+      <ion-input class="item item-input item-stacked-label">
+        <ion-label>Senha Antiga</ion-label>
+        <input type="password" name="senha" placeholder="Senha Antiga" ng-model="user.passwordOld">
+      </ion-input>
+      <ion-input class="item item-input item-stacked-label">
+        <ion-label>Senha Atual</ion-label>
+        <input type="password" name="senha" placeholder="Senha Atual" ng-model="user.passwordAtual">
+      </ion-input>
 
     </form>
 
   </ion-content>
+
+  <button class="fab red-dark" ng-click="salvar(user)">
+    <i class="icon ion-checkmark-round"></i>
+  </button>
 </ion-view>
