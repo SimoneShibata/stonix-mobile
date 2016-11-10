@@ -15,6 +15,8 @@
     "shelljs": "^0.3.0"
   },
   "cordovaPlugins": [
+    "cordova-plugin-camera",
+    "cordova-plugin-datepicker",
     "cordova-plugin-device",
     "cordova-plugin-console",
     "cordova-plugin-whitelist",

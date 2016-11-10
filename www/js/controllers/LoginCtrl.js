@@ -1,4 +1,4 @@
-app.controller('LoginCtrl', function ($scope, $rootScope, $http, $state, $filter, $ionicPopup, $timeout, $ionicHistory, $cordovaCamera, $cordovaImagePicker) {
+app.controller('LoginCtrl', function ($scope, $rootScope, $http, $state, $filter, $ionicPopup, $timeout, $ionicHistory, $cordovaCamera, $cordovaDatePicker) {
 
 // Cadastrar - register
   $scope.fotoPerfilBase64 = "";
@@ -6,6 +6,27 @@ app.controller('LoginCtrl', function ($scope, $rootScope, $http, $state, $filter
   $scope.hideInputLoadRegister = false;
 
   var cod = "";
+
+
+  $scope.abrirDatePicker = function () {
+    var options = {
+      date: new Date(),
+      mode: 'date', // or 'time'
+      minDate: new Date(1900, 1, 1),
+      allowOldDates: true,
+      allowFutureDates: true,
+      doneButtonLabel: 'DONE',
+      doneButtonColor: '#F2F3F4',
+      cancelButtonLabel: 'CANCEL',
+      cancelButtonColor: '#000000'
+    };
+
+    $cordovaDatePicker.show(options).then(function (date) {
+      $scope.date = date;
+    });
+
+  }
+
   $scope.register = function (user) {
 
     $scope.hideInputRegister = false;
@@ -16,30 +37,27 @@ app.controller('LoginCtrl', function ($scope, $rootScope, $http, $state, $filter
       $scope.hideInputRegister = true;
       $scope.hideInputLoadRegister = false;
 
-      var myPopup = $ionicPopup.show({
-        title: 'Confirmação de senha inválida!'
-      });
-      $timeout(function () {
-        myPopup.close(); //close the popup after 3 seconds for some reason
-      }, 2500);
+      popup("Confirmação de senha inválida!");
       $ionicHistory.goBack(-1);
       return null;
     }
 
-    user.birth = $filter("date")(user.birth, 'yyyy-MM-dd');
+    user.birth = $filter("date")($scope.date, 'yyyy-MM-dd');
     //$scope.user.imageProfile = $scope.fotoPerfilBase64;
     user.imageProfile = cod;
-    $http.post($rootScope.serviceBase + "users", user).then(function (response) {
-      var myPopup = $ionicPopup.show({
-        title: 'Cadastrado com sucesso'
+
+    $http.post($rootScope.serviceBase + "users", user)
+      .then(function (response) {
+        popup("Cadastrado com sucesso!");
+        $scope.hideInputRegister = true;
+        $scope.hideInputLoadRegister = false;
+        $ionicHistory.goBack(-1);
+      }, function (error) {
+        popup("Não foi possível cadastrar no momento!");
+        $scope.hideInputRegister = true;
+        $scope.hideInputLoadRegister = false;
+        $ionicHistory.goBack(-1);
       });
-      $timeout(function () {
-        myPopup.close(); //close the popup after 3 seconds for some reason
-      }, 2500);
-      $scope.hideInputRegister = true;
-      $scope.hideInputLoadRegister = false;
-      $ionicHistory.goBack(-1);
-    });
 
     $scope.login();
   };
@@ -78,13 +96,23 @@ app.controller('LoginCtrl', function ($scope, $rootScope, $http, $state, $filter
       saveToPhotoAlbum: false
     };
 
-    $cordovaCamera.getPicture(options).then(function(imageData) {
+    $cordovaCamera.getPicture(options).then(function (imageData) {
       var imageDataCamera = "data:image/jpeg;base64," + imageData;
       $scope.fotoPerfilBase64 = imageDataCamera;
       cod = imageData;
-    }, function(err) {
+    }, function (err) {
       // error
     });
   }
+
+  function popup(mensagem) {
+    var myPopup = $ionicPopup.show({
+      title: mensagem
+    });
+    $timeout(function () {
+      myPopup.close(); //close the popup after 3 seconds for some reason
+    }, 2500);
+  }
+
 });
 
