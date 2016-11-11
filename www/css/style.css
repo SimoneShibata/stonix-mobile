@@ -2,6 +2,9 @@
 	background-color: #751612 !important;
 	color: #fff;
 }
+.padding1 {
+  padding: 30px 10px;
+}
 .page {
 	background-color: #ededed;
 }
@@ -126,4 +129,13 @@
 .ion-ios-camera-outline:before {
   content: "";
   font-size: 78px;
+}
+
+
+.slider {
+  height: 100%;
+}
+
+.float-right {
+  float: right;
 }

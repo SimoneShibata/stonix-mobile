@@ -6,16 +6,18 @@ app.controller('AppCtrl', function ($scope, $ionicModal, $timeout, $http, $rootS
 
   $scope.hideInputLogin = true;
 
-  $scope.toIntro = function () {
-    $state.go('app.intro');
-  }
-
   // sair - logout
   $scope.logout = function () {
     MyStorageService.token.clear();
     $rootScope.userAuthenticated = null;
     $scope.login();
   };
+
+  $ionicModal.fromTemplateUrl('templates/tutorial/tutorial.html', {
+    scope: $scope
+  }).then(function (modal) {
+    $scope.modalTutorial = modal;
+  });
 
   $ionicModal.fromTemplateUrl('templates/login/login.html', {
     scope: $scope
@@ -36,6 +38,11 @@ app.controller('AppCtrl', function ($scope, $ionicModal, $timeout, $http, $rootS
   }).then(function (modal) {
     $scope.modalRegister = modal;
   });
+
+  $scope.tutorialOpenModal = function () {
+    $scope.closeLogin();
+    $scope.modalTutorial.show();
+  };
 
   $scope.registerModal = function () {
     $scope.closeLogin();
@@ -67,7 +74,8 @@ app.controller('AppCtrl', function ($scope, $ionicModal, $timeout, $http, $rootS
           $scope.hideInputLogin = true;
           $scope.hideInputLoad = false;
 
-          $scope.closeLogin();
+          $scope.tutorialOpenModal();
+          //$state.go('app.tutorial');
         },
         function (error) {
           popup("E-mail ou senha incorreto.");
