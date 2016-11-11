@@ -44,6 +44,11 @@ app.controller('AppCtrl', function ($scope, $ionicModal, $timeout, $http, $rootS
     $scope.modalTutorial.show();
   };
 
+  $scope.tutorialCloseModal = function () {
+    $scope.modalTutorial.hide();
+    $state.go('app.forum');
+  };
+
   $scope.registerModal = function () {
     $scope.closeLogin();
     $scope.modalRegister.show();
@@ -69,12 +74,19 @@ app.controller('AppCtrl', function ($scope, $ionicModal, $timeout, $http, $rootS
 
           $http.get($rootScope.serviceBase + "users/get-auth").then(function (response) {
             $rootScope.userAuthenticated = response.data;
+            $scope.verificarTutor();
           });
 
           $scope.hideInputLogin = true;
           $scope.hideInputLoad = false;
 
-          $scope.tutorialOpenModal();
+          $scope.verificarTutor = function () {
+            if ($rootScope.userAuthenticated.tutor == false) {
+              $scope.tutorialOpenModal();
+            } else {
+              $scope.closeLogin();
+            }
+          }
           //$state.go('app.tutorial');
         },
         function (error) {

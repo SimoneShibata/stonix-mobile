@@ -1,6 +1,6 @@
 <ion-modal-view ng-controller="TutorialCtrl">
   <div class="bar bar-header">
-    <button class="button button-icon icon ion-ios-arrow-left red-dark" ng-click="previous()"></button>
+    <button class="button button-icon icon ion-ios-arrow-left red-dark" ng-hide="$index == 0" ng-click="previous()"></button>
     <h1 class="title red-dark">Bem vindo ao Stonix Hero</h1>
     <button class="button button-icon icon ion-ios-arrow-right red-dark" ng-click="next()"></button>
   </div>

@@ -1,4 +1,4 @@
-app.controller('TutorialCtrl', function ($scope, $rootScope, $state, $http, $ionicSlideBoxDelegate) {
+app.controller('TutorialCtrl', function ($scope, $rootScope, $state, $http, $ionicSlideBoxDelegate, $ionicPopup, $timeout) {
   // Called to navigate to the main app
   $scope.startApp = function () {
     $state.go('main');
@@ -11,8 +11,9 @@ app.controller('TutorialCtrl', function ($scope, $rootScope, $state, $http, $ion
   };
 
   // Called each time the slide changes
-  $scope.slideChanged = function (index) {
-    $scope.slideIndex = index;
+  $scope.$index = 0;
+  $scope.slideHasChanged = function (index) {
+    $scope.$index = index;
   };
 
   $scope.finalTutor = function () {
@@ -23,6 +24,16 @@ app.controller('TutorialCtrl', function ($scope, $rootScope, $state, $http, $ion
     });
     $scope.cancel();
     popup("Uauuu você concluiu o tutorial! 20 de XP a mais para você :)");
+  }
+
+  $scope.finalTutor = function () {
+    $rootScope.userAuthenticated.tutor = true;
+    $rootScope.userAuthenticated.xp = $rootScope.userAuthenticated.xp + 20;
+    $http.put($rootScope.serviceBase + 'users', $rootScope.userAuthenticated).then(function (response) {
+      $rootScope.userAuthenticated = response.data;
+    });
+    popup("Uauuu você concluiu o tutorial! 20 de XP a mais para você :)");
+    $scope.tutorialCloseModal();
   }
 
   function popup(mensagem) {
