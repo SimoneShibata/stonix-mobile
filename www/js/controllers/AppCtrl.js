@@ -6,16 +6,18 @@ app.controller('AppCtrl', function ($scope, $ionicModal, $timeout, $http, $rootS
 
   $scope.hideInputLogin = true;
 
-  $scope.toIntro = function () {
-    $state.go('app.intro');
-  }
-
   // sair - logout
   $scope.logout = function () {
     MyStorageService.token.clear();
     $rootScope.userAuthenticated = null;
     $scope.login();
   };
+
+  $ionicModal.fromTemplateUrl('templates/tutorial/tutorial.html', {
+    scope: $scope
+  }).then(function (modal) {
+    $scope.modalTutorial = modal;
+  });
 
   $ionicModal.fromTemplateUrl('templates/login/login.html', {
     scope: $scope
@@ -36,6 +38,16 @@ app.controller('AppCtrl', function ($scope, $ionicModal, $timeout, $http, $rootS
   }).then(function (modal) {
     $scope.modalRegister = modal;
   });
+
+  $scope.tutorialOpenModal = function () {
+    $scope.closeLogin();
+    $scope.modalTutorial.show();
+  };
+
+  $scope.tutorialCloseModal = function () {
+    $scope.modalTutorial.hide();
+    $state.go('app.forum');
+  };
 
   $scope.registerModal = function () {
     $scope.closeLogin();
@@ -62,12 +74,20 @@ app.controller('AppCtrl', function ($scope, $ionicModal, $timeout, $http, $rootS
 
           $http.get($rootScope.serviceBase + "users/get-auth").then(function (response) {
             $rootScope.userAuthenticated = response.data;
+            $scope.verificarTutor();
           });
 
           $scope.hideInputLogin = true;
           $scope.hideInputLoad = false;
 
-          $scope.closeLogin();
+          $scope.verificarTutor = function () {
+            if ($rootScope.userAuthenticated.tutor == false) {
+              $scope.tutorialOpenModal();
+            } else {
+              $scope.closeLogin();
+            }
+          }
+          //$state.go('app.tutorial');
         },
         function (error) {
           popup("E-mail ou senha incorreto.");

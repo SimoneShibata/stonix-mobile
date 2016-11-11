@@ -1,0 +1,61 @@
+<ion-modal-view ng-controller="TutorialCtrl">
+  <div class="bar bar-header">
+    <button class="button button-icon icon ion-ios-arrow-left red-dark" ng-hide="$index == 0" ng-click="previous()"></button>
+    <h1 class="title red-dark">Bem vindo ao Stonix Hero</h1>
+    <button class="button button-icon icon ion-ios-arrow-right red-dark" ng-click="next()"></button>
+  </div>
+  <ion-slide-box on-slide-changed="slideHasChanged($index)" class="has-header">
+    <ion-slide>
+      <div class="box blue padding1">
+        <div style="font-size: 18px">
+          <p>A plataforma de educação mais interativa que você vai encontrar.</p>
+          <p>Resolva suas dúvidas e ajude a quem precisa de informação, ganhe pontos e destaque dentro da nossa
+            comunidade.</p>
+
+          <ul style="margin-left: 20px">
+            </strong><li><p>Ganhe <strong>experiência (XP)</strong> a medida que você interage com a plataforma, perguntar, responder e
+            avaliar
+            vão fazer seu nível aumentar conforme seu XP evolui.</p>
+          </li>
+
+            <li><p><strong>Reputação</strong> vai mostrar o quanto suas respostas e perguntas foram úteis para nossa comunidade,
+              aumente
+              sua reputação tendo suas respostas aceitas (essa é a melhor maneira), também é possível ganhar
+              reputação ao aceitar respostas, porém respostas ruins ou zoeiras vão fazer você perder reputação
+              (fica esperto!), ganhe e evidência nos rankings e seja feliz.</p>
+            </li>
+          </ul>
+        </div>
+        <h3><a>#Supimpa</a></h3>
+      </div>
+    </ion-slide>
+    <ion-slide>
+      <div class="padding1" style="font-size: 18px">
+        <p>Clique na aba "NOVA PERGUNTA".</p>
+        <p>No campo "TÍTULO DA PERGUNTA" é legal colocar de forma clara e objetiva a sua dúvida.</p>
+        <p>No campo "DESCRIÇÃO" é super maneiro dar os detalhes e particularidades da sua dúvida ou problema</p>
+        <ul style="margin-left: 20px">
+          <li><p>Lembre que seguindo essas dicas você terá mais chance de ser bem avaliado pelo restante da
+            comunidade, formando uma baita <strong>reputação</strong> ;)</p>
+          </li>
+
+          <li><p>Você ganhará <strong>experiência (XP)</strong> por sua pergunta.</p>
+          </li>
+        </ul>
+      </div>
+      <h3><a>#Chocante #AiQueTudo</a></h3>
+    </ion-slide>
+    <ion-slide>
+      <div class="padding1" style="font-size: 18px">
+        <p>Cada resposta para sua pergunta apresentará um sinal de certo para aceitá-la como melhor
+          resposta.</p>
+        <p>Clicando nesse sinal ele ficará azul sinalizando ela como a melhor resposta.</p>
+        <p>O usuário autor da resposta vai ganhar <strong>reputação</strong> por sua aceitação, e você ganhará <strong>reputação</strong> por ter
+          ajudado a comunidade com uma pergunta super interessante.</p>
+      </div>
+      <h3><a>#OlhaQueLouco #HAHAHAHA</a></h3>
+
+      <button ng-click="finalTutor()" style="margin-top: 60px; margin-right: 30px;" class="button float-right button-positive icon ion-android-checkmark-circle"> Finalizar </button>
+    </ion-slide>
+  </ion-slide-box>
+</ion-modal-view>
