@@ -158,7 +158,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
       })
 
       .state('app.perfil-edit', {
-        url: '/perfil/edit/:name/:email/:password',
+        url: '/perfil/edit/:id',
         views: {
           'menuContent': {
             templateUrl: 'templates/perfil/perfil-edit.html',

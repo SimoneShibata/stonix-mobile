@@ -3,6 +3,17 @@
 
     <form name="editMember" class="list card no-margin">
 
+      <div style="background-color: darkred; color: #ffffff;" ng-click="abrirGaleria2()">
+        GALERIA
+      </div>
+
+      <div ng-hide="fotoPerfilBase64" class="preview-foto" style="background-image: url({{user.imageProfile}})" ng-click="tirarFoto()">
+        <div ng-show="user.imageProfile && !fotoPerfilBase64"></div>
+      </div>
+
+      <div ng-show="fotoPerfilBase64" class="preview-foto" style="background-image: url({{fotoPerfilBase64}})" ng-click="tirarFoto()">
+      </div>
+
       <ion-input class="item item-input item-stacked-label">
         <ion-label>Nome</ion-label>
         <input type="text" name="name" placeholder="Nome completo" ng-model="user.name" required>
@@ -14,11 +25,11 @@
       </ion-input>
 
       <ion-input class="item item-input item-stacked-label">
-        <ion-label>Senha Antiga</ion-label>
+        <ion-label>Senha Atual</ion-label>
         <input type="password" name="senha" placeholder="Senha Antiga" ng-model="user.passwordOld">
       </ion-input>
       <ion-input class="item item-input item-stacked-label">
-        <ion-label>Senha Atual</ion-label>
+        <ion-label>Nova Senha</ion-label>
         <input type="password" name="senha" placeholder="Senha Atual" ng-model="user.passwordAtual">
       </ion-input>
 
