@@ -91,6 +91,7 @@ app.controller('AppCtrl', function ($scope, $ionicModal, $timeout, $http, $rootS
         },
         function (error) {
           popup("E-mail ou senha incorreto.");
+          console.log(credentials);
           $scope.hideInputLogin = true;
           $scope.hideInputLoad = false;
         }
