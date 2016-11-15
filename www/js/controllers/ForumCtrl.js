@@ -1,4 +1,4 @@
-app.controller('ForumCtrl', function ($scope, $stateParams, $http, $rootScope, $filter, $state, $ionicSideMenuDelegate, $timeout, $ionicPopup, $ionicHistory, MyStorageService) {
+app.controller('ForumCtrl', function ($scope, $stateParams, $http, $rootScope, $filter, $state, $ionicSideMenuDelegate, $timeout, $ionicPopup, $ionicHistory, $cordovaVibration, MyStorageService) {
 
   $rootScope.questions = [];
 // getAll - questions
@@ -15,6 +15,11 @@ app.controller('ForumCtrl', function ($scope, $stateParams, $http, $rootScope, $
       });
   }
 
+  $scope.getAllQuestions = function () {
+    getAll();
+    $scope.diference = 0;
+    $cordovaVibration.vibrate(100);
+  }
   getAll();
 
 // Aceitar Melhor Resposta
@@ -286,4 +291,22 @@ app.controller('ForumCtrl', function ($scope, $stateParams, $http, $rootScope, $
         }
       )
   };
+
+  window.setInterval(function () {
+    console.log("Funcionou!!");
+
+    $http.get($rootScope.serviceBase + "questions").then(function (response) {
+      $scope.questionsUp = response.data;
+
+      if ($scope.questionsUp.length > $scope.questions.length) {
+        $scope.diference = $scope.questionsUp.length - $scope.questions.length;
+      }
+      if ($scope.questionsUp.length < $scope.questions.length) {
+        $scope.getAllQuestions();
+      }
+    }, function (error) {
+      // failure
+    });
+  }, 3000);
+
 });
