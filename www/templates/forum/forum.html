@@ -14,25 +14,36 @@
     <div ng-show="diference == 1" class="text-center">
       <a href="" ng-click="getAllQuestions()">{{diference}} nova pergunta</a>
     </div>
-    <div class="card" ng-click="openQuestion(question)" ng-repeat="question in questions | filter:search">
-      <div class="row">
+    <div class="card"  ng-repeat="question in questions | filter:search">
+      <div ng-click="openQuestion(question)" class="row">
         <div class="col">
           <img data-ng-src="data:image/png;base64,{{ question.user.imageProfile }}" class="img-size"/>
           <p>{{question.user.punctuation}} rep</p>
         </div>
-        <div class="col col-75">{{question.title}}</div>
+        <div class="col col-75">
+          <p>{{question.title}}</p>
+          <p>{{question.description}}</p>
+        </div>
         <i class="icon ion-checkmark-circled" aria-hidden="true"
            ng-if="question.answered" title="Resolvido"></i>
       </div>
       <div class="divider"></div>
       <div class="row">
+        <div ng-if="!question.likedQuestion" ng-click="newLike(question)" class="col col-15">
+          <i class="icon ion-thumbsup"></i>
+          {{question.numberLikes}}
+        </div>
+        <div ng-if="question.likedQuestion" ng-click="unlike(question)" class="col col-15">
+          <i class="like-blue icon ion-thumbsup "></i>
+          {{question.numberLikes}}
+        </div>
         <div class="col col-15">
           <i class="icon ion-chatbubbles"></i>
           {{question.numberAnswers}}
         </div>
         <div class="col col-50">
           <i class="icon ion-clock"></i>
-          {{question.lastUpdateFilter}}
+          {{ question.lastUpdate | date: 'dd/MM/yyyy HH:mm' }}
         </div>
         <div class="col col-15">
           <i class="icon ion-eye"></i>

@@ -9,6 +9,7 @@ app.controller('ForumCtrl', function ($scope, $stateParams, $http, $rootScope, $
         for (var i = 0; i < response.data.length; i++) {
           $rootScope.questions[i].lastUpdateFilter = $filter("date")(new Date($rootScope.questions[i].lastUpdate), 'dd/MM/yyyy HH:mm');
         }
+        verfyLikedQuestion();
         if (sucesso) sucesso($rootScope.questions);
       }, function (error) {
         if (falha) falha(error);
@@ -20,6 +21,7 @@ app.controller('ForumCtrl', function ($scope, $stateParams, $http, $rootScope, $
     $scope.diference = 0;
     $cordovaVibration.vibrate(100);
   }
+
   getAll();
 
 // Aceitar Melhor Resposta
@@ -308,5 +310,75 @@ app.controller('ForumCtrl', function ($scope, $stateParams, $http, $rootScope, $
       // failure
     });
   }, 3000);
+
+  $scope.countLikes = function (question) {
+    $http.get($rootScope.serviceBase + "questions/likes/question/" + $scope.question.id)
+      .then(function (response) {
+        $scope.question.numberLikes = response.data.length;
+      });
+  };
+
+  $scope.unlikeQuestion = function (question) {
+    $http.delete($rootScope.serviceBase + "questions/likes/" + question.likedQuestion.id).then(function (response) {
+      $http.get($rootScope.serviceBase + "questions").then(function (response) {
+        getOne(question.id);
+      }, function (error) {
+        // failure
+      });
+    });
+  };
+
+  $scope.unlike = function (question) {
+    $http.delete($rootScope.serviceBase + "questions/likes/" + question.likedQuestion.id).then(function (response) {
+      $http.get($rootScope.serviceBase + "questions").then(function (response) {
+        $scope.questions = response.data;
+        verfyLikedQuestion();
+      }, function (error) {
+        // failure
+      });
+    });
+  };
+
+  $scope.newLikeQuestion = function (question) {
+    $http.post($rootScope.serviceBase + "questions/likes", {user: $rootScope.userAuthenticated, question: question})
+      .then(function (response) {
+        $http.get($rootScope.serviceBase + "questions").then(function (response) {
+          getOne(question.id);
+        }, function (error) {
+          // failure
+        });
+      });
+  };
+
+  $scope.newLike = function (question) {
+    $http.post($rootScope.serviceBase + "questions/likes", {user: $rootScope.userAuthenticated, question: question})
+      .then(function (response) {
+        $http.get($rootScope.serviceBase + "questions").then(function (response) {
+          $scope.questions = response.data;
+          verfyLikedQuestion();
+        }, function (error) {
+          // failure
+        });
+      });
+  };
+
+  var getLikeByUser = function (position) {
+    $http.post($rootScope.serviceBase + "questions/likes/find/like-user-question",
+      {user: $rootScope.userAuthenticated, question: $scope.questions[position]})
+      .then(function (response) {
+        $scope.questions[position].likedQuestion = response.data;
+        $http.get($rootScope.serviceBase + "questions/likes/question/" + $scope.questions[position].id)
+          .then(function (response) {
+            $scope.questions[position].numberLikes = response.data.length;
+          });
+      });
+  };
+
+  var position;
+  var verfyLikedQuestion = function () {
+    for (var i = 0; i < $scope.questions.length; i++) {
+      getLikeByUser(i);
+    }
+  };
 
 });
