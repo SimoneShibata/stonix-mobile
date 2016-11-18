@@ -104,4 +104,59 @@ app.controller('RoomCtrl', function ($scope, $stateParams, $state, $http, $rootS
   $scope.addApple = function (teacher) {
   }
 
+// GetAll Categories Tasks - categorias
+  var getAllCategories = function () {
+    $http.get($rootScope.serviceBase + "task-category/classroom/" + $stateParams.id).then(function (response) {
+      $scope.categories = response.data;
+    })
+  }
+  getAllCategories();
+
+  $scope.categorySelected = function(category) {
+    $scope.selected = category.id;
+    $scope.listTasks(category);
+  };
+
+// GetAll Tasks - atividades
+  $scope.listTasks = function (category) {
+    $http.get($rootScope.serviceBase + "tasks/task-category/" + category.id).then(function (response) {
+      $scope.tasks = response.data;
+    });
+  }
+
+// Create Category
+  $scope.createCategory = function (idCategory) {
+    if (idCategory) {
+      $state.go('/rooms/' + $stateParams.id + '/category/' + idCategory);
+    } else {
+      $state.go('/rooms/' + $stateParams.id + '/category');
+    }
+  }
+
+// Delete Category
+  $scope.deleteCategory = function (category) {
+    $http.get($rootScope.serviceBase + "tasks/task-category/" + category.id).then(function (response) {
+      if (response.data.length > 0) {
+        popup("Não é possível excluir uma categoria com atividades cadastradas.");
+      } else {
+        $http.delete($rootScope.serviceBase + "task-category/" + category.id).then(function (response) {
+          getAllCategories();
+          popup("Categoria excluída com sucesso");
+        });
+      }
+    });
+  }
+
+// Cancelar edição
+  $scope.cancelEdit = function (room) {
+    $state.go('/rooms/' + room);
+  }
+
+// Editar sala
+  $scope.editRoom = function (room) {
+    $http.put($rootScope.serviceBase + "classroom/", room).then(function (response) {
+      popup(response.data.name  + " alterada com sucesso.");
+      $state.go("/rooms");
+    });
+  }
 });
