@@ -1,0 +1,16 @@
+<ion-view view-title="Nova Categoria">
+  <ion-content class="page">
+    <div class="list">
+      <label class="item item-input">
+        <input type="text" placeholder="Nome da categoria" ng-model="category.name" required>
+      </label>
+      <label class="item item-input">
+        <textarea placeholder="Descrição" rows="10" ng-model="category.description" required></textarea>
+      </label>
+    </div>
+    <div class="button-bar">
+      <a class="button button-positive" ng-click="cancelCategory();">Cancelar</a>
+      <a class="button red-dark" ng-click="createCategory(category);">Criar</a>
+    </div>
+  </ion-content>
+</ion-view>

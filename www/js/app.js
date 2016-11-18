@@ -127,6 +127,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
         }
       })
 
+      .state('app.category-new', {
+        url: '/classroom/:id/category',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/rooms/new-category.html',
+            controller: 'TaskCtrl'
+          }
+        }
+      })
+
       .state('app.activity', {
         url: '/activity',
         views: {

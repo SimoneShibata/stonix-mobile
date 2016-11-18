@@ -295,8 +295,6 @@ app.controller('ForumCtrl', function ($scope, $stateParams, $http, $rootScope, $
   };
 
   window.setInterval(function () {
-    console.log("Funcionou!!");
-
     $http.get($rootScope.serviceBase + "questions").then(function (response) {
       $scope.questionsUp = response.data;
 

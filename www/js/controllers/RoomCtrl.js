@@ -102,17 +102,27 @@ app.controller('RoomCtrl', function ($scope, $stateParams, $state, $http, $rootS
 
 // Maçã
   $scope.addApple = function (teacher) {
+    var apple = {};
+    apple.teacher = teacher;
+    apple.student = $rootScope.userAuthenticated;
+    $http.post($rootScope.serviceBase + "apples", apple).then(function (response) {
+      getNumberApples(teacher);
+    })
   }
-
-// GetAll Categories Tasks - categorias
+  // GetAll Categories Tasks - categorias
   var getAllCategories = function () {
     $http.get($rootScope.serviceBase + "task-category/classroom/" + $stateParams.id).then(function (response) {
       $scope.categories = response.data;
     })
   }
+
   getAllCategories();
 
-  $scope.categorySelected = function(category) {
+  window.setInterval(function () {
+    getAllCategories();
+  }, 3000);
+
+  $scope.categorySelected = function (category) {
     $scope.selected = category.id;
     $scope.listTasks(category);
   };
@@ -127,9 +137,9 @@ app.controller('RoomCtrl', function ($scope, $stateParams, $state, $http, $rootS
 // Create Category
   $scope.createCategory = function (idCategory) {
     if (idCategory) {
-      $state.go('/rooms/' + $stateParams.id + '/category/' + idCategory);
+      $state.go('app.category-edit', {id:$stateParams.id, idCategory:idCategory});
     } else {
-      $state.go('/rooms/' + $stateParams.id + '/category');
+      $state.go('app.category-new',{ id: $stateParams.id});
     }
   }
 
@@ -155,7 +165,7 @@ app.controller('RoomCtrl', function ($scope, $stateParams, $state, $http, $rootS
 // Editar sala
   $scope.editRoom = function (room) {
     $http.put($rootScope.serviceBase + "classroom/", room).then(function (response) {
-      popup(response.data.name  + " alterada com sucesso.");
+      popup(response.data.name + " alterada com sucesso.");
       $state.go("/rooms");
     });
   }

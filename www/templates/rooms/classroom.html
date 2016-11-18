@@ -1,84 +1,91 @@
 <ion-view view-title="{{classroom.title}}">
-	<ion-content class="page">
-		<div class="list">
-		  <a class="item item-icon-left item-divider">
-		    <i class="icon ion-compose"></i>
-		    Atividades
-		  </a>
-      <button ng-click="createCategory()" ng-show="userAuthenticated.id == room.teacher.id" class="button button-block red-dark icon ion-plus-circled"> Criar Categoria </button>
-		  <a ng-repeat="category in categories" ng-click="categorySelected(category)" class="item item-icon-right">
-		    <h2>{{ category.name }}</h2>
-        <p>{{ category.description }}</p>
-		  </a>
+  <ion-tabs class="red-dark tabs-icon-top">
 
-      <a class="item item-icon-left item-divider">
-        <i class="icon ion-android-person"></i>
-        Integrantes
-      </a>
+    <ion-tab title="Atividades" icon-on="ion-compose" icon-off="ion-compose">
+      <ion-content class="page">
+        <div class="item item-divider">Categorias</div>
+        <a ng-repeat="category in categories" class="item item-icon-right">
+          <h2>{{ category.name }}</h2>
+          <p>{{ category.description }}</p>
+        </a>
+      </ion-content>
 
-      <div ng-repeat="u in users" ng-click="goToPerson(person.name, $event)" class="row item item-icon-right">
-        <div class="col-10">
-          <img title="Primeiro lugar por pontuação"
-               ng-src="../../img/gold-medal.png" class="avatar icon-apple"
-               ng-if="$index == 0"/>
-          <img title="Segundo lugar por pontuação"
-               ng-src="../../img/silver-medal.png" class="avatar icon-apple"
-               ng-if="$index == 1"/>
-          <img title="Terceiro lugar por pontuação"
-               ng-src="../../img/bronze-medal.png" class="avatar icon-apple"
-               ng-if="$index == 2"/>
-          <p ng-if="$index > 2" class="avatar" style="margin: 8px 16px 8px 0px ;">
-            {{ $index + 1 }}</p>
-          <img ng-if="u.imageProfile" alt="{{ u.name }}"
-               data-ng-src="data:image/png;base64,{{ u.imageProfile }}"
-               title="{{ userAuthenticated.name }}" class="avatar"
-               data-err-src="/img/default.png"/>
+      <div ng-show="userAuthenticated.id == room.teacher.id" style="position: absolute; bottom: 0px; width: 100%">
+        <button class="fab red-dark" ng-click="createCategory();">
+          <i class="icon ion-plus"></i>
+        </button>
+      </div>
+    </ion-tab>
+
+    <ion-tab title="Integrantes" icon-on="ion-android-person" icon-off="ion-android-person">
+      <ion-content class="page">
+        <div class="item item-divider">Integrantes</div>
+        <div ng-repeat="u in users" ng-click="goToPerson(person.name, $event)" class="row item item-icon-right">
+          <div class="col-10">
+            <img title="Primeiro lugar por pontuação"
+                 ng-src="../../img/gold-medal.png" class="avatar icon-apple"
+                 ng-if="$index == 0"/>
+            <img title="Segundo lugar por pontuação"
+                 ng-src="../../img/silver-medal.png" class="avatar icon-apple"
+                 ng-if="$index == 1"/>
+            <img title="Terceiro lugar por pontuação"
+                 ng-src="../../img/bronze-medal.png" class="avatar icon-apple"
+                 ng-if="$index == 2"/>
+            <p ng-if="$index > 2" class="avatar" style="margin: 8px 16px 8px 0px ;">
+              {{ $index + 1 }}</p>
+            <img ng-if="u.imageProfile" alt="{{ u.name }}"
+                 data-ng-src="data:image/png;base64,{{ u.imageProfile }}"
+                 title="{{ userAuthenticated.name }}" class="avatar"
+                 data-err-src="/img/default.png"/>
+          </div>
+          <div class="col-10">
+            <img ng-if="u.imageProfile" alt="{{ u.name }}"
+                 data-ng-src="data:image/png;base64,{{ u.imageProfile }}"
+                 title="{{ userAuthenticated.name }}" class="avatar icon-apple"
+                 data-err-src="/img/default.png"/>
+            <img class="avatar icon-apple" ng-if="!u.imageProfile"
+                 ng-src="../img/default.png"/>
+          </div>
+          <div class="col">
+            {{ u.name }}
+          </div>
+          <div class="col">
+            <i class="icon ion-information-circled" aria-hidden="true"></i>
+          </div>
         </div>
-        <div class="col-10">
-          <img ng-if="u.imageProfile" alt="{{ u.name }}"
-               data-ng-src="data:image/png;base64,{{ u.imageProfile }}"
-               title="{{ userAuthenticated.name }}" class="avatar icon-apple"
-               data-err-src="/img/default.png"/>
-          <img class="avatar icon-apple" ng-if="!u.imageProfile"
-               ng-src="../img/default.png"/>
+
+        <div class="row item item-icon-right">
+          <div class="col-10">
+            <img title="Presentear com maçã"
+                 ng-src="../../img/apple.png" class="icon-apple"
+                 ng-click="addApple(room.teacher.id)"/>
+          </div>
+          <div class="col-10">
+            <img ng-if="room.teacher.imageProfile" title="{{room.teacher.name}}"
+                 data-ng-src="data:image/png;base64,{{ room.teacher.imageProfile }}"
+                 class="icon-apple avatar"/>
+            <img ng-if="!room.teacher.imageProfile" title="{{room.teacher.name}}"
+                 ng-src="../img/default.png"
+                 class="icon-apple avatar" style="padding-top: 3px"/>
+          </div>
+          <div class="col col-25">
+            {{ room.teacher.name }}
+          </div>
+          <div class="col">
+            <i class="icon ion-information-circled" aria-hidden="true"></i>
+          </div>
         </div>
-        <div class="col">
-          {{ u.name }}
+
         </div>
-        <div class="col">
-          <i class="icon ion-information-circled" aria-hidden="true"></i>
-        </div>
+      </ion-content>
+
+      <div ng-show="userAuthenticated.id == room.teacher.id" style="position: absolute; bottom: 0px; width: 100%">
+        <button class="fab red-dark" ng-click="newUser(room)">
+          <i class="icon ion-android-person-add"></i>
+        </button>
       </div>
 
-      <div class="row item item-icon-right">
-        <div class="col-10">
-          <img title="Presentear com maçã"
-               ng-src="../../img/apple.png" class="icon-apple"
-               ng-click="addApple(room.teacher.id)"/>
-        </div>
-        <div class="col-10">
-          <img ng-if="room.teacher.imageProfile" title="{{room.teacher.name}}"
-               data-ng-src="data:image/png;base64,{{ room.teacher.imageProfile }}"
-               class="icon-apple avatar"/>
-          <img ng-if="!room.teacher.imageProfile" title="{{room.teacher.name}}"
-               ng-src="../img/default.png"
-               class="icon-apple avatar" style="padding-top: 3px"/>
-        </div>
-        <div class="col col-25">
-          {{ room.teacher.name }}
-        </div>
-        <div class="col">
-          <i class="icon ion-information-circled" aria-hidden="true"></i>
-        </div>
-      </div>
+    </ion-tab>
 
-		</div>
-	</ion-content>
-
-  <div ng-show="userAuthenticated.id == room.teacher.id" style="position: absolute; bottom: 0px; width: 100%">
-    <button class="fab red-dark" ng-click="newUser(room)">
-      <i class="icon ion-android-person-add"></i>
-    </button>
-  </div>
-
+  </ion-tabs>
 </ion-view>

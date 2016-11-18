@@ -1,4 +1,4 @@
-app.controller('TaskController', function ($scope, $http, $rootScope, $stateParams, $state) {
+app.controller('TaskCtrl', function ($scope, $http, $rootScope, $stateParams, $state, $ionicHistory, $ionicPopup, $timeout) {
 
   $scope.options = [];
 
@@ -8,16 +8,16 @@ app.controller('TaskController', function ($scope, $http, $rootScope, $statePara
       popup("Todos os campos são obrigatórios");
       return null;
     }
-    if ($scope.category.id) {
+    if (category.id) {
       $http.put($rootScope.serviceBase + "task-category", category).then(function (response) {
         popup("Categoria salva com sucesso");
-        $state.go('/rooms/' + $stateParams.id);
+        $ionicHistory.goBack(-1);
       });
     } else {
       category.classRoom = {'id': $stateParams.id};
       $http.post($rootScope.serviceBase + "task-category", category).then(function (response) {
         popup("Categoria salva com sucesso");
-        $state.go('/rooms/' + $stateParams.id);
+        $state.go('app.classroom', {id: response.data.classRoom.id})
       });
     }
   }
@@ -62,7 +62,7 @@ app.controller('TaskController', function ($scope, $http, $rootScope, $statePara
 
 // Cancel Category
   $scope.cancelCategory = function () {
-    $state.go('/rooms/' + $stateParams.id);
+    $state.go('app.classroom', {id: $stateParams.id});
   }
 
 // Edit Category
