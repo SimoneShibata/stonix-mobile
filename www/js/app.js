@@ -1,5 +1,3 @@
-
-
 angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
 
   .run(function ($ionicPlatform, $rootScope, $http, MyStorageService) {
@@ -132,6 +130,26 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
         views: {
           'menuContent': {
             templateUrl: 'templates/rooms/new-category.html',
+            controller: 'TaskCtrl'
+          }
+        }
+      })
+
+      .state('app.category-edit', {
+        url: '/classroom/:id/category/:idCategory',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/rooms/edit-category.html',
+            controller: 'TaskCtrl'
+          }
+        }
+      })
+
+      .state('app.new-task', {
+        url: '/classroom/:id/category/:idCategory/task',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/rooms/task-new.html',
             controller: 'TaskCtrl'
           }
         }

@@ -4,10 +4,55 @@
     <ion-tab title="Atividades" icon-on="ion-compose" icon-off="ion-compose">
       <ion-content class="page">
         <div class="item item-divider">Categorias</div>
-        <a ng-repeat="category in categories" class="item item-icon-right">
+        <div ng-click="categorySelected(category)" ng-repeat="category in categories" class="item item-icon-right">
           <h2>{{ category.name }}</h2>
           <p>{{ category.description }}</p>
-        </a>
+          <div ng-if="selected == category.id">
+            <div ng-show="tasks.length == 0">Não há nenhuma atividade cadastrada.</div>
+            <div ng-repeat="task in tasks">
+              <div class="item" ng-click="navigateTo('/rooms/tasks/' + task.id)">
+                <p style="cursor:pointer; margin:0 10px 0 5px;">
+                  <strong style="color:dodgerblue;">{{ task.title }} : </strong>
+                  {{ task.description }}
+                </p>
+
+                <p style="margin:0 10px 0 5px;">
+                  <i class="fa fa-clock-o fa-gray button-category" aria-hidden="true"></i>
+                  Aberta até {{ task.closingDate | date: 'dd/MM/yyyy' }}
+                  <i ng-show="task.answered" class="fa fa-file-text fa-gray button-category"
+                     aria-hidden="true"></i>
+                  <span ng-show="task.answered"> Respondido </span>
+                  <i ng-show="userAuthenticated.id != room.teacher.id && !task.answered"
+                     class="fa fa-mail-forward fa-gray button-category"
+                     aria-hidden="true"></i>
+                  <span ng-show="userAuthenticated.id != room.teacher.id && !task.answered">Responder</span>
+                  <i ng-show="userAuthenticated.id == room.teacher.id"
+                     class="fa fa-pencil fa-gray button-category"
+                     aria-hidden="true"></i>
+                  <span ng-show="userAuthenticated.id == room.teacher.id">Editar</span>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <p ng-show="userAuthenticated.id == room.teacher.id && selected == category.id">
+              <a class="item"
+                 ng-click="newTask(category.id);">
+                <i class="icon ion-plus-circled" aria-hidden="true"></i>
+                nova atividade
+              </a>
+              <a class="item" ng-click="createCategory(category.id);">
+                <i class="icon ion-edit" aria-hidden="true"></i>
+                editar
+              </a>
+              <a class="item" ng-click="deleteCategory(category);">
+                <i class="icon ion-trash-a" aria-hidden="true"></i>
+                excluir
+              </a>
+            </p>
+          </div>
+        </div>
+
       </ion-content>
 
       <div ng-show="userAuthenticated.id == room.teacher.id" style="position: absolute; bottom: 0px; width: 100%">
@@ -50,7 +95,7 @@
             {{ u.name }}
           </div>
           <div class="col">
-            <i class="icon ion-information-circled" aria-hidden="true"></i>
+            <i class="icon ion-trash-a" aria-hidden="true"></i>
           </div>
         </div>
 

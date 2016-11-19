@@ -1,4 +1,4 @@
-app.controller('TaskCtrl', function ($scope, $http, $rootScope, $stateParams, $state, $ionicHistory, $ionicPopup, $timeout) {
+app.controller('TaskCtrl', function ($scope, $http, $rootScope, $stateParams, $state, $ionicHistory, $ionicPopup, $timeout, $cordovaDatePicker) {
 
   $scope.options = [];
 
@@ -11,13 +11,13 @@ app.controller('TaskCtrl', function ($scope, $http, $rootScope, $stateParams, $s
     if (category.id) {
       $http.put($rootScope.serviceBase + "task-category", category).then(function (response) {
         popup("Categoria salva com sucesso");
-        $ionicHistory.goBack(-1);
+        $state.go('app.classroom', {id: response.data.classRoom.id});
       });
     } else {
       category.classRoom = {'id': $stateParams.id};
       $http.post($rootScope.serviceBase + "task-category", category).then(function (response) {
         popup("Categoria salva com sucesso");
-        $state.go('app.classroom', {id: response.data.classRoom.id})
+        $state.go('app.classroom', {id: response.data.classRoom.id});
       });
     }
   }
@@ -133,5 +133,24 @@ app.controller('TaskCtrl', function ($scope, $http, $rootScope, $stateParams, $s
     $timeout(function () {
       myPopup.close(); //close the popup after 3 seconds for some reason
     }, 2500);
+  }
+
+  $scope.abrirDatePicker = function () {
+    var options = {
+      date: new Date(),
+      mode: 'date', // or 'time'
+      minDate: new Date(1900, 1, 1),
+      allowOldDates: true,
+      allowFutureDates: true,
+      doneButtonLabel: 'DONE',
+      doneButtonColor: '#F2F3F4',
+      cancelButtonLabel: 'CANCEL',
+      cancelButtonColor: '#000000'
+    };
+
+    $cordovaDatePicker.show(options).then(function (date) {
+      $scope.date = date;
+    });
+
   }
 });

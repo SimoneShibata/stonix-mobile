@@ -169,4 +169,8 @@ app.controller('RoomCtrl', function ($scope, $stateParams, $state, $http, $rootS
       $state.go("/rooms");
     });
   }
+
+  $scope.newTask = function (idCategory) {
+    $state.go('app.new-task', {id: $stateParams.id,idCategory:idCategory});
+  }
 });
