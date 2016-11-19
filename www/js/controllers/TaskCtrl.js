@@ -113,9 +113,24 @@ app.controller('TaskCtrl', function ($scope, $http, $rootScope, $stateParams, $s
     });
   }
 
-// Editar
-  $scope.edit = function (task) {
-
+// Editar task
+  $scope.edit = function (task, options, correct) {
+    $http.put($rootScope.serviceBase + "tasks", task).then(function (response) {
+      for (var i=0; i < options.length; i++) {
+        if (i == correct) {
+          options[i].correct = true;
+        } else {
+          options[i].correct = false;
+        }
+        $http.put($rootScope.serviceBase + "tasks/options", options[i]).then(function (response) {
+        }, function (error) {
+          popup("Desculpe :( houve algum erro ao salvar as alternativas.");
+          return null;
+        });
+      }
+      popup("Atividade atualizada com sucesso.");
+      $state.go('app.classroom', {id:taskCategory.classRoom.id});
+    });
   }
 
 // Delete

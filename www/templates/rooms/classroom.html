@@ -4,7 +4,7 @@
     <ion-tab title="Atividades" icon-on="ion-compose" icon-off="ion-compose">
       <ion-content class="page">
         <div class="item item-divider">Categorias</div>
-        <div ng-click="categorySelected(category)" ng-repeat="category in categories" class="item item-icon-right">
+        <div ng-click="categorySelected(category)" ng-repeat="category in categories" class="item">
           <h2>{{ category.name }}</h2>
           <p>{{ category.description }}</p>
           <div ng-if="selected == category.id">
@@ -34,22 +34,20 @@
               </div>
             </div>
           </div>
-          <div class="item">
-            <p ng-show="userAuthenticated.id == room.teacher.id && selected == category.id">
-              <a class="item"
-                 ng-click="newTask(category.id);">
-                <i class="icon ion-plus-circled" aria-hidden="true"></i>
-                nova atividade
-              </a>
-              <a class="item" ng-click="createCategory(category.id);">
-                <i class="icon ion-edit" aria-hidden="true"></i>
-                editar
-              </a>
-              <a class="item" ng-click="deleteCategory(category);">
-                <i class="icon ion-trash-a" aria-hidden="true"></i>
-                excluir
-              </a>
-            </p>
+          <div ng-show="userAuthenticated.id == room.teacher.id && selected == category.id">
+            <a class="item"
+               ng-click="newTask(category.id);">
+              <i class="icon ion-plus-circled" aria-hidden="true"></i>
+              nova atividade
+            </a>
+            <a class="item" ng-click="createCategory(category.id);">
+              <i class="icon ion-edit" aria-hidden="true"></i>
+              editar
+            </a>
+            <a class="item" ng-click="deleteCategory(category);">
+              <i class="icon ion-trash-a" aria-hidden="true"></i>
+              excluir
+            </a>
           </div>
         </div>
 
@@ -90,7 +88,7 @@
           <div class="col">
             {{ u.name }}
           </div>
-          <div class="col">
+          <div ng-click="deleteUser(u)" ng-show="userAuthenticated.id == room.teacher.id" class="col">
             <i class="icon ion-trash-a" aria-hidden="true"></i>
           </div>
         </div>

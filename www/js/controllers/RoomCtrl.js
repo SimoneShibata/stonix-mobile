@@ -5,8 +5,8 @@ app.controller('RoomCtrl', function ($scope, $stateParams, $state, $http, $rootS
   }
 
   $scope.newRoom = function () {
-    if($rootScope.userAuthenticated.punctuation == 0) {
-     popup("Você precisa ter no mínimo 1 de reputação");
+    if ($rootScope.userAuthenticated.punctuation == 0) {
+      popup("Você precisa ter no mínimo 1 de reputação");
     } else {
       $state.go('app.room-new');
     }
@@ -103,6 +103,28 @@ app.controller('RoomCtrl', function ($scope, $stateParams, $state, $http, $rootS
     });
   }
 
+  // Delete User in Classroom
+  $scope.deleteUser = function (u) {
+    var user = {};
+    $http.post($rootScope.serviceBase + "users/email", u).then(function (response) {
+      $scope.userClass = response.data;
+
+      $http.delete($rootScope.serviceBase + "classroom/delete/student/" + $scope.userClass.id + "/" + $stateParams.id).then(function (response) {
+        $scope.users = response.data.students;
+        popup($scope.userClass.name + " foi excluído da sala.");
+      }, function (error) {
+        popup("Não foi possível excluir o usuário :(");
+      });
+    }, function (error) {
+      popup("Não foi possível encontrar o usuário :(");
+    });
+  };
+  var getNumberApples = function (teacher) {
+    $http.get($rootScope.serviceBase + "apples/teacher/" + teacher.id).then(function (response) {
+      $scope.room.teacher.numberApples = response.data.length;
+    })
+  };
+
 // Maçã
   $scope.addApple = function (teacher) {
     var apple = {};
@@ -140,9 +162,9 @@ app.controller('RoomCtrl', function ($scope, $stateParams, $state, $http, $rootS
 // Create Category
   $scope.createCategory = function (idCategory) {
     if (idCategory) {
-      $state.go('app.category-edit', {id:$stateParams.id, idCategory:idCategory});
+      $state.go('app.category-edit', {id: $stateParams.id, idCategory: idCategory});
     } else {
-      $state.go('app.category-new',{ id: $stateParams.id});
+      $state.go('app.category-new', {id: $stateParams.id});
     }
   }
 
@@ -174,10 +196,10 @@ app.controller('RoomCtrl', function ($scope, $stateParams, $state, $http, $rootS
   }
 
   $scope.newTask = function (idCategory) {
-    $state.go('app.new-task', {id: $stateParams.id,idCategory:idCategory});
+    $state.go('app.new-task', {id: $stateParams.id, idCategory: idCategory});
   }
 
   $scope.verTask = function (taskid) {
-    $state.go('app.task', {taskid:taskid});
+    $state.go('app.task', {taskid: taskid});
   }
 });
