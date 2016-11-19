@@ -5,7 +5,11 @@ app.controller('RoomCtrl', function ($scope, $stateParams, $state, $http, $rootS
   }
 
   $scope.newRoom = function () {
-    $state.go('app.room-new');
+    if ($rootScope.userAuthenticated.punctuation == 0) {
+      popup("Você precisa ter no mínimo 1 de reputação");
+    } else {
+      $state.go('app.room-new');
+    }
   };
 
   $scope.newUser = function (room) {
@@ -19,7 +23,6 @@ app.controller('RoomCtrl', function ($scope, $stateParams, $state, $http, $rootS
 
   $scope.openRoom = function (room) {
     $state.go('app.classroom', {'id': room.id});
-    console.log(room);
   };
 
 //getAllroom
@@ -100,8 +103,103 @@ app.controller('RoomCtrl', function ($scope, $stateParams, $state, $http, $rootS
     });
   }
 
+  // Delete User in Classroom
+  $scope.deleteUser = function (u) {
+    var user = {};
+    $http.post($rootScope.serviceBase + "users/email", u).then(function (response) {
+      $scope.userClass = response.data;
+
+      $http.delete($rootScope.serviceBase + "classroom/delete/student/" + $scope.userClass.id + "/" + $stateParams.id).then(function (response) {
+        $scope.users = response.data.students;
+        popup($scope.userClass.name + " foi excluído da sala.");
+      }, function (error) {
+        popup("Não foi possível excluir o usuário :(");
+      });
+    }, function (error) {
+      popup("Não foi possível encontrar o usuário :(");
+    });
+  };
+  var getNumberApples = function (teacher) {
+    $http.get($rootScope.serviceBase + "apples/teacher/" + teacher.id).then(function (response) {
+      $scope.room.teacher.numberApples = response.data.length;
+    })
+  };
+
 // Maçã
   $scope.addApple = function (teacher) {
+    var apple = {};
+    apple.teacher = teacher;
+    apple.student = $rootScope.userAuthenticated;
+    $http.post($rootScope.serviceBase + "apples", apple).then(function (response) {
+      getNumberApples(teacher);
+    })
+  }
+  // GetAll Categories Tasks - categorias
+  var getAllCategories = function () {
+    $http.get($rootScope.serviceBase + "task-category/classroom/" + $stateParams.id).then(function (response) {
+      $scope.categories = response.data;
+    })
   }
 
+  getAllCategories();
+
+  window.setInterval(function () {
+    getAllCategories();
+  }, 3000);
+
+  $scope.categorySelected = function (category) {
+    $scope.selected = category.id;
+    $scope.listTasks(category);
+  };
+
+// GetAll Tasks - atividades
+  $scope.listTasks = function (category) {
+    $http.get($rootScope.serviceBase + "tasks/task-category/" + category.id).then(function (response) {
+      $scope.tasks = response.data;
+    });
+  }
+
+// Create Category
+  $scope.createCategory = function (idCategory) {
+    if (idCategory) {
+      $state.go('app.category-edit', {id: $stateParams.id, idCategory: idCategory});
+    } else {
+      $state.go('app.category-new', {id: $stateParams.id});
+    }
+  }
+
+// Delete Category
+  $scope.deleteCategory = function (category) {
+    $http.get($rootScope.serviceBase + "tasks/task-category/" + category.id).then(function (response) {
+      if (response.data.length > 0) {
+        popup("Não é possível excluir uma categoria com atividades cadastradas.");
+      } else {
+        $http.delete($rootScope.serviceBase + "task-category/" + category.id).then(function (response) {
+          getAllCategories();
+          popup("Categoria excluída com sucesso");
+        });
+      }
+    });
+  }
+
+// Cancelar edição
+  $scope.cancelEdit = function (room) {
+    $state.go('/rooms/' + room);
+  }
+
+// Editar sala
+  $scope.editRoom = function (room) {
+    $http.put($rootScope.serviceBase + "classroom/", room).then(function (response) {
+      popup(response.data.name + " alterada com sucesso.");
+      $state.go("/rooms");
+    });
+  }
+
+  $scope.newTask = function (idCategory) {
+    $state.go('app.new-task', {id: $stateParams.id, idCategory: idCategory});
+  }
+
+  $scope.verTask = function (taskid) {
+    $state.go('app.task', {taskid: taskid});
+  }
 });

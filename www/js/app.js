@@ -1,5 +1,3 @@
-
-
 angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
 
   .run(function ($ionicPlatform, $rootScope, $http, MyStorageService) {
@@ -123,6 +121,56 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
           'menuContent': {
             templateUrl: 'templates/rooms/classroom.html',
             controller: 'RoomCtrl'
+          }
+        }
+      })
+
+      .state('app.category-new', {
+        url: '/classroom/:id/category',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/rooms/new-category.html',
+            controller: 'TaskCtrl'
+          }
+        }
+      })
+
+      .state('app.category-edit', {
+        url: '/classroom/:id/category/:idCategory',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/rooms/edit-category.html',
+            controller: 'TaskCtrl'
+          }
+        }
+      })
+
+      .state('app.task', {
+        url: '/classroom/tasks/:taskid',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/rooms/activity.html',
+            controller: 'TaskCtrl'
+          }
+        }
+      })
+
+      .state('app.task-edit', {
+        url: '/classroom/tasks/:taskid',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/rooms/task-edit.html',
+            controller: 'TaskCtrl'
+          }
+        }
+      })
+
+      .state('app.new-task', {
+        url: '/classroom/:id/category/:idCategory/task',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/rooms/task-new.html',
+            controller: 'TaskCtrl'
           }
         }
       })

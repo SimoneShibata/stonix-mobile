@@ -143,3 +143,8 @@
 .like-blue {
   color: dodgerblue;
 }
+
+.item-checkbox {
+  padding-left: 60px;
+  border: none;
+}

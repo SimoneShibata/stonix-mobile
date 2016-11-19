@@ -1,0 +1,40 @@
+<ion-view view-title="Nova Atividade">
+  <ion-content class="page">
+    <div class="list">
+      <label class="item item-input">
+        <input type="text" placeholder="Nome da categoria" ng-model="task.title" required>
+      </label>
+      <label class="item item-input">
+        <textarea placeholder="Descrição" rows="10" ng-model="task.description" required></textarea>
+      </label>
+      <label class="item item-input">
+        <p>Data de fechamento</p>
+        <input ng-model="task.closingDate" type="date">
+      </label>
+    </div>
+
+    <p>Aternativas</p>
+    <div class="list">
+      <label class="item item-input">
+        <input type="text" placeholder="Descrição*" ng-model="options[0].description" required>
+        <ion-checkbox ng-model="options[0].correct"></ion-checkbox>
+      </label>
+      <label class="item item-input">
+        <input type="text" placeholder="Descrição*" ng-model="options[1].description" required>
+        <ion-checkbox ng-model="options[1].correct"></ion-checkbox>
+      </label>
+      <label class="item item-input">
+        <input type="text" placeholder="Descrição*" ng-model="options[2].description" required>
+        <ion-checkbox ng-model="options[2].correct"></ion-checkbox>
+      </label>
+      <label class="item item-input">
+        <input type="text" placeholder="Descrição*" ng-model="options[3].description" required>
+        <ion-checkbox ng-model="options[3].correct"></ion-checkbox>
+      </label>
+    </div>
+    <div class="button-bar">
+      <a class="button button-positive" ng-click="cancelTask();">Cancelar</a>
+      <a class="button red-dark" ng-click="createTask(task, options);">Criar</a>
+    </div>
+  </ion-content>
+</ion-view>
