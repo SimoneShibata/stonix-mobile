@@ -21,13 +21,17 @@ app.controller('TaskCtrl', function ($scope, $http, $rootScope, $stateParams, $s
       });
     }
   }
-
+// Cancel Task
+  $scope.cancelTask = function () {
+    $state.go('app.classroom', {id: $stateParams.id});
+  }
 // Create Task
   $scope.createTask = function (task) {
     var category;
     $http.get($rootScope.serviceBase + "task-category/" + $stateParams.idCategory).then(function (response) {
       task.taskCategory = response.data;
       $scope.saveTask(task);
+      $state.go('app.classroom', {id: $stateParams.id});
     });
   }
 
@@ -46,7 +50,7 @@ app.controller('TaskCtrl', function ($scope, $http, $rootScope, $stateParams, $s
 
       if ($scope.options[i].description != null) {
         $http.post($rootScope.serviceBase + "tasks/options", $scope.options[i]).then(function (res) {
-          $state.go('/rooms/' + task.taskCategory.classRoom.id);
+          $state.go('app.classroom', { id:task.taskCategory.classRoom.id});
         });
       }
     }
@@ -78,7 +82,7 @@ app.controller('TaskCtrl', function ($scope, $http, $rootScope, $stateParams, $s
       $http.get($rootScope.serviceBase + "tasks/" + idTask).then(function (response) {
         $scope.pageTitle = response.data.title;
         $scope.task = response.data;
-
+        console.log(response.data);
         $http.get($rootScope.serviceBase + "tasks/options/list/" + response.data.id).then(function (success) {
           $scope.options = success.data;
         });
@@ -93,7 +97,9 @@ app.controller('TaskCtrl', function ($scope, $http, $rootScope, $stateParams, $s
       });
     }
   }
-  getOneTask($stateParams.id);
+
+  getOneTask($stateParams.taskid);
+  console.log($stateParams);
 
 // Conferir resposta
   $scope.evaluate = function (choice, task) {
@@ -152,5 +158,9 @@ app.controller('TaskCtrl', function ($scope, $http, $rootScope, $stateParams, $s
       $scope.date = date;
     });
 
+  }
+
+  $scope.editarTask = function (taskid) {
+    $state.go('app.task-edit', {taskid:taskid})
   }
 });

@@ -145,6 +145,26 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
         }
       })
 
+      .state('app.task', {
+        url: '/classroom/tasks/:taskid',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/rooms/activity.html',
+            controller: 'TaskCtrl'
+          }
+        }
+      })
+
+      .state('app.task-edit', {
+        url: '/classroom/tasks/:taskid',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/rooms/task-edit.html',
+            controller: 'TaskCtrl'
+          }
+        }
+      })
+
       .state('app.new-task', {
         url: '/classroom/:id/category/:idCategory/task',
         views: {

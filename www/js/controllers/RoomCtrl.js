@@ -5,7 +5,11 @@ app.controller('RoomCtrl', function ($scope, $stateParams, $state, $http, $rootS
   }
 
   $scope.newRoom = function () {
-    $state.go('app.room-new');
+    if($rootScope.userAuthenticated.punctuation == 0) {
+     popup("Você precisa ter no mínimo 1 de reputação");
+    } else {
+      $state.go('app.room-new');
+    }
   };
 
   $scope.newUser = function (room) {
@@ -19,7 +23,6 @@ app.controller('RoomCtrl', function ($scope, $stateParams, $state, $http, $rootS
 
   $scope.openRoom = function (room) {
     $state.go('app.classroom', {'id': room.id});
-    console.log(room);
   };
 
 //getAllroom
@@ -172,5 +175,9 @@ app.controller('RoomCtrl', function ($scope, $stateParams, $state, $http, $rootS
 
   $scope.newTask = function (idCategory) {
     $state.go('app.new-task', {id: $stateParams.id,idCategory:idCategory});
+  }
+
+  $scope.verTask = function (taskid) {
+    $state.go('app.task', {taskid:taskid});
   }
 });
