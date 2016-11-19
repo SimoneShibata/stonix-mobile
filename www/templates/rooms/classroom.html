@@ -78,13 +78,9 @@
                  ng-if="$index == 2"/>
             <p ng-if="$index > 2" class="avatar" style="margin: 8px 16px 8px 0px ;">
               {{ $index + 1 }}</p>
-            <img ng-if="u.imageProfile" alt="{{ u.name }}"
-                 data-ng-src="data:image/png;base64,{{ u.imageProfile }}"
-                 title="{{ userAuthenticated.name }}" class="avatar"
-                 data-err-src="img/default.png"/>
           </div>
           <div class="col-10">
-            <img ng-if="u.imageProfile" alt="{{ u.name }}"
+            <img alt="{{ u.name }}"
                  data-ng-src="data:image/png;base64,{{ u.imageProfile }}"
                  title="{{ userAuthenticated.name }}" class="avatar icon-apple"
                  data-err-src="img/default.png"/>
@@ -102,7 +98,7 @@
         <div class="row item item-icon-right">
           <div class="col-10">
             <img title="Presentear com maçã"
-                 ng-src="../../img/apple.png" class="icon-apple"
+                 ng-src="img/apple.png" class="icon-apple"
                  ng-click="addApple(room.teacher.id)"/>
           </div>
           <div class="col-10">
@@ -110,7 +106,7 @@
                  data-ng-src="data:image/png;base64,{{ room.teacher.imageProfile }}"
                  class="icon-apple avatar"/>
             <img ng-if="!room.teacher.imageProfile" title="{{room.teacher.name}}"
-                 ng-src="../img/default.png"
+                 ng-src="img/default.png"
                  class="icon-apple avatar" style="padding-top: 3px"/>
           </div>
           <div class="col col-25">
