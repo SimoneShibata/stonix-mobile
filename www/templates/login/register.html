@@ -1,9 +1,8 @@
 <ion-modal-view view-title="Cadastro" ng-controller="LoginCtrl">
   <ion-content style="background-color: #901b1b;">
     <div class="text-align-center">
-      <div style="background-color: darkred;" ng-click="abrirGaleria()">
-        GALERIA
-      </div>
+      <button class="fab-mini position-right icon ion-images" ng-click="abrirGaleria()"></button>
+      <button class="fab-mini position-left icon ion-camera" ng-click="tirarFoto()"></button>
       <div class="preview-foto" style="background-image: url({{fotoPerfilBase64}})" ng-click="tirarFoto()">
         <div ng-show="!fotoPerfilBase64"><i class="icon ion-ios-camera-outline"></i></div>
       </div>
@@ -13,9 +12,10 @@
             <input class="input-login" type="text" placeholder="Nome" ng-model="user.name">
           </label>
           <label class="item item-input label-login">
-            <button class="button icon ion-android-calendar" ng-click="abrirDatePicker()">
+            <button class="button red-dark icon ion-android-calendar" ng-click="abrirDatePicker()">
               {{date | date: "dd/MM/yyyy"}}
             </button>
+            <p ng-if="!date" style="color:#fff; padding:5px;" ng-click="abrirDatePicker()">Inserir data de nascimento</p>
           </label>
           <label class="item item-input label-login">
             <input class="input-login" type="email" placeholder="E-mail" ng-model="user.email">

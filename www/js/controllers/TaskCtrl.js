@@ -50,17 +50,35 @@ app.controller('TaskCtrl', function ($scope, $http, $rootScope, $stateParams, $s
 
       if ($scope.options[i].description != null) {
         $http.post($rootScope.serviceBase + "tasks/options", $scope.options[i]).then(function (res) {
-          $state.go('app.classroom', { id:task.taskCategory.classRoom.id});
+          $state.go('app.classroom', {id: task.taskCategory.classRoom.id});
         });
       }
     }
   }
 
+  var loadTaskAnswered = function (taskAnswered) {
+    $http.post($rootScope.serviceBase + "tasks/answered/find", taskAnswered).then(function (res) {
+      if (res.data != null || res.data != "") {
+        verifyOption(res.data);
+      }
+    });
+  }
+
+  var verifyOption = function (taskAnswered) {
+    for (var i = 0; i < $scope.options.length; i++) {
+      if ($scope.options[i].id == taskAnswered.taskOption.id) {
+        $scope.choice = $scope.options[i].id;
+        $scope.correct = $scope.options[i].id;
+        $scope.task.answered = true;
+      }
+    }
+  }
+
   $scope.saveTaskAnswered = function (task, taskOption) {
-    console.log(taskOption);
     var taskAnsweed = {task: task, user: $rootScope.userAuthenticated, taskOption: taskOption};
     $http.post($rootScope.serviceBase + "tasks/answered", taskAnsweed).then(function (response) {
-      $state.go("/rooms/" + task.taskCategory.classRoom.id);
+      $state.go('app.classroom', {id: task.taskCategory.classRoom.id});
+      task.answered = true;
     });
   }
 
@@ -76,52 +94,70 @@ app.controller('TaskCtrl', function ($scope, $http, $rootScope, $stateParams, $s
     });
   }
 
+  $scope.voltarTask = function (task) {
+    $state.go('app.classroom', {id: task.taskCategory.classRoom.id});
+  }
+
 // GetOne task
   var getOneTask = function (idTask) {
     if (idTask) {
       $http.get($rootScope.serviceBase + "tasks/" + idTask).then(function (response) {
         $scope.pageTitle = response.data.title;
         $scope.task = response.data;
-        console.log(response.data);
-        $http.get($rootScope.serviceBase + "tasks/options/list/" + response.data.id).then(function (success) {
-          $scope.options = success.data;
-        });
+        $scope.task.closingDate = new Date(response.data.closingDate);
 
-        var taskAnswered = {task: response.data, user: $rootScope.userAuthenticated};
-        $http.post($rootScope.serviceBase + "tasks/answered/find", taskAnswered).then(function (response) {
-          console.log(response.data);
-          console.log('response: ' + response.data.taskOption);
-        }, function (error) {
-          console.log('error: ' + error);
+        $http.get($rootScope.serviceBase + "tasks/options/list/" + $scope.task.id).then(function (success) {
+          $scope.options = success.data;
+
+          if ($rootScope.userAuthenticated.id != $scope.task.taskCategory.classRoom.teacher.id) {
+            var taskAnswered = {user: $rootScope.userAuthenticated, task: $scope.task};
+
+            loadTaskAnswered(taskAnswered);
+          } else {
+            for (var i = 0; i < $scope.options.length; i++) {
+              if ($scope.options[i].correct) {
+                $scope.correct = i;
+                return null;
+              }
+            }
+          }
         });
       });
     }
   }
 
   getOneTask($stateParams.taskid);
-  console.log($stateParams);
+
+  $scope.selectChoice = function (choice) {
+    $scope.selected = choice;
+  }
 
 // Conferir resposta
-  $scope.evaluate = function (choice, task) {
-    $http.get($rootScope.serviceBase + "tasks/options/" + choice).then(function (response) {
-      if (response.data.correct) {
-        popup("Você acertou, parabéns!");
+  $scope.evaluate = function (task) {
+    $http.get($rootScope.serviceBase + "tasks/options/" + $scope.selected).then(function (response) {
+      if (response.data.correct == true) {
+        $http.put($rootScope.serviceBase + 'users/assign/xp/10', $rootScope.userAuthenticated).then(function (response) {
+          $http.put($rootScope.serviceBase + 'users/assign/punctuation/5', response.data).then(function (response) {
+            $rootScope.userAuthenticated = response.data;
+            popup("Você acertou, parabéns! +10 de xp e +5 de reputação!");
+          });
+        });
       } else {
-        popup("Precisa estudar mais, amiguinho");
+        $rootScope.userAuthenticated.punctuation -= 5;
+        $http.put($rootScope.serviceBase + 'users', $rootScope.userAuthenticated).then(function (response) {
+          $rootScope.userAuthenticated = response.data;
+          popup("Precisa estudar mais, amiguinho! Perdeu 5 pontos de reputação :(");
+        });
       }
+
       $scope.saveTaskAnswered(task, response.data);
     });
   }
 
 // Editar task
-  $scope.edit = function (task, options, correct) {
+  $scope.edit = function (task, options) {
     $http.put($rootScope.serviceBase + "tasks", task).then(function (response) {
-      for (var i=0; i < options.length; i++) {
-        if (i == correct) {
-          options[i].correct = true;
-        } else {
-          options[i].correct = false;
-        }
+      for (var i = 0; i < options.length; i++) {
         $http.put($rootScope.serviceBase + "tasks/options", options[i]).then(function (response) {
         }, function (error) {
           popup("Desculpe :( houve algum erro ao salvar as alternativas.");
@@ -129,7 +165,7 @@ app.controller('TaskCtrl', function ($scope, $http, $rootScope, $stateParams, $s
         });
       }
       popup("Atividade atualizada com sucesso.");
-      $state.go('app.classroom', {id:taskCategory.classRoom.id});
+      $state.go('app.classroom', {id: task.taskCategory.classRoom.id});
     });
   }
 
@@ -138,7 +174,7 @@ app.controller('TaskCtrl', function ($scope, $http, $rootScope, $stateParams, $s
     var classroom = task.taskCategory.classRoom.id;
     $http.delete($rootScope.serviceBase + "tasks/" + task.id).then(function (response) {
       popup("Atividade excluída com sucesso.");
-      $state.go("/rooms/" + classroom);
+      $state.go('app.classroom', {id:classroom});
     });
   }
 
@@ -176,6 +212,6 @@ app.controller('TaskCtrl', function ($scope, $http, $rootScope, $stateParams, $s
   }
 
   $scope.editarTask = function (taskid) {
-    $state.go('app.task-edit', {taskid:taskid})
+    $state.go('app.task-edit', {taskid: taskid})
   }
 });

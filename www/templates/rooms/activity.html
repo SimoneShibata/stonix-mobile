@@ -8,13 +8,18 @@
       </div>
       <div class="item item-divider">Selecione a alternativa</div>
       <div>
-        <ion-radio ng-repeat="option in options" ng-value="option.id">{{ option.description }}</ion-radio>
+        <ion-radio ng-repeat="option in options" ng-change="selectChoice(option.id);" ng-model="choice" ng-value="option.id">{{ option.description }}</ion-radio>
       </div>
     </div>
   </ion-content>
-  <button ng-show="task.taskCategory.classRoom.teacher.id != userAuthenticated.id"
-          class="fab red-dark" ng-click="reponderTask()">
+  <button ng-show="task.taskCategory.classRoom.teacher.id != userAuthenticated.id && !task.answered"
+          class="fab red-dark" ng-click="evaluate(task)">
     <i class="icon ion-checkmark"></i>
+  </button>
+
+  <button ng-show="task.taskCategory.classRoom.teacher.id != userAuthenticated.id && task.answered"
+          class="fab red-dark" ng-click="voltarTask(task);">
+    <i class="icon ion-android-arrow-back"></i>
   </button>
 
   <button ng-show="task.taskCategory.classRoom.teacher.id == userAuthenticated.id"

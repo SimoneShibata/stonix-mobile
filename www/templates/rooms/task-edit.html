@@ -33,8 +33,15 @@
       </label>
     </div>
     <div class="button-bar">
-      <a class="button button-positive" ng-click="cancelTask();">Cancelar</a>
-      <a class="button red-dark" ng-click="createTask(task, options);">Salvar</a>
+      <a class="button button-dark icon-left" ng-click="cancelTask();">
+        <i class="icon ion-close-round"></i>
+      </a>
+      <a class="button red-dark icon-left" ng-click="deleteTask(task)">
+        <i class="icon ion-trash-a"></i>
+      </a>
+      <a class="button button-positive icon-left" ng-click="edit(task, options)">
+        <i class="icon ion-checkmark-round"></i>
+      </a>
     </div>
   </ion-content>
 </ion-view>

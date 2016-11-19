@@ -1,21 +1,21 @@
 .red-dark {
-	background-color: #751612 !important;
-	color: #fff;
+  background-color: #751612 !important;
+  color: #fff;
 }
 .padding1 {
   padding: 30px 10px;
 }
 .page {
-	background-color: #ededed;
+  background-color: #ededed;
 }
 .img-size {
-	width: 50px;
-	height: 50px;
+  width: 50px;
+  height: 50px;
 }
 .preview-foto {
   width: 120px;
   height: 120px;
-  border-radius: 50%;
+  border-radius: 3px;
   background-color: #fff;
   margin: auto;
   margin-top: 20px;
@@ -30,79 +30,99 @@
 
 }
 .icon-room-size {
-	font-size: 80px;
+  font-size: 80px;
 }
 .text-align-center {
-	text-align: center;
+  text-align: center;
 }
 .menu-logo {
-	padding: 10px 105px;
-	background-color:#751612;
+  padding: 10px 105px;
+  background-color:#751612;
 }
 .logo-register {
-	padding-top: 30px;
-	width:100px;
+  padding-top: 30px;
+  width:100px;
 }
 .logo-login {
-	padding-top: 40px;
-	width:200px;
+  padding-top: 40px;
+  width:200px;
 }
 .list-login {
-	color: #fff;
-	margin: 40px;
+  color: #fff;
+  margin: 40px;
 }
 .label-login {
-	background-color: transparent;
-	border: none;padding:0;
-	margin:10px;
+  background-color: transparent;
+  border: none;padding:0;
+  margin:10px;
 }
 .input-login {
-	border-bottom:2px solid #fff !important;
-	font-size:18px !important;
-	padding:5px !important;
-	color:#fff !important;
+  border-bottom:2px solid #fff !important;
+  font-size:18px !important;
+  padding:5px !important;
+  color:#fff !important;
 }
 .label-button-login {
-	background-color: transparent;
-	border: none;
+  background-color: transparent;
+  border: none;
 }
 .button-login {
-	background-color: #be1e16;
-	border: 1px solid #fff;
-	color: #fff !important;
+  background-color: #be1e16;
+  border: 1px solid #fff;
+  color: #fff !important;
 }
 .ion-android-cancel {
-	color: #5e5e5e;
-	margin-right:10px;
+  color: #5e5e5e;
+  margin-right:10px;
 }
 .footer {
-	text-align: center;
-	color: #5e5e5e;
+  text-align: center;
+  color: #5e5e5e;
 }
 .footer a {
-	color: #5e5e5e;
+  color: #5e5e5e;
 }
 .fab {
-	border-radius: 50%;
-	box-shadow: 1px 1px 5px grey;
-	color: #fff;
-	padding: 20px 25px;
-	box-sizing: border-box;
-	border: none;
-	bottom: 30px;
-	right: 30px;
-	position: absolute;
-	font-size: 20px;
+  border-radius: 50%;
+  box-shadow: 1px 1px 5px grey;
+  color: #fff;
+  padding: 20px 25px;
+  box-sizing: border-box;
+  border: none;
+  bottom: 30px;
+  right: 30px;
+  position: absolute;
+  font-size: 20px;
+}
+.fab-mini {
+  border-radius: 50%;
+  box-shadow: 1px 1px 5px grey;
+  color: #751612;
+  background-color: #fff;
+  padding: 5px 10px;
+  box-sizing: border-box;
+  border: none;
+  font-size: 20px;
+}
+.fab-mini.position-right {
+  position: absolute;
+  top: 40px;
+  right: 100px;
+}
+.fab-mini.position-left {
+  position: absolute;
+  top: 40px;
+  left: 100px;
 }
 
 .color-white {
   color: #fff !important;
 }
 .button.button-balanced{
-	text-align: left;
+  text-align: left;
 }
 #btn-perfil-edit{
-	text-align: left;
+  text-align: left;
 }
 .bar {
   background: #751612 !important;
@@ -112,7 +132,7 @@
 }
 .placeholder-escondido{
   position: absolute;
-  color: #a59494;
+  color: #751612;
   padding-left: 3px;
   font-family: "-apple-system", "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;
 }
