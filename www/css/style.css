@@ -168,3 +168,15 @@
   padding-left: 60px;
   border: none;
 }
+
+.actionsCategory {
+  margin-right: 15px;
+  color: #666;
+}
+
+.task {
+  padding: 10px;
+}
+.task:active {
+  background-color: #ccc;
+}
