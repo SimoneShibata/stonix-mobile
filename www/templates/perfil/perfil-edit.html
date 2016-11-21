@@ -2,10 +2,8 @@
   <ion-content class="page">
 
     <form name="editMember" class="list card no-margin">
-
-      <div style="background-color: darkred; color: #ffffff;" ng-click="abrirGaleria2()">
-        GALERIA
-      </div>
+      <button class="fab-mini position-right icon ion-images" ng-click="abrirGaleria()"></button>
+      <button class="fab-mini position-left icon ion-camera" ng-click="tirarFoto()"></button>
 
       <div ng-hide="fotoPerfilBase64" class="preview-foto" style="background-image: url({{user.imageProfile}})" ng-click="tirarFoto()">
         <div ng-show="user.imageProfile && !fotoPerfilBase64"></div>
