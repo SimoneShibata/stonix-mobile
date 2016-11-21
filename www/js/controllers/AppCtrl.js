@@ -85,6 +85,7 @@ app.controller('AppCtrl', function ($scope, $ionicModal, $timeout, $http, $rootS
               $scope.tutorialOpenModal();
             } else {
               $scope.closeLogin();
+              $rootScope.getAllQuestions();
             }
           }
           //$state.go('app.tutorial');

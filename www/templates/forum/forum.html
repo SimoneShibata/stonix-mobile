@@ -29,11 +29,11 @@
       </div>
       <div class="divider"></div>
       <div class="row">
-        <div ng-if="!question.likedQuestion" ng-click="newLike(question)" class="col col-15">
+        <div ng-show="userAuthenticated.id != null" ng-if="!question.likedQuestion" ng-click="newLike(question)" class="col col-15">
           <i class="icon ion-thumbsup"></i>
           {{question.numberLikes}}
         </div>
-        <div ng-if="question.likedQuestion" ng-click="unlike(question)" class="col col-15">
+        <div ng-show="userAuthenticated.id != null" ng-if="question.likedQuestion" ng-click="unlike(question)" class="col col-15">
           <i class="like-blue icon ion-thumbsup "></i>
           {{question.numberLikes}}
         </div>

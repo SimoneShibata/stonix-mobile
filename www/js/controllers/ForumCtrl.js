@@ -22,6 +22,12 @@ app.controller('ForumCtrl', function ($scope, $stateParams, $http, $rootScope, $
     $cordovaVibration.vibrate(100);
   }
 
+  $rootScope.getAllQuestions = function () {
+    getAll();
+    $scope.diference = 0;
+    $cordovaVibration.vibrate(100);
+  }
+
   getAll();
 
 // Aceitar Melhor Resposta
