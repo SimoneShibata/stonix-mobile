@@ -6,6 +6,16 @@
           {{ task.description }}
         </h2>
       </div>
+      <div class="item" ng-show="task.answered">
+        <p style="margin-bottom:0;" class="fa-gray" ng-show="task.answered && task.answeredCorrect">
+        <i class="icon ion-checkmark-round like-blue" aria-hidden="true"></i>
+          Parabéns, você acertou!
+        </p>
+        <p style="margin-bottom:0;" class="fa-gray" ng-show="task.answered && !task.answeredCorrect">
+          <i class="icon ion-close-round flaged" aria-hidden="true"></i>
+          Você errou :( Aprofunde mais neste tema
+        </p>
+      </div>
       <div class="item item-divider">Selecione a alternativa</div>
       <div>
         <ion-radio ng-repeat="option in options" ng-change="selectChoice(option.id);" ng-model="choice" ng-value="option.id">{{ option.description }}</ion-radio>
@@ -13,17 +23,17 @@
     </div>
   </ion-content>
   <button ng-show="task.taskCategory.classRoom.teacher.id != userAuthenticated.id && !task.answered"
-          class="fab red-dark" ng-click="evaluate(task)">
-    <i class="icon ion-checkmark"></i>
-  </button>
+  class="fab red-dark" ng-click="evaluate(task)">
+  <i class="icon ion-checkmark"></i>
+</button>
 
-  <button ng-show="task.taskCategory.classRoom.teacher.id != userAuthenticated.id && task.answered"
-          class="fab red-dark" ng-click="voltarTask(task);">
-    <i class="icon ion-android-arrow-back"></i>
-  </button>
+<button ng-show="task.taskCategory.classRoom.teacher.id != userAuthenticated.id && task.answered"
+class="fab red-dark" ng-click="voltarTask(task);">
+<i class="icon ion-android-arrow-back"></i>
+</button>
 
-  <button ng-show="task.taskCategory.classRoom.teacher.id == userAuthenticated.id"
-          class="fab red-dark" ng-click="editarTask(task.id)">
-    <i class="icon ion-edit"></i>
-  </button>
+<button ng-show="task.taskCategory.classRoom.teacher.id == userAuthenticated.id"
+class="fab red-dark" ng-click="editarTask(task.id)">
+<i class="icon ion-edit"></i>
+</button>
 </ion-view>

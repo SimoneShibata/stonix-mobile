@@ -13,8 +13,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
       }
     });
 
-    $rootScope.serviceBase = "http://192.168.56.1:9991/api/";
-    $rootScope.serviceBase2 = "http://192.168.56.1:9991/";
+    $rootScope.serviceBase = "http://localhost:9991/api/";
+    $rootScope.serviceBase2 = "http://localhost:9991/";
 
     if (MyStorageService.token.get() != null) {
       $http.get($rootScope.serviceBase + "users/get-auth").then(function (response) {

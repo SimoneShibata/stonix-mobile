@@ -180,3 +180,8 @@
 .task:active {
   background-color: #ccc;
 }
+
+
+.flaged {
+    color: #ab1d18;
+}
